@@ -24,6 +24,15 @@ npm run dev     # http://localhost:4321
 npm run build
 ```
 
+## Testversion auf GitHub Pages
+
+**https://pabloesteves91.github.io/fabioberta/** · Admin: **https://pabloesteves91.github.io/fabioberta/admin**
+
+- Wird bei jedem Push auf `main` automatisch neu gebaut (GitHub → **Actions**), zusätzlich stündlich, damit Änderungen aus dem Admin erscheinen. Sofort aktualisieren: **Actions → Testversion veröffentlichen → Run workflow**.
+- Einmalig einschalten: GitHub → **Settings → Pages → Source: GitHub Actions**.
+- Kontaktformular und Shop-Kasse funktionieren dort nicht (kein Server), die Seiten sind für Google gesperrt.
+- Admin-Login mit E-Mail und Passwort; für «Mit Google anmelden» `pabloesteves91.github.io` in Firebase unter Authentication → Autorisierte Domains eintragen.
+
 ## Mit GitHub Codespaces testen (ohne Installation)
 
 1. Auf GitHub im Repository: **Code → Codespaces → Create codespace on main**

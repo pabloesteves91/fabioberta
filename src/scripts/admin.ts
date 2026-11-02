@@ -1135,6 +1135,24 @@ function boot(config: Row, defaults: Row) {
   }
 }
 
+/* Läuft die Seite in einem Unterordner (z. B. Testversion auf GitHub Pages unter /fabioberta/),
+   werden Bild- und Linkadressen, die mit «/» beginnen, auf diesen Ordner umgebogen. */
+const BASE = location.pathname.replace(/admin(\.html)?\/?$/, '') || '/';
+if (BASE !== '/') {
+  const fix = (el: Element) => {
+    for (const attr of ['src', 'href']) {
+      const v = el.getAttribute(attr);
+      if (v && v.startsWith('/') && !v.startsWith('//') && !v.startsWith(BASE)) el.setAttribute(attr, BASE + v.slice(1));
+    }
+  };
+  const scan = (root: ParentNode) => root.querySelectorAll('img[src^="/"], a[href^="/"]').forEach(fix);
+  new MutationObserver((list) => list.forEach((m) => {
+    if (m.type === 'attributes') fix(m.target as Element);
+    m.addedNodes.forEach((n) => n instanceof Element && (fix(n), scan(n)));
+  })).observe(document.documentElement, { subtree: true, childList: true, attributes: true, attributeFilter: ['src', 'href'] });
+  scan(document);
+}
+
 /* Start (am Dateiende, damit alle Hilfsfunktionen initialisiert sind) */
 const cfgEl = document.getElementById('fb-config');
 if (cfgEl) boot(JSON.parse(cfgEl.textContent!), JSON.parse(document.getElementById('fb-defaults')!.textContent!));

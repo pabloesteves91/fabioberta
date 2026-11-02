@@ -370,6 +370,13 @@ function initCounters() {
   onCleanup(() => io.disconnect());
 }
 
+/* In der statischen Testversion (GitHub Pages) gibt es keinen Server für Formular & Kasse */
+const staticPreview = () => Boolean(document.querySelector('meta[name="fb-static"]'));
+const staticNote = () =>
+  document.documentElement.lang.startsWith('de')
+    ? 'Testversion: Absenden und Bezahlen funktionieren erst auf der echten Website.'
+    : 'Preview: sending and payment only work on the live website.';
+
 /* ---------------- Kontaktformular ---------------- */
 function initContactForm() {
   const form = $<HTMLFormElement>('[data-contact-form]');
@@ -384,6 +391,7 @@ function initContactForm() {
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     if (!form.reportValidity()) return;
+    if (staticPreview()) { status.textContent = staticNote(); status.className = 'form__status is-error'; return; }
     const label = submit.querySelector('span')!;
     const original = label.textContent;
     label.textContent = form.dataset.sending ?? '…';
@@ -441,6 +449,7 @@ function initConfigurator() {
   update(true);
   root.addEventListener('submit', async (e) => {
     e.preventDefault();
+    if (staticPreview()) { status.textContent = staticNote(); return; }
     const btn = $<HTMLButtonElement>('button[type=submit]', root)!;
     btn.disabled = true;
     status.textContent = '';

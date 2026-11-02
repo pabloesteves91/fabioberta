@@ -11,3 +11,5 @@ firestore-debug.log
 ui-debug.log
 *-debug.log
 .preview-dist/
+.static-build/
+dist-static/
