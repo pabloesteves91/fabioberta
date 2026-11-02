@@ -1,5 +1,4 @@
 ---
-import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import Button from '../components/Button.astro';
 import PhotoCard from '../components/PhotoCard.astro';
@@ -7,7 +6,8 @@ import SplitText from '../components/SplitText.astro';
 import Marquee from '../components/Marquee.astro';
 import Icon from '../components/Icon.astro';
 import { getPhotos, siteImage, srcset, categories } from '../lib/photos';
-import { services, exhibitions, events } from '../lib/content';
+import { services } from '../lib/content';
+import { getEvents, getExhibitions, getPosts } from '../lib/data';
 import { r, photoUrl, type Lang } from '../i18n/routes';
 import { useT } from '../i18n/ui';
 import { personSchema } from '../lib/seo';
@@ -28,7 +28,10 @@ const portrait = siteImage('fabio-berta-fotograf-zuerich');
 const printPhoto = bySlug.get('spiegelung') ?? photos[0];
 const ctaPhoto = bySlug.get('funkenregen') ?? photos[0];
 const servicePreview = (slug: string) => bySlug.get(slug) ?? photos[0];
-const posts = (await getCollection('journal', (p) => p.data.lang === lang)).sort((a, b) => +b.data.date - +a.data.date).slice(0, 3);
+const posts = (await getPosts(lang)).slice(0, 3);
+const [events, exhibitions] = await Promise.all([getEvents(), getExhibitions()]);
+const firstExhibition = exhibitions[exhibitions.length - 1];
+const firstEvent = events[0];
 
 const svcHref = (s: (typeof services)[number]) => (s.id === 'fine-art' ? r('shop', lang) : `${r('services', lang)}/${s.slug[lang]}`);
 ---
@@ -175,8 +178,8 @@ const svcHref = (s: (typeof services)[number]) => (s.id === 'fine-art' ? r('shop
       <div class="stats">
         <div data-reveal><div class="stat__num" data-count-to={photos.length} data-suffix="+">{photos.length}+</div><p class="stat__label">{de ? 'Bilder im Portfolio' : 'Images in the portfolio'}</p></div>
         <div data-reveal style="--delay:.1s"><div class="stat__num" data-count-to={categories.length}>{categories.length}</div><p class="stat__label">{de ? 'Serien von Street bis Landschaft' : 'Series from street to landscape'}</p></div>
-        <div data-reveal style="--delay:.2s"><div class="stat__num">2021</div><p class="stat__label">{de ? `Aussteller ${exhibitions[0].title}` : `Exhibitor ${exhibitions[0].title}`}</p></div>
-        <div data-reveal style="--delay:.3s"><div class="stat__num">2024</div><p class="stat__label">{de ? `Offizieller Fotograf ${events[0].slug.toUpperCase().replace('-', ' ')}` : `Official photographer ${events[0].slug.toUpperCase().replace('-', ' ')}`}</p></div>
+        {firstExhibition && <div data-reveal style="--delay:.2s"><div class="stat__num">{firstExhibition.date.slice(0, 4)}</div><p class="stat__label">{de ? `Aussteller ${firstExhibition.title}` : `Exhibitor ${firstExhibition.title}`}</p></div>}
+        {firstEvent && <div data-reveal style="--delay:.3s"><div class="stat__num">{firstEvent.date.slice(0, 4)}</div><p class="stat__label">{de ? `Fotograf ${firstEvent.title}` : `Photographer ${firstEvent.title}`}</p></div>}
       </div>
     </div>
   </section>
@@ -218,12 +221,12 @@ const svcHref = (s: (typeof services)[number]) => (s.id === 'fine-art' ? r('shop
         </div>
         <div class="post-grid">
           {posts.map((post, i) => {
-            const cover = bySlug.get(post.data.cover) ?? photos[0];
+            const cover = bySlug.get(post.cover) ?? photos[0];
             return (
-              <a class="post-card" href={`${r('journal', lang)}/${post.data.slug}`} data-reveal style={`--delay:${i * 0.1}s`}>
+              <a class="post-card" href={`${r('journal', lang)}/${post.slug}`} data-reveal style={`--delay:${i * 0.1}s`}>
                 <div class="photo" style={`--ph:${cover.color}`}><img src={cover.thumb} alt={cover.alt[lang]} loading="lazy" width={cover.width} height={cover.height} /></div>
-                <p class="post-card__meta">{post.data.date.toLocaleDateString(de ? 'de-CH' : 'en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
-                <h3>{post.data.title}</h3>
+                <p class="post-card__meta">{post.date.toLocaleDateString(de ? 'de-CH' : 'en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
+                <h3>{post.title}</h3>
               </a>
             );
           })}

@@ -1,5 +1,5 @@
 import local from '../data/photos.json';
-import { getPublicClient } from './supabase';
+import { getDb, cached } from './firebase';
 import type { Lang } from '../i18n/routes';
 
 export type Category = 'street' | 'landscape' | 'travel' | 'event' | 'portrait';
@@ -22,59 +22,44 @@ export interface Photo {
   color: string;
 }
 
-interface PhotoRow {
-  id: string;
-  slug: string;
-  category: Category;
-  title_de: string;
-  title_en: string | null;
-  alt_de: string;
-  alt_en: string | null;
-  location: string | null;
-  featured: boolean;
-  for_sale: boolean;
-  sort: number;
-  src: string;
-  thumb: string | null;
-  width: number;
-  height: number;
-  color: string | null;
-}
-
-const fromRow = (r: PhotoRow): Photo => ({
-  id: r.id,
-  slug: r.slug,
-  category: r.category,
-  title: { de: r.title_de, en: r.title_en || r.title_de },
-  alt: { de: r.alt_de, en: r.alt_en || r.alt_de },
-  location: r.location ?? '',
-  featured: r.featured,
-  forSale: r.for_sale,
-  sort: r.sort,
-  src: r.src,
-  thumb: r.thumb || r.src,
-  width: r.width,
-  height: r.height,
-  color: r.color || '#1a1a1a',
-});
-
 const localPhotos = (local as unknown as (Omit<Photo, 'category'> & { category: string })[]).filter(
   (p) => p.category !== '_site',
 ) as Photo[];
 
-/** Alle veröffentlichten Fotos – aus Supabase, sonst lokale Platzhalter. */
+/** Alle veröffentlichten Fotos – aus Firestore, sonst lokale Platzhalter. */
 export async function getPhotos(): Promise<Photo[]> {
-  const db = getPublicClient();
+  const db = getDb();
   if (db) {
-    const { data, error } = await db
-      .from('photos')
-      .select('*')
-      .eq('published', true)
-      .order('sort', { ascending: true });
-    if (!error && data && data.length) return (data as PhotoRow[]).map(fromRow);
-    if (error) console.error('[photos] Supabase-Fehler, nutze lokale Bilder:', error.message);
+    try {
+      const photos = await cached('photos', 60_000, async () => {
+        const snap = await db.collection('photos').where('published', '==', true).get();
+        return snap.docs.map((d) => toPhoto(d.id, d.data())).sort((a, b) => a.sort - b.sort);
+      });
+      if (photos.length) return photos;
+    } catch (err) {
+      console.error('[photos] Firestore-Fehler, nutze lokale Bilder:', err);
+    }
   }
   return [...localPhotos].sort((a, b) => a.sort - b.sort);
+}
+
+function toPhoto(id: string, d: FirebaseFirestore.DocumentData): Photo {
+  return {
+    id,
+    slug: d.slug,
+    category: d.category,
+    title: { de: d.title?.de ?? '', en: d.title?.en || d.title?.de || '' },
+    alt: { de: d.alt?.de || d.title?.de || '', en: d.alt?.en || d.alt?.de || d.title?.de || '' },
+    location: d.location ?? '',
+    featured: Boolean(d.featured),
+    forSale: Boolean(d.forSale),
+    sort: Number(d.sort ?? 0),
+    src: d.src,
+    thumb: d.thumb || d.src,
+    width: Number(d.width),
+    height: Number(d.height),
+    color: d.color || '#1a1a1a',
+  };
 }
 
 export async function getPhoto(slug: string) {

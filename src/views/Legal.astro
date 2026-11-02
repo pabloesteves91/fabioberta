@@ -8,7 +8,7 @@ import Breadcrumbs from '../components/Breadcrumbs.astro';
 import { r, type Lang } from '../i18n/routes';
 import { useT } from '../i18n/ui';
 import { site } from '../lib/site';
-import { shipping } from '../lib/prints';
+import { getPrintConfig } from '../lib/data';
 
 interface Props { lang: Lang; kind: 'imprint' | 'privacy' | 'terms' }
 const { lang, kind } = Astro.props;
@@ -25,6 +25,7 @@ const crumbs = [
   { name: title, url: r(kind, lang) },
 ];
 const a = site.address;
+const { shipping } = await getPrintConfig();
 const updated = new Date('2026-11-02').toLocaleDateString(de ? 'de-CH' : 'en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
 ---
 <Base lang={lang} title={title} description={`${title} – ${site.brand}`} alternate={r(kind, de ? 'en' : 'de')} footerCta={false}>
@@ -61,7 +62,7 @@ const updated = new Date('2026-11-02').toLocaleDateString(de ? 'de-CH' : 'en-GB'
           <p>Fabio Berta, {a.street}, {a.zip} {a.city}, {de ? 'Schweiz' : 'Switzerland'}.</p>
           <h2>{de ? '2. Hosting' : '2. Hosting'}</h2>
           <p>{de
-            ? 'Diese Website wird bei Vercel Inc. (USA) gehostet. Beim Aufruf werden technisch notwendige Daten (IP-Adresse, Zeitpunkt, Browser) in Server-Logs verarbeitet. Die Übermittlung in die USA erfolgt auf Grundlage von Standardvertragsklauseln bzw. des Swiss-U.S. Data Privacy Framework.'
+            ? 'Diese Website wird bei Vercel Inc. (USA) gehostet; Bilder und Inhalte werden über Google Firebase (Google Ireland Ltd.) bereitgestellt. Beim Aufruf werden technisch notwendige Daten (IP-Adresse, Zeitpunkt, Browser) in Server-Logs verarbeitet. Die Übermittlung in die USA erfolgt auf Grundlage von Standardvertragsklauseln bzw. des Swiss-U.S. Data Privacy Framework.'
             : 'This website is hosted by Vercel Inc. (USA). Technically necessary data (IP address, time, browser) is processed in server logs. Transfer to the USA is based on standard contractual clauses or the Swiss-U.S. Data Privacy Framework.'}</p>
           <h2>{de ? '3. Reichweitenmessung ohne Cookies' : '3. Cookieless analytics'}</h2>
           <p>{de
@@ -69,8 +70,8 @@ const updated = new Date('2026-11-02').toLocaleDateString(de ? 'de-CH' : 'en-GB'
             : 'We use Vercel Web Analytics. No cookies are set and no user profiles are created; data is anonymised and aggregated.'}</p>
           <h2>{de ? '4. Kontaktformular' : '4. Contact form'}</h2>
           <p>{de
-            ? 'Wenn du uns über das Formular kontaktierst, speichern wir deine Angaben (Name, E-Mail, optional Telefon, Nachricht) in unserer Datenbank bei Supabase (Serverstandort EU) und versenden eine Benachrichtigung über Resend. Die Daten nutzen wir ausschliesslich zur Bearbeitung deiner Anfrage und löschen sie, sobald sie nicht mehr benötigt werden.'
-            : 'If you contact us via the form, we store your details (name, email, optional phone, message) in our database at Supabase (EU server location) and send a notification via Resend. We use the data solely to handle your request and delete it once it is no longer required.'}</p>
+            ? 'Wenn du uns über das Formular kontaktierst, speichern wir deine Angaben (Name, E-Mail, optional Telefon, Nachricht) in unserer Datenbank bei Google Firebase (Cloud Firestore, Serverstandort EU) und versenden eine Benachrichtigung über Resend. Die Daten nutzen wir ausschliesslich zur Bearbeitung deiner Anfrage und löschen sie, sobald sie nicht mehr benötigt werden.'
+            : 'If you contact us via the form, we store your details (name, email, optional phone, message) in our database at Google Firebase (Cloud Firestore, EU server location) and send a notification via Resend. We use the data solely to handle your request and delete it once it is no longer required.'}</p>
           <h2>{de ? '5. Bestellungen & Zahlung' : '5. Orders & payment'}</h2>
           <p>{de
             ? 'Zahlungen werden über Stripe Payments Europe Ltd. abgewickelt. Deine Zahlungsdaten werden direkt von Stripe verarbeitet; wir erhalten nur Name, E-Mail, Lieferadresse und Bestellinformationen, die wir zur Vertragserfüllung und zur Erfüllung gesetzlicher Aufbewahrungspflichten speichern.'

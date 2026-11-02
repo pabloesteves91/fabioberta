@@ -1,7 +1,7 @@
 /**
  * Optimiert Quellbilder zu WebP (1920 px + 960 px) und schreibt src/data/photos.json.
  * Verwendung: node scripts/optimize-images.mjs <ordner-mit-originalen>
- * Wird nur für die lokalen Platzhalterbilder benötigt. Neue Bilder kommen über /admin in Supabase.
+ * Wird nur für die lokalen Platzhalterbilder benötigt. Neue Bilder kommen über /admin in Firebase.
  */
 import sharp from 'sharp';
 import { readFile, writeFile, mkdir } from 'node:fs/promises';

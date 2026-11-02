@@ -1,108 +1,122 @@
 ---
 import '@fontsource/instrument-serif/400.css';
+import '@fontsource/instrument-serif/400-italic.css';
 import '@fontsource-variable/manrope';
 import '../../styles/global.css';
-import { supabaseEnabled } from '../../lib/supabase';
+import '../../styles/admin.css';
+import local from '../../data/photos.json';
+import { defaultEvents, defaultExhibitions } from '../../lib/content';
+import { defaultPosts } from '../../lib/posts';
+import { defaultPrintConfig } from '../../lib/prints';
 export const prerender = false;
+
+const config = {
+  apiKey: import.meta.env.PUBLIC_FIREBASE_API_KEY,
+  authDomain: import.meta.env.PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.PUBLIC_FIREBASE_STORAGE_BUCKET,
+  appId: import.meta.env.PUBLIC_FIREBASE_APP_ID,
+  emulator: import.meta.env.PUBLIC_FIREBASE_EMULATOR === 'true',
+};
+const configured = Boolean(config.apiKey && config.projectId && config.storageBucket);
+// Startinhalte für den Ein-Klick-Import ins leere Firebase
+const defaults = configured
+  ? {
+      photos: (local as { category: string }[]).filter((p) => p.category !== '_site'),
+      events: defaultEvents,
+      exhibitions: defaultExhibitions,
+      posts: (await defaultPosts()).map((p) => ({ ...p, date: p.date.toISOString() })),
+      prints: defaultPrintConfig,
+    }
+  : null;
 ---
 <!doctype html>
-<html lang="de-CH" class="js">
+<html lang="de-CH">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="robots" content="noindex, nofollow" />
+    <meta name="theme-color" content="#0c0b0a" />
     <title>Admin · Fabio Berta</title>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <style>
-      body { padding: 2rem var(--gutter) 6rem; }
-      .admin-head { display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 2rem; }
-      .admin-head h1 { font-size: 2.4rem; }
-      .card { background: var(--surface); border-radius: var(--radius-lg); box-shadow: inset 0 0 0 1px var(--line); padding: 1.5rem; }
-      .tabs { display: flex; gap: .5rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
-      .drop { display: grid; place-items: center; text-align: center; gap: .75rem; min-height: 180px; border: 1.5px dashed var(--line-strong); border-radius: var(--radius-lg); padding: 2rem; cursor: pointer; transition: border-color .3s, background .3s; }
-      .drop.is-over { border-color: var(--accent); background: rgba(214,163,92,.06); }
-      .upload-opts { display: flex; gap: 1rem; flex-wrap: wrap; align-items: end; margin-top: 1rem; }
-      .upload-opts .field { min-width: 200px; }
-      .progress { margin-top: 1rem; font-size: var(--fs-sm); color: var(--muted); white-space: pre-line; }
-      .plist { display: grid; gap: 1rem; margin-top: 2rem; }
-      .pitem { display: grid; grid-template-columns: 140px 1fr; gap: 1.25rem; align-items: start; }
-      .pitem img { width: 140px; height: 140px; object-fit: cover; border-radius: var(--radius); background: var(--surface-2); }
-      .pitem .grid { display: grid; gap: .75rem; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
-      .pitem .field input, .pitem .field select { min-height: 42px; padding: .55rem .75rem; }
-      .pitem .row { display: flex; flex-wrap: wrap; gap: .5rem 1.25rem; align-items: center; margin-top: .75rem; font-size: var(--fs-sm); }
-      .pitem label.cb { display: inline-flex; gap: .4rem; align-items: center; text-transform: none; letter-spacing: 0; font-size: var(--fs-sm); color: var(--text); }
-      .small-btn { min-height: 38px; padding: .4rem .9rem; border-radius: 999px; font-size: var(--fs-xs); font-weight: 600; box-shadow: inset 0 0 0 1px var(--line-strong); }
-      .small-btn:hover { background: var(--text); color: var(--bg); }
-      .small-btn.danger { color: var(--danger); }
-      .small-btn.primary { background: var(--accent); color: var(--accent-ink); box-shadow: none; }
-      table { width: 100%; border-collapse: collapse; font-size: var(--fs-sm); }
-      th, td { text-align: left; padding: .75rem .5rem; border-bottom: 1px solid var(--line); vertical-align: top; }
-      th { color: var(--faint); font-weight: 600; font-size: var(--fs-xs); text-transform: uppercase; letter-spacing: .12em; }
-      td.msg { white-space: pre-wrap; max-width: 50ch; }
-      .hidden { display: none !important; }
-      .badge { font-size: var(--fs-xs); color: var(--faint); }
-      @media (max-width: 640px) { .pitem { grid-template-columns: 1fr; } .pitem img { width: 100%; height: 200px; } }
-    </style>
   </head>
-  <body>
-    <div class="admin-head">
-      <h1>Fabio <em>Berta</em> · Admin</h1>
-      <div class="btn-row">
-        <a class="small-btn" href="/" target="_blank">Website ansehen ↗</a>
-        <button class="small-btn hidden" id="logout">Abmelden</button>
-      </div>
-    </div>
-
-    {!supabaseEnabled ? (
-      <div class="card prose">
-        <h2>Supabase ist noch nicht verbunden</h2>
-        <p>Trage <code>PUBLIC_SUPABASE_URL</code> und <code>PUBLIC_SUPABASE_ANON_KEY</code> in Vercel (bzw. lokal in <code>.env</code>) ein und führe <code>supabase/schema.sql</code> im Supabase SQL-Editor aus. Die Anleitung findest du in <code>SETUP.md</code>.</p>
-        <p>Bis dahin zeigt die Website die Platzhalterbilder aus <code>src/data/photos.json</code>.</p>
-      </div>
+  <body class="admin">
+    {!configured ? (
+      <main class="a-setup">
+        <div class="a-card prose">
+          <p class="eyebrow">Admin</p>
+          <h1>Firebase ist noch nicht verbunden</h1>
+          <p>Trage die <code>PUBLIC_FIREBASE_…</code>-Werte in Vercel (bzw. lokal in <code>.env</code>) ein. Die Schritt-für-Schritt-Anleitung findest du in <code>SETUP.md</code>.</p>
+          <p>Bis dahin zeigt die Website die Platzhalterbilder.</p>
+          <p><a href="/">← Zur Website</a></p>
+        </div>
+      </main>
     ) : (
       <>
-        <form id="login" class="card form hidden" style="max-width:420px">
-          <h2 style="font-size:1.8rem">Anmelden</h2>
-          <div class="field"><label for="l-email">E-Mail</label><input id="l-email" type="email" required autocomplete="username" /></div>
-          <div class="field"><label for="l-pass">Passwort</label><input id="l-pass" type="password" required autocomplete="current-password" /></div>
-          <button class="btn btn--accent" type="submit"><span>Anmelden</span></button>
-          <p class="form__status is-error" id="l-status" role="alert"></p>
-        </form>
+        <script type="application/json" id="fb-config" set:html={JSON.stringify(config)} />
+        <script type="application/json" id="fb-defaults" set:html={JSON.stringify(defaults)} />
 
-        <div id="app" class="hidden">
-          <div class="tabs" role="tablist">
-            <button class="chip is-active" data-tab="photos" role="tab">Fotos <sup id="c-photos"></sup></button>
-            <button class="chip" data-tab="inquiries" role="tab">Anfragen <sup id="c-inq"></sup></button>
-            <button class="chip" data-tab="orders" role="tab">Bestellungen <sup id="c-orders"></sup></button>
-          </div>
+        <!-- Login -->
+        <main class="a-login" id="login" hidden>
+          <form class="a-card a-login__card" id="login-form">
+            <div class="logo"><span class="logo__name">Fabio <em>Berta</em></span><span class="logo__sub">Admin</span></div>
+            <p class="muted">Melde dich an, um Bilder und Inhalte zu verwalten.</p>
+            <button type="button" class="a-btn a-btn--ghost a-btn--block" id="login-google">
+              <svg viewBox="0 0 24 24" width="18" aria-hidden="true"><path fill="#EA4335" d="M12 10.2v3.9h5.5c-.2 1.3-1.6 3.8-5.5 3.8-3.3 0-6-2.7-6-6.1s2.7-6.1 6-6.1c1.9 0 3.1.8 3.8 1.5l2.6-2.5C16.8 3.2 14.6 2.2 12 2.2 6.6 2.2 2.2 6.6 2.2 12s4.4 9.8 9.8 9.8c5.7 0 9.4-4 9.4-9.6 0-.6-.1-1.1-.2-1.6H12z"/></svg>
+              Mit Google anmelden
+            </button>
+            <div class="a-or"><span>oder</span></div>
+            <label class="a-field"><span>E-Mail</span><input type="email" id="login-email" required autocomplete="username" /></label>
+            <label class="a-field"><span>Passwort</span><input type="password" id="login-pass" required autocomplete="current-password" /></label>
+            <button class="a-btn a-btn--primary a-btn--block" type="submit">Anmelden</button>
+            <button type="button" class="a-link" id="login-reset">Passwort vergessen?</button>
+            <p class="a-error" id="login-error" role="alert"></p>
+          </form>
+        </main>
 
-          <section data-panel="photos">
-            <div class="card">
-              <label class="drop" id="drop" for="files">
-                <strong style="font-family:var(--font-display);font-size:1.8rem;font-weight:400">Bilder hierher ziehen</strong>
-                <span class="muted">oder klicken zum Auswählen · JPG/PNG/WebP · werden automatisch optimiert (1920 px + 960 px WebP)</span>
-                <input id="files" type="file" accept="image/*" multiple class="visually-hidden" />
-              </label>
-              <div class="upload-opts">
-                <div class="field"><label for="u-cat">Serie</label>
-                  <select id="u-cat"><option value="street">Street</option><option value="landscape">Landschaft</option><option value="travel">Reisen</option><option value="event">Events & Sport</option><option value="portrait">Portrait</option></select>
-                </div>
-                <div class="field"><label for="u-loc">Ort</label><input id="u-loc" placeholder="z. B. Zürich" /></div>
-                <label class="cb" style="display:inline-flex;gap:.5rem;align-items:center;min-height:52px"><input type="checkbox" id="u-sale" /> Als Print verkaufen</label>
-              </div>
-              <p class="progress" id="u-progress" aria-live="polite"></p>
+        <!-- App -->
+        <div class="a-app" id="app" hidden>
+          <aside class="a-nav">
+            <div class="logo a-nav__logo"><span class="logo__name">Fabio <em>Berta</em></span><span class="logo__sub">Admin</span></div>
+            <nav aria-label="Admin-Navigation">
+              <button data-view="dashboard"><span class="a-ico">◎</span><span>Übersicht</span></button>
+              <button data-view="photos"><span class="a-ico">▦</span><span>Fotos</span></button>
+              <button data-view="events"><span class="a-ico">★</span><span>Events</span></button>
+              <button data-view="exhibitions"><span class="a-ico">◫</span><span>Ausstellungen</span></button>
+              <button data-view="posts"><span class="a-ico">✎</span><span>Journal</span></button>
+              <button data-view="prices"><span class="a-ico">₣</span><span>Preise</span></button>
+              <button data-view="inquiries"><span class="a-ico">✉</span><span>Anfragen</span><b class="a-badge" id="badge-inquiries" hidden></b></button>
+              <button data-view="orders"><span class="a-ico">⬚</span><span>Bestellungen</span><b class="a-badge" id="badge-orders" hidden></b></button>
+            </nav>
+            <div class="a-nav__foot">
+              <a href="/" target="_blank" rel="noopener">Website ansehen ↗</a>
+              <span class="muted" id="user-email"></span>
+              <button class="a-link" id="logout">Abmelden</button>
             </div>
-            <div class="plist" id="plist"></div>
-          </section>
+          </aside>
+          <main class="a-main" id="view" tabindex="-1"></main>
+        </div>
 
-          <section data-panel="inquiries" class="hidden card" style="overflow-x:auto">
-            <table><thead><tr><th>Datum</th><th>Art</th><th>Name / Kontakt</th><th>Nachricht</th><th></th></tr></thead><tbody id="inq"></tbody></table>
-          </section>
-
-          <section data-panel="orders" class="hidden card" style="overflow-x:auto">
-            <table><thead><tr><th>Datum</th><th>Bild</th><th>Variante</th><th>Total</th><th>Kunde</th><th>Adresse</th></tr></thead><tbody id="orders"></tbody></table>
+        <!-- Seitenpanel (Bearbeiten) -->
+        <div class="a-drawer" id="drawer" hidden>
+          <div class="a-drawer__backdrop" data-close></div>
+          <section class="a-drawer__panel" role="dialog" aria-modal="true" aria-labelledby="drawer-title">
+            <header class="a-drawer__head">
+              <h2 id="drawer-title"></h2>
+              <button class="a-icon-btn" data-close aria-label="Schliessen">✕</button>
+            </header>
+            <div class="a-drawer__body" id="drawer-body"></div>
+            <footer class="a-drawer__foot" id="drawer-foot"></footer>
           </section>
         </div>
+
+        <!-- Modal (Upload, Bildauswahl, Bestätigung) -->
+        <dialog class="a-modal" id="modal"><div id="modal-body"></div></dialog>
+
+        <!-- Drop-Overlay -->
+        <div class="a-dropzone-overlay" id="drop-overlay" hidden><div>Bilder loslassen zum Hochladen</div></div>
+
+        <div class="a-toasts" id="toasts" aria-live="polite"></div>
       </>
     )}
     <script>

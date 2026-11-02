@@ -1,0 +1,20 @@
+rules_version = '2';
+// Sicherheitsregeln für Firebase Storage – in der Console unter Storage → Regeln einfügen.
+service firebase.storage {
+  match /b/{bucket}/o {
+    // Admin-E-Mails (klein geschrieben). Gleiche Adressen wie in Firestore unter /admins eintragen.
+    function isAdmin() {
+      return request.auth != null
+        && request.auth.token.email != null
+        && request.auth.token.email.lower() in ['fabioberta@me.com'];
+    }
+    // Bilder sind öffentlich lesbar; hochladen/löschen nur Admin, max. 15 MB, nur Bilder
+    match /photos/{allPaths=**} {
+      allow read: if true;
+      allow delete: if isAdmin();
+      allow create, update: if isAdmin()
+        && request.resource.size < 15 * 1024 * 1024
+        && request.resource.contentType.matches('image/.*');
+    }
+  }
+}

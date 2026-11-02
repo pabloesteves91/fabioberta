@@ -1,25 +1,40 @@
 # Einrichtung & Livegang – Schritt für Schritt
 
 Diese Anleitung führt dich vom Code zur fertigen Website unter **fabioberta.com**, ohne Adobe Portfolio.
-Rechne mit etwa 1–2 Stunden. Alles läuft mit kostenlosen Plänen (Stripe verlangt nur Gebühren pro Verkauf).
+Rechne mit etwa 1–2 Stunden. Alles läuft im Gratiskontingent. Stripe verlangt nur Gebühren pro Verkauf, und Firebase Storage braucht eine hinterlegte Kreditkarte (Blaze-Tarif), kostet bei dieser Seitengrösse aber nichts.
 
 ---
 
-## 1. Supabase (Datenbank + Bildspeicher)
+## 1. Firebase (Datenbank, Bildspeicher, Login)
 
-1. Konto erstellen auf <https://supabase.com> → **New project**
-   - Region: **Central EU (Frankfurt)** oder **Zurich**, falls verfügbar
-2. **SQL Editor** → Inhalt von [`supabase/schema.sql`](supabase/schema.sql) einfügen → **Run**
-   - Legt die Tabellen `photos`, `inquiries`, `orders` und `admins` an, dazu den Speicher-Bucket `photos` und alle Sicherheitsregeln.
-   - Deine E-Mail `fabioberta@me.com` ist als Admin eingetragen. Wenn du eine andere E-Mail nutzt, in der Datei vorher ändern.
-3. **SQL Editor** → Inhalt von [`supabase/seed.sql`](supabase/seed.sql) einfügen → **Run**
-   - Übernimmt die 73 bestehenden Bilder als Startinhalt.
-4. **Authentication → Users → Add user → Create new user**
-   - E-Mail: `fabioberta@me.com`, sicheres Passwort, «Auto Confirm User» aktivieren.
-5. **Project Settings → API**: Folgende Werte kopierst du für Schritt 4:
-   - `Project URL` → `PUBLIC_SUPABASE_URL`
-   - `anon public` → `PUBLIC_SUPABASE_ANON_KEY`
-   - `service_role` (geheim!) → `SUPABASE_SERVICE_ROLE_KEY`
+1. <https://console.firebase.google.com> → **Projekt hinzufügen** (z. B. `fabioberta`); Google Analytics brauchst du nicht
+2. **Build → Firestore Database → Datenbank erstellen**
+   - Standort: **eur3 (Europe)** oder `europe-west6 (Zürich)`
+   - Im **Produktionsmodus** starten
+3. **Build → Storage → Jetzt starten** (gleicher Standort).
+   - Dafür verlangt Firebase den Blaze-Tarif. Es braucht eine hinterlegte Kreditkarte, bei dieser Seitengrösse bleibst du aber im Gratiskontingent (5 GB Speicher). Setz zur Sicherheit ein Budget-Limit, z. B. CHF 5.
+4. **Build → Authentication → Jetzt starten**
+   - Anbieter **E-Mail/Passwort** aktivieren, optional zusätzlich **Google** (dann reicht ein Klick zum Anmelden)
+   - **Users → Nutzer hinzufügen**: `fabioberta@me.com` + sicheres Passwort
+   - **Einstellungen → Nutzeraktionen**: «Registrierung zulassen» **deaktivieren**, damit niemand sonst ein Konto erstellen kann
+   - **Einstellungen → Autorisierte Domains**: `fabioberta.com` hinzufügen
+5. **Admin-Recht vergeben:** Firestore → **Sammlung starten** → Sammlungs-ID `admins` → Dokument-ID **`fabioberta@me.com`** (klein geschrieben) → ein beliebiges Feld, z. B. `role` = `owner` → Speichern
+6. **Sicherheitsregeln einfügen**
+   - Firestore → **Regeln**: Inhalt von [`firebase/firestore.rules`](firebase/firestore.rules) einfügen → **Veröffentlichen**
+   - Storage → **Regeln**: Inhalt von [`firebase/storage.rules`](firebase/storage.rules) einfügen → **Veröffentlichen**
+   - Weitere Admin-E-Mails trägst du in `storage.rules` **und** als Dokument in `admins` ein.
+7. **Web-App registrieren:** Projekteinstellungen (⚙️) → Allgemein → «Meine Apps» → **Web `</>`** → Namen eingeben → die angezeigte `firebaseConfig` übernimmst du für Schritt 4:
+   - `apiKey` → `PUBLIC_FIREBASE_API_KEY`
+   - `authDomain` → `PUBLIC_FIREBASE_AUTH_DOMAIN`
+   - `projectId` → `PUBLIC_FIREBASE_PROJECT_ID`
+   - `storageBucket` → `PUBLIC_FIREBASE_STORAGE_BUCKET`
+   - `appId` → `PUBLIC_FIREBASE_APP_ID`
+8. **Server-Schlüssel:** Projekteinstellungen → **Dienstkonten** → **Neuen privaten Schlüssel generieren** (JSON-Datei, **geheim halten!**)
+   - `project_id` → `FIREBASE_PROJECT_ID`
+   - `client_email` → `FIREBASE_CLIENT_EMAIL`
+   - `private_key` → `FIREBASE_PRIVATE_KEY` (den ganzen Text inkl. `-----BEGIN…`; in Vercel einfach so einfügen)
+
+> Die Website liest die Inhalte über den Server-Schlüssel, Besucher brauchen also kein Login. Ohne diese Werte zeigt die Seite automatisch die Platzhalterbilder.
 
 ## 2. Stripe (Print-Shop)
 
@@ -81,23 +96,41 @@ Preise und Formate änderst du in [`src/lib/prints.ts`](src/lib/prints.ts).
 
 ---
 
-## Bilder verwalten: `/admin`
+## Das Admin-Tool: `fabioberta.com/admin`
 
-1. `https://fabioberta.com/admin` öffnen → mit der Supabase-E-Mail und dem Passwort anmelden
-2. **Bilder hochladen:** Serie und Ort wählen, Bilder per Drag & Drop hineinziehen
-   - Die Bilder werden automatisch auf 1920 px und 960 px als WebP verkleinert. Du kannst also direkt aus Lightroom exportierte JPGs nehmen.
-3. Für jedes Bild **Titel und Alt-Text (DE/EN)** ausfüllen. Der Alt-Text ist wichtig für die Google-Bildersuche.
-4. Mit den Schaltern legst du fest, ob ein Bild sichtbar ist, auf der Startseite erscheint oder im Print-Shop angeboten wird.
-5. Die Reihenfolge änderst du mit ↑ ↓.
-6. Änderungen sind nach spätestens **5 Minuten** live (Cache).
+**Erster Start:** Anmelden → auf der Übersicht **«Inhalte jetzt übernehmen»** klicken. Damit landen alle bisherigen 73 Bilder, Events, Ausstellungen, Journal-Beiträge und Preise in Firebase und sind ab dann im Admin bearbeitbar.
 
-Unter **Anfragen** und **Bestellungen** siehst du alle Kontaktanfragen und Shop-Bestellungen.
+| Bereich | Was du dort machst |
+|---|---|
+| **Übersicht** | Neue Anfragen und Bestellungen, Umsatz des Monats, Schnellzugriff |
+| **Fotos** | Hochladen per Drag & Drop (auch direkt aufs Browserfenster), Titel und Bildbeschreibung DE/EN, Serie, Ort; Schalter für «sichtbar», «Startseite» und «Print-Shop»; Reihenfolge per Ziehen; Bild ersetzen; Suche und Filter; **Mehrere auswählen** für Sammelaktionen (verstecken, in den Shop, Serie ändern, löschen) |
+| **Events** | Neue Events mit Titelbild und **Link zur Teilnehmer-Galerie** |
+| **Ausstellungen** | Mit eigenem Plakat-Upload oder einem Portfolio-Bild |
+| **Journal** | Beiträge mit Formatier-Knöpfen und Vorschau, Entwürfe, Verknüpfung DE ↔ EN |
+| **Preise** | Print-Preise, Formate (hinzufügen/entfernen), Material an/aus, Versandkosten |
+| **Anfragen** | Kontaktanfragen lesen, mit einem Klick per E-Mail antworten, als erledigt markieren |
+| **Bestellungen** | Shop-Bestellungen mit Adresse; Status «In Produktion» → «Versendet» |
+
+Tipps:
+- Bilder kannst du direkt aus Lightroom exportieren (JPG in voller Grösse). Sie werden automatisch auf 1920 px und 960 px als WebP verkleinert.
+- Bilder mit dem roten Hinweis **«Beschreibung?»** brauchen noch eine Bildbeschreibung. Die ist wichtig für die Google-Bildersuche.
+- `Ctrl/Cmd + S` speichert im offenen Bearbeitungsfenster, `Esc` schliesst es.
+- Das Admin-Tool funktioniert auch auf dem Handy (Navigation unten).
+- Änderungen sind nach spätestens **5 Minuten** auf der Website live (Cache).
 
 ## Lokal entwickeln
 
 ```bash
 npm install
-cp .env.example .env   # Werte eintragen (optional – ohne Supabase laufen die Platzhalterbilder)
+cp .env.example .env   # Werte eintragen (optional – ohne Firebase laufen die Platzhalterbilder)
 npm run dev            # http://localhost:4321
 npm run build
+```
+
+**Lokal mit Firebase-Emulator testen** (ohne echtes Projekt, braucht Java):
+
+```bash
+npm run emulators                                   # Terminal 1
+# .env: PUBLIC_FIREBASE_PROJECT_ID=demo-fabioberta, PUBLIC_FIREBASE_EMULATOR=true (+ beliebige Demo-Werte)
+FIRESTORE_EMULATOR_HOST=127.0.0.1:8080 npm run dev  # Terminal 2
 ```

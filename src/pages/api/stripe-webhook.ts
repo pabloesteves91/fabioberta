@@ -1,6 +1,7 @@
 import type { APIRoute } from 'astro';
 import Stripe from 'stripe';
-import { getServiceClient } from '../../lib/supabase';
+import { FieldValue } from 'firebase-admin/firestore';
+import { getDb } from '../../lib/firebase';
 import { sendMail, escapeHtml } from '../../lib/mail';
 
 export const prerender = false;
@@ -29,31 +30,36 @@ export const POST: APIRoute = async ({ request }) => {
       address?: Record<string, string | null>;
     } | null;
     const order = {
-      stripe_session_id: s.id,
+      stripeSessionId: s.id,
       email: s.customer_details?.email ?? null,
       name: shippingDetails?.name ?? s.customer_details?.name ?? null,
-      amount_total: (s.amount_total ?? 0) / 100,
+      phone: s.customer_details?.phone ?? null,
+      amountTotal: (s.amount_total ?? 0) / 100,
       currency: s.currency,
-      photo_slug: s.metadata?.slug ?? null,
+      photoSlug: s.metadata?.slug ?? null,
       material: s.metadata?.material ?? null,
       size: s.metadata?.size ?? null,
       quantity: Number(s.metadata?.quantity ?? 1),
-      shipping_address: shippingDetails?.address ?? null,
+      shippingAddress: shippingDetails?.address ?? null,
       status: 'paid',
     };
-    const db = getServiceClient();
+    const db = getDb();
     if (db) {
-      const { error } = await db.from('orders').upsert(order, { onConflict: 'stripe_session_id' });
-      if (error) console.error('[webhook] Supabase', error.message);
+      try {
+        // Session-ID als Dokument-ID → Webhook-Wiederholungen erzeugen keine Duplikate
+        await db.collection('orders').doc(s.id).set({ ...order, createdAt: FieldValue.serverTimestamp() }, { merge: true });
+      } catch (err) {
+        console.error('[webhook] Firestore', err);
+      }
     }
-    const addr = order.shipping_address ? Object.values(order.shipping_address).filter(Boolean).join(', ') : '–';
+    const addr = order.shippingAddress ? Object.values(order.shippingAddress).filter(Boolean).join(', ') : '–';
     await sendMail({
-      subject: `Neue Bestellung: ${order.photo_slug} (${order.material} ${order.size}) – CHF ${order.amount_total}`,
+      subject: `Neue Bestellung: ${order.photoSlug} (${order.material} ${order.size}) – CHF ${order.amountTotal}`,
       replyTo: order.email ?? undefined,
       html: `<h2>Neue Print-Bestellung 🎉</h2>
-        <p><strong>Bild:</strong> ${escapeHtml(order.photo_slug)}<br><strong>Material:</strong> ${escapeHtml(order.material)}<br>
+        <p><strong>Bild:</strong> ${escapeHtml(order.photoSlug)}<br><strong>Material:</strong> ${escapeHtml(order.material)}<br>
         <strong>Format:</strong> ${escapeHtml(order.size)}<br><strong>Anzahl:</strong> ${order.quantity}<br>
-        <strong>Total:</strong> CHF ${order.amount_total}</p>
+        <strong>Total:</strong> CHF ${order.amountTotal}</p>
         <p><strong>Kunde:</strong> ${escapeHtml(order.name)} (${escapeHtml(order.email)})<br><strong>Adresse:</strong> ${escapeHtml(addr)}</p>
         <p>Stripe-Session: ${escapeHtml(s.id)}</p>`,
     });

@@ -8,7 +8,7 @@ export default defineConfig({
   trailingSlash: 'never',
   adapter: vercel({
     webAnalytics: { enabled: true },
-    // Seiten werden gecacht und alle 5 Minuten neu erzeugt, damit neue Bilder aus Supabase ohne Rebuild erscheinen.
+    // Seiten werden gecacht und alle 5 Minuten neu erzeugt, damit neue Bilder aus Firebase ohne Rebuild erscheinen.
     isr: {
       expiration: 300,
       exclude: [/^\/api\/.*/, /^\/admin.*/, /^\/(en\/)?shop\/(danke|thank-you).*/],

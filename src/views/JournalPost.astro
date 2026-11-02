@@ -1,50 +1,51 @@
 ---
-import { getCollection, render, type CollectionEntry } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import Button from '../components/Button.astro';
 import SplitText from '../components/SplitText.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import { getPhotos, srcset } from '../lib/photos';
+import { getPosts } from '../lib/data';
+import { renderMarkdown, type Post } from '../lib/posts';
 import { r, type Lang } from '../i18n/routes';
 import { useT } from '../i18n/ui';
 import { breadcrumbSchema, abs } from '../lib/seo';
 import { site } from '../lib/site';
 
-interface Props { lang: Lang; post: CollectionEntry<'journal'> }
+interface Props { lang: Lang; post: Post }
 const { lang, post } = Astro.props;
 const t = useT(lang);
 const de = lang === 'de';
-const { Content } = await render(post);
+const html = renderMarkdown(post.body);
 const photos = await getPhotos();
-const cover = photos.find((p) => p.slug === post.data.cover) ?? photos[0];
+const cover = photos.find((p) => p.slug === post.cover) ?? photos[0];
 const other = de ? 'en' : 'de';
-const translation = (await getCollection('journal', (p) => p.data.lang === other && p.data.translationKey === post.data.translationKey))[0];
-const url = `${r('journal', lang)}/${post.data.slug}`;
+const translation = (await getPosts(other)).find((p) => p.translationKey === post.translationKey);
+const url = `${r('journal', lang)}/${post.slug}`;
 const crumbs = [
   { name: t('nav.home'), url: r('home', lang) },
   { name: 'Journal', url: r('journal', lang) },
-  { name: post.data.title, url },
+  { name: post.title, url },
 ];
 const articleSchema = {
   '@context': 'https://schema.org',
   '@type': 'BlogPosting',
-  headline: post.data.title,
-  description: post.data.description,
+  headline: post.title,
+  description: post.description,
   image: abs(cover.src),
-  datePublished: post.data.date.toISOString(),
-  dateModified: post.data.date.toISOString(),
+  datePublished: post.date.toISOString(),
+  dateModified: post.date.toISOString(),
   inLanguage: de ? 'de-CH' : 'en',
   author: { '@type': 'Person', name: site.name, url: site.url },
   publisher: { '@id': `${site.url}/#business` },
   mainEntityOfPage: abs(url),
-  keywords: post.data.tags.join(', '),
+  keywords: post.tags.join(', '),
 };
 ---
 <Base
   lang={lang}
-  title={post.data.title}
-  description={post.data.description}
-  alternate={translation ? `${r('journal', other)}/${translation.data.slug}` : r('journal', other)}
+  title={post.title}
+  description={post.description}
+  alternate={translation ? `${r('journal', other)}/${translation.slug}` : r('journal', other)}
   current="journal"
   type="article"
   image={cover.src}
@@ -53,16 +54,16 @@ const articleSchema = {
   <article>
     <header class="page-hero container">
       <Breadcrumbs items={crumbs} />
-      <span class="eyebrow" data-reveal>{post.data.date.toLocaleDateString(de ? 'de-CH' : 'en-GB', { day: 'numeric', month: 'long', year: 'numeric' })} · {post.data.tags.join(', ')}</span>
-      <SplitText as="h1" text={post.data.title} />
-      <p class="lead" data-reveal>{post.data.description}</p>
+      <span class="eyebrow" data-reveal>{post.date.toLocaleDateString(de ? 'de-CH' : 'en-GB', { day: 'numeric', month: 'long', year: 'numeric' })} · {post.tags.join(', ')}</span>
+      <SplitText as="h1" text={post.title} />
+      <p class="lead" data-reveal>{post.description}</p>
     </header>
     <div class="container">
       <div class="photo article-cover" data-reveal="clip" style={`--ph:${cover.color}`}>
         <img src={cover.src} srcset={srcset(cover)} sizes="100vw" alt={cover.alt[lang]} width={cover.width} height={cover.height} fetchpriority="high" />
       </div>
       <div class="prose" style="margin-inline:auto" data-reveal>
-        <Content />
+        <Fragment set:html={html} />
       </div>
       <div class="btn-row" style="justify-content:center;margin-top:4rem">
         <Button href={r('contact', lang)} variant="accent" size="lg">{t('cta.book')}</Button>

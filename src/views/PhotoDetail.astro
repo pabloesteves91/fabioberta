@@ -6,7 +6,8 @@ import PhotoCard from '../components/PhotoCard.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import type { Photo } from '../lib/photos';
 import { srcset, genre } from '../lib/photos';
-import { materials, sizeLabel, minPrice, chf, shipping } from '../lib/prints';
+import { activeMaterials, sizeLabel, minPrice as getMin, maxPrice, chf } from '../lib/prints';
+import { getPrintConfig } from '../lib/data';
 import { r, photoUrl, type Lang } from '../i18n/routes';
 import { useT } from '../i18n/ui';
 import { breadcrumbSchema, imageSchema, abs } from '../lib/seo';
@@ -17,6 +18,10 @@ const { lang, photo, prev, next, related } = Astro.props;
 const t = useT(lang);
 const de = lang === 'de';
 const portrait = photo.height > photo.width;
+const cfg = await getPrintConfig();
+const materials = activeMaterials(cfg);
+const minPrice = getMin(cfg);
+const shipping = cfg.shipping;
 const url = photoUrl(photo.slug, lang);
 const catName = t(`cat.${photo.category}`);
 const genreName = genre[photo.category][lang];
@@ -35,7 +40,7 @@ const configData = {
     sizes: m.sizes.map((s) => ({ id: s.id, label: sizeLabel(s, portrait), price: s.price })),
   })),
 };
-const productSchema = photo.forSale
+const productSchema = photo.forSale && materials.length
   ? {
       '@context': 'https://schema.org',
       '@type': 'Product',
@@ -46,8 +51,8 @@ const productSchema = photo.forSale
       offers: {
         '@type': 'AggregateOffer',
         priceCurrency: 'CHF',
-        lowPrice: Math.min(...materials.flatMap((m) => m.sizes.map((s) => s.price))),
-        highPrice: Math.max(...materials.flatMap((m) => m.sizes.map((s) => s.price))),
+        lowPrice: minPrice,
+        highPrice: maxPrice(cfg),
         offerCount: materials.reduce((n, m) => n + m.sizes.length, 0),
         availability: 'https://schema.org/InStock',
         url: abs(url),
@@ -100,7 +105,7 @@ const description = de
         )}
       </div>
 
-      {photo.forSale && (
+      {photo.forSale && materials.length > 0 && (
         <form class="configurator" data-configurator data-error={t('shop.error')} data-reveal aria-labelledby="buy-title">
           <script type="application/json" set:html={JSON.stringify(configData)} />
           <div>

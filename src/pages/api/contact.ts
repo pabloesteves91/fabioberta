@@ -1,5 +1,6 @@
 import type { APIRoute } from 'astro';
-import { getServiceClient } from '../../lib/supabase';
+import { FieldValue } from 'firebase-admin/firestore';
+import { getDb } from '../../lib/firebase';
 import { sendMail, escapeHtml } from '../../lib/mail';
 
 export const prerender = false;
@@ -34,12 +35,15 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
   const lang = data.lang === 'en' ? 'en' : 'de';
   if (!name || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || message.length < 10) return json({ error: 'validation' }, 422);
 
-  const db = getServiceClient();
+  const db = getDb();
   let stored = false;
   if (db) {
-    const { error } = await db.from('inquiries').insert({ name, email, phone: phone || null, type, event_date: date || null, message, lang });
-    if (error) console.error('[contact] Supabase', error.message);
-    else stored = true;
+    try {
+      await db.collection('inquiries').add({ name, email, phone: phone || null, type, eventDate: date || null, message, lang, handled: false, createdAt: FieldValue.serverTimestamp() });
+      stored = true;
+    } catch (err) {
+      console.error('[contact] Firestore', err);
+    }
   }
 
   const mailed = await sendMail({

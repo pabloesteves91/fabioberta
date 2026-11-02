@@ -1,9 +1,9 @@
 ---
-import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import SplitText from '../components/SplitText.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import { getPhotos } from '../lib/photos';
+import { getPosts } from '../lib/data';
 import { r, type Lang } from '../i18n/routes';
 import { useT } from '../i18n/ui';
 import { breadcrumbSchema, abs } from '../lib/seo';
@@ -14,7 +14,7 @@ const t = useT(lang);
 const de = lang === 'de';
 const photos = await getPhotos();
 const bySlug = new Map(photos.map((p) => [p.slug, p]));
-const posts = (await getCollection('journal', (p) => p.data.lang === lang)).sort((a, b) => +b.data.date - +a.data.date);
+const posts = await getPosts(lang);
 const crumbs = [
   { name: t('nav.home'), url: r('home', lang) },
   { name: 'Journal', url: r('journal', lang) },
@@ -24,7 +24,7 @@ const blogSchema = {
   '@type': 'Blog',
   name: 'Journal – Fabio Berta',
   url: abs(r('journal', lang)),
-  blogPost: posts.map((p) => ({ '@type': 'BlogPosting', headline: p.data.title, url: abs(`${r('journal', lang)}/${p.data.slug}`), datePublished: p.data.date.toISOString() })),
+  blogPost: posts.map((p) => ({ '@type': 'BlogPosting', headline: p.title, url: abs(`${r('journal', lang)}/${p.slug}`), datePublished: p.date.toISOString() })),
 };
 ---
 <Base
@@ -43,13 +43,13 @@ const blogSchema = {
   <section class="container">
     <div class="post-grid">
       {posts.map((post, i) => {
-        const cover = bySlug.get(post.data.cover) ?? photos[0];
+        const cover = bySlug.get(post.cover) ?? photos[0];
         return (
-          <a class="post-card" href={`${r('journal', lang)}/${post.data.slug}`} data-reveal style={`--delay:${(i % 3) * 0.1}s`}>
+          <a class="post-card" href={`${r('journal', lang)}/${post.slug}`} data-reveal style={`--delay:${(i % 3) * 0.1}s`}>
             <div class="photo" style={`--ph:${cover.color}`}><img src={cover.thumb} alt={cover.alt[lang]} loading={i < 3 ? 'eager' : 'lazy'} width={cover.width} height={cover.height} /></div>
-            <p class="post-card__meta">{post.data.date.toLocaleDateString(de ? 'de-CH' : 'en-GB', { day: 'numeric', month: 'long', year: 'numeric' })} · {post.data.tags.join(', ')}</p>
-            <h2 class="h3" style="font-size:2rem;line-height:1.05;margin-top:.6rem">{post.data.title}</h2>
-            <p>{post.data.description}</p>
+            <p class="post-card__meta">{post.date.toLocaleDateString(de ? 'de-CH' : 'en-GB', { day: 'numeric', month: 'long', year: 'numeric' })} · {post.tags.join(', ')}</p>
+            <h2 class="h3" style="font-size:2rem;line-height:1.05;margin-top:.6rem">{post.title}</h2>
+            <p>{post.description}</p>
           </a>
         );
       })}

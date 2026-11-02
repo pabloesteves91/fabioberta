@@ -1,7 +1,7 @@
 ---
 import View from '../../views/JournalPost.astro';
-import { getCollection } from 'astro:content';
-const post = (await getCollection('journal', (p) => p.data.lang === 'de' && p.data.slug === Astro.params.slug))[0];
+import { getPost } from '../../lib/data';
+const post = await getPost('de', Astro.params.slug!);
 if (!post) return Astro.rewrite('/404');
 ---
 <View lang="de" post={post} />

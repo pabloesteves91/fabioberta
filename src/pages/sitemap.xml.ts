@@ -1,8 +1,8 @@
 import type { APIRoute } from 'astro';
-import { getCollection } from 'astro:content';
 import { routes, photoUrl, eventUrl, type RouteKey } from '../i18n/routes';
 import { getPhotos } from '../lib/photos';
-import { services, events } from '../lib/content';
+import { services } from '../lib/content';
+import { getEvents, getPosts } from '../lib/data';
 import { site } from '../lib/site';
 
 type Entry = { de: string; en: string; priority: number; lastmod?: string; image?: string };
@@ -17,16 +17,16 @@ export const GET: APIRoute = async () => {
   services.filter((s) => s.id !== 'fine-art').forEach((s) =>
     entries.push({ de: `${routes.services.de}/${s.slug.de}`, en: `${routes.services.en}/${s.slug.en}`, priority: 0.9 }),
   );
-  events.forEach((e) => entries.push({ de: eventUrl(e.slug, 'de'), en: eventUrl(e.slug, 'en'), priority: 0.5 }));
+  (await getEvents()).forEach((e) => entries.push({ de: eventUrl(e.slug, 'de'), en: eventUrl(e.slug, 'en'), priority: 0.5 }));
   (await getPhotos()).forEach((p) => entries.push({ de: photoUrl(p.slug, 'de'), en: photoUrl(p.slug, 'en'), priority: p.forSale ? 0.6 : 0.4, image: p.src }));
 
-  const posts = await getCollection('journal');
+  const posts = await getPosts();
   const byKey = new Map<string, { de?: (typeof posts)[number]; en?: (typeof posts)[number] }>();
-  posts.forEach((p) => byKey.set(p.data.translationKey, { ...byKey.get(p.data.translationKey), [p.data.lang]: p }));
+  posts.forEach((p) => byKey.set(p.translationKey, { ...byKey.get(p.translationKey), [p.lang]: p }));
   byKey.forEach((pair) => {
-    const de = pair.de ? `${routes.journal.de}/${pair.de.data.slug}` : routes.journal.de;
-    const en = pair.en ? `${routes.journal.en}/${pair.en.data.slug}` : routes.journal.en;
-    const lastmod = (pair.de ?? pair.en)!.data.date.toISOString().slice(0, 10);
+    const de = pair.de ? `${routes.journal.de}/${pair.de.slug}` : routes.journal.de;
+    const en = pair.en ? `${routes.journal.en}/${pair.en.slug}` : routes.journal.en;
+    const lastmod = (pair.de ?? pair.en)!.date.toISOString().slice(0, 10);
     entries.push({ de, en, priority: 0.6, lastmod });
   });
 

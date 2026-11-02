@@ -1,7 +1,8 @@
 import type { APIRoute } from 'astro';
 import Stripe from 'stripe';
 import { getPhotos } from '../../lib/photos';
-import { findVariant, shipping, sizeLabel } from '../../lib/prints';
+import { findVariant, sizeLabel } from '../../lib/prints';
+import { getPrintConfig } from '../../lib/data';
 import { r, photoUrl } from '../../i18n/routes';
 
 export const prerender = false;
@@ -21,7 +22,9 @@ export const POST: APIRoute = async ({ request, url }) => {
   const lang = body.lang === 'en' ? 'en' : 'de';
   const quantity = Math.min(10, Math.max(1, Math.floor(Number(body.quantity) || 1)));
   const photo = (await getPhotos()).find((p) => p.slug === body.slug && p.forSale);
-  const variant = findVariant(String(body.material), String(body.size));
+  const cfg = await getPrintConfig();
+  const shipping = cfg.shipping;
+  const variant = findVariant(cfg, String(body.material), String(body.size));
   if (!photo || !variant) return json({ error: 'invalid_product' }, 400);
 
   const { material, size } = variant;

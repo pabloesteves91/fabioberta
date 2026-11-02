@@ -4,7 +4,8 @@ import Button from '../components/Button.astro';
 import SplitText from '../components/SplitText.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import { getPhotos, srcset } from '../lib/photos';
-import { materials, minPrice, chf, shipping } from '../lib/prints';
+import { activeMaterials, minPrice as getMin, chf } from '../lib/prints';
+import { getPrintConfig } from '../lib/data';
 import { r, photoUrl, type Lang } from '../i18n/routes';
 import { useT } from '../i18n/ui';
 import { breadcrumbSchema, abs } from '../lib/seo';
@@ -14,6 +15,10 @@ interface Props { lang: Lang }
 const { lang } = Astro.props;
 const t = useT(lang);
 const de = lang === 'de';
+const cfg = await getPrintConfig();
+const materials = activeMaterials(cfg);
+const minPrice = getMin(cfg);
+const shipping = cfg.shipping;
 const svc = services.find((s) => s.id === 'fine-art')!;
 const prints = (await getPhotos()).filter((p) => p.forSale);
 const crumbs = [
@@ -55,7 +60,7 @@ const listSchema = {
     <div class="section-head">
       <div class="stack">
         <span class="eyebrow" data-reveal>{t('shop.material')}</span>
-        <SplitText as="h2" text={de ? 'Vier Materialien, *ein* Anspruch.' : 'Four materials, *one* standard.'} />
+        <SplitText as="h2" text={de ? 'Verschiedene Materialien, *ein* Anspruch.' : 'Different materials, *one* standard.'} />
       </div>
       <a class="link" href={`${r('journal', lang)}/${de ? 'fine-art-print-material' : 'choosing-print-material'}`} data-reveal>{de ? 'Welches Material passt?' : 'Which material suits?'} →</a>
     </div>

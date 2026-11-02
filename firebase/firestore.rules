@@ -1,0 +1,51 @@
+rules_version = '2';
+// Sicherheitsregeln für Firestore – in der Firebase Console unter Firestore → Regeln einfügen
+// oder per `firebase deploy --only firestore:rules` veröffentlichen.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Admin = angemeldete Person, deren E-Mail als Dokument in /admins existiert (z. B. admins/fabioberta@me.com)
+    function isAdmin() {
+      return request.auth != null
+        && request.auth.token.email != null
+        && exists(/databases/$(database)/documents/admins/$(request.auth.token.email.lower()));
+    }
+
+    // Eigenes Admin-Dokument darf gelesen werden (Login-Prüfung); ändern nur in der Console
+    match /admins/{email} {
+      allow read: if request.auth != null && request.auth.token.email.lower() == email;
+      allow write: if false;
+    }
+
+    // Öffentliche Inhalte: lesen alle (veröffentlichte), schreiben nur Admin
+    match /photos/{id} {
+      allow read: if resource.data.published == true || isAdmin();
+      allow write: if isAdmin();
+    }
+    match /events/{id} {
+      allow read: if resource.data.published != false || isAdmin();
+      allow write: if isAdmin();
+    }
+    match /exhibitions/{id} {
+      allow read: if resource.data.published != false || isAdmin();
+      allow write: if isAdmin();
+    }
+    match /posts/{id} {
+      allow read: if resource.data.published != false || isAdmin();
+      allow write: if isAdmin();
+    }
+    match /settings/{id} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Private Daten: nur Admin. (Die Website schreibt über den Server mit Admin-SDK.)
+    match /inquiries/{id} {
+      allow read, update, delete: if isAdmin();
+      allow create: if false;
+    }
+    match /orders/{id} {
+      allow read, update, delete: if isAdmin();
+      allow create: if false;
+    }
+  }
+}

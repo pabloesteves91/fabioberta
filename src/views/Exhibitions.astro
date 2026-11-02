@@ -3,8 +3,7 @@ import Base from '../layouts/Base.astro';
 import Button from '../components/Button.astro';
 import SplitText from '../components/SplitText.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
-import { exhibitions } from '../lib/content';
-import { siteImage, srcset } from '../lib/photos';
+import { getExhibitions } from '../lib/data';
 import { r, type Lang } from '../i18n/routes';
 import { useT } from '../i18n/ui';
 import { breadcrumbSchema } from '../lib/seo';
@@ -14,6 +13,7 @@ interface Props { lang: Lang }
 const { lang } = Astro.props;
 const t = useT(lang);
 const de = lang === 'de';
+const exhibitions = await getExhibitions();
 const crumbs = [
   { name: t('nav.home'), url: r('home', lang) },
   { name: t('nav.exhibitions'), url: r('exhibitions', lang) },
@@ -42,18 +42,18 @@ const schemas = exhibitions.map((x) => ({
     <p class="lead" data-reveal>{de ? 'Fotografie gehört an die Wand. Hier findest du meine Ausstellungen – und bald die nächsten Termine.' : 'Photography belongs on the wall. Here are my exhibitions – with upcoming dates soon.'}</p>
   </section>
   <section class="container timeline">
+    {exhibitions.length === 0 && <p class="muted">{de ? 'Neue Ausstellungen folgen bald.' : 'New exhibitions coming soon.'}</p>}
     {exhibitions.map((x) => {
-      const img = siteImage(x.image);
       return (
         <article class="timeline__item">
-          <div class="photo" data-reveal="clip" style={`--ph:${img.color}`}><img src={img.thumb} srcset={srcset(img)} sizes="(min-width:900px) 40vw, 100vw" alt={img.alt[lang]} width={img.width} height={img.height} loading="lazy" /></div>
+          {x.image && <div class="photo" data-reveal="clip"><img src={x.image} alt={x.imageAlt?.[lang] || x.title} loading="lazy" style="width:100%;height:100%;object-fit:cover" /></div>}
           <div class="stack" style="--stack:1.5rem">
             <p class="timeline__date" data-reveal>{x.dateLabel[lang]} · {x.venue}, {x.city}</p>
             <h2 data-reveal>{x.title}</h2>
             <p class="lead" data-reveal>{x.text[lang]}</p>
             <div class="btn-row" data-reveal>
-              <Button href={`${r('portfolio', lang)}/brandung`}>{de ? 'Das Bild ansehen' : 'View the image'}</Button>
-              {x.url && <a class="link" href={x.url} target="_blank" rel="noopener">photo-schweiz.ch ↗</a>}
+              {x.photoSlug && <Button href={`${r('portfolio', lang)}/${x.photoSlug}`}>{de ? 'Das Bild ansehen' : 'View the image'}</Button>}
+              {x.url && <a class="link" href={x.url} target="_blank" rel="noopener">{new URL(x.url).hostname.replace(/^www\./, '')} ↗</a>}
             </div>
           </div>
         </article>

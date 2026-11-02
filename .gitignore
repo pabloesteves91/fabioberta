@@ -6,3 +6,7 @@ dist/
 .env.*
 !.env.example
 .DS_Store
+firebase-debug.log
+firestore-debug.log
+ui-debug.log
+*-debug.log

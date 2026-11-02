@@ -3,7 +3,8 @@ import Base from '../layouts/Base.astro';
 import Button from '../components/Button.astro';
 import SplitText from '../components/SplitText.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
-import { events, services } from '../lib/content';
+import { services } from '../lib/content';
+import { getEvents } from '../lib/data';
 import { getPhotos } from '../lib/photos';
 import { r, eventUrl, type Lang } from '../i18n/routes';
 import { useT } from '../i18n/ui';
@@ -13,6 +14,7 @@ interface Props { lang: Lang }
 const { lang } = Astro.props;
 const t = useT(lang);
 const de = lang === 'de';
+const events = await getEvents();
 const bySlug = new Map((await getPhotos()).map((p) => [p.slug, p]));
 const crumbs = [
   { name: t('nav.home'), url: r('home', lang) },

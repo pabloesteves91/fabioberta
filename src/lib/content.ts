@@ -201,17 +201,21 @@ export const packagePrice = (p: Service['packages'][number], lang: Lang) =>
   typeof p.price === 'string' ? p.price : p.price[lang];
 
 export interface EventItem {
+  id?: string;
   slug: string;
   title: string;
   date: string;
   location: string;
+  /** Foto-Slug aus dem Portfolio */
   cover: string;
   galleryUrl?: string;
   summary: L;
   body: L;
+  published?: boolean;
 }
 
-export const events: EventItem[] = [
+/** Standard-Events (werden ersetzt, sobald in Firebase Events angelegt sind). */
+export const defaultEvents: EventItem[] = [
   {
     slug: 'snbf-2024',
     title: 'SNBF International Open Championship 2024',
@@ -232,24 +236,36 @@ export const events: EventItem[] = [
 ];
 
 export interface Exhibition {
+  id?: string;
   title: string;
   date: string;
   dateLabel: L;
   venue: string;
   city: string;
+  /** Bild-URL (z. B. Plakat) */
   image: string;
+  imageAlt?: L;
+  /** optional: verlinktes Portfolio-Bild */
+  photoSlug?: string;
   text: L;
   url?: string;
+  published?: boolean;
 }
 
-export const exhibitions: Exhibition[] = [
+/** Standard-Ausstellungen (werden ersetzt, sobald in Firebase Ausstellungen angelegt sind). */
+export const defaultExhibitions: Exhibition[] = [
   {
     title: 'Photo Schweiz 2021',
     date: '2021-07-02',
     dateLabel: { de: '2.–11. Juli 2021', en: '2–11 July 2021' },
     venue: 'Halle 550',
     city: 'Zürich-Oerlikon',
-    image: 'photo-schweiz-2021-ausstellung',
+    image: '/photos/photo-schweiz-2021-ausstellung-960.webp',
+    imageAlt: {
+      de: 'Ausstellungsplakat Photo Schweiz 2021 mit Brandungsbild von Fabio Berta',
+      en: 'Photo Schweiz 2021 exhibition poster with surf image by Fabio Berta',
+    },
+    photoSlug: 'brandung',
     url: 'https://www.photo-schweiz.ch',
     text: {
       de: 'Der erste Schritt ist vollbracht: Als Aussteller an der Photo Schweiz, der grössten Werkschau der Schweizer Fotografie, zeigte ich «Brandung» – ein Bild, das spontan an der Küste Montenegros entstanden ist.',
