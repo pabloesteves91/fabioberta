@@ -1,0 +1,10 @@
+---
+import type { Lang } from '../i18n/routes';
+import { r } from '../i18n/routes';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+---
+<a href={r('home', lang)} class="logo" aria-label="Fabio Berta Photography – Home" data-cursor-link>
+  <span class="logo__name">Fabio <em>Berta</em></span>
+  <span class="logo__sub">Photography</span>
+</a>

@@ -1,0 +1,19 @@
+---
+import Base from '../layouts/Base.astro';
+import Button from '../components/Button.astro';
+import { getLangFromUrl, r } from '../i18n/routes';
+const lang = getLangFromUrl(Astro.url);
+const de = lang === 'de';
+Astro.response.status = 404;
+---
+<Base lang={lang} title={de ? 'Seite nicht gefunden' : 'Page not found'} description="404" alternate={r('home', de ? 'en' : 'de')} noindex footerCta={false}>
+  <section class="page-hero container" style="min-height:70svh">
+    <span class="eyebrow">404</span>
+    <h1>{de ? <>Dieser Moment ist <em>verflogen.</em></> : <>This moment has <em>passed.</em></>}</h1>
+    <p class="lead">{de ? 'Die Seite gibt es nicht (mehr). Vielleicht findest du im Portfolio, was du suchst.' : 'This page does not exist (anymore). Maybe you will find what you are looking for in the portfolio.'}</p>
+    <div class="btn-row" style="margin-top:2.5rem">
+      <Button href={r('portfolio', lang)} size="lg">{de ? 'Zum Portfolio' : 'To the portfolio'}</Button>
+      <Button href={r('home', lang)} variant="ghost" size="lg">{de ? 'Startseite' : 'Home'}</Button>
+    </div>
+  </section>
+</Base>

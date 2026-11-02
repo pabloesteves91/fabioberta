@@ -1,0 +1,61 @@
+---
+import Logo from './Logo.astro';
+import Button from './Button.astro';
+import Icon from './Icon.astro';
+import { r, type Lang, type RouteKey } from '../i18n/routes';
+import { useT } from '../i18n/ui';
+import { site } from '../lib/site';
+interface Props { lang: Lang; alternate: string; current?: RouteKey }
+const { lang, alternate, current } = Astro.props;
+const t = useT(lang);
+const main: [RouteKey, Parameters<typeof t>[0]][] = [
+  ['portfolio', 'nav.portfolio'],
+  ['services', 'nav.services'],
+  ['shop', 'nav.shop'],
+  ['journal', 'nav.journal'],
+  ['about', 'nav.about'],
+];
+const full: [RouteKey, Parameters<typeof t>[0]][] = [
+  ['portfolio', 'nav.portfolio'],
+  ['services', 'nav.services'],
+  ['shop', 'nav.shop'],
+  ['events', 'nav.events'],
+  ['exhibitions', 'nav.exhibitions'],
+  ['journal', 'nav.journal'],
+  ['about', 'nav.about'],
+  ['contact', 'nav.contact'],
+];
+---
+<a class="skip-link" href="#main">{t('nav.skip')}</a>
+<header class="header" data-header>
+  <div class="container header__inner">
+    <Logo lang={lang} />
+    <nav class="nav" aria-label="Hauptnavigation">
+      {main.map(([key, label]) => (
+        <a href={r(key, lang)} aria-current={current === key ? 'page' : undefined}>{t(label)}</a>
+      ))}
+    </nav>
+    <div class="header__actions">
+      <a class="lang-switch" href={alternate} hreflang={lang === 'de' ? 'en' : 'de'} lang={lang === 'de' ? 'en' : 'de'} data-astro-reload>
+        <span class="visually-hidden">{lang === 'de' ? 'Switch to English' : 'Auf Deutsch wechseln'}</span>
+        <span aria-hidden="true">{lang === 'de' ? 'EN' : 'DE'}</span>
+      </a>
+      <Button href={r('contact', lang)} variant="accent">{t('cta.book')}</Button>
+      <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-menu" data-menu-toggle>
+        <span data-menu-label>{t('nav.menu')}</span>
+        <span class="menu-btn__lines" aria-hidden="true"></span>
+      </button>
+    </div>
+  </div>
+</header>
+<div class="menu" id="site-menu" data-menu aria-hidden="true">
+  <ul class="menu__list">
+    {full.map(([key, label], i) => (
+      <li><a href={r(key, lang)} style={`--i:${i}`} tabindex="-1"><small>0{i + 1}</small>{t(label)}</a></li>
+    ))}
+  </ul>
+  <div class="menu__foot">
+    <span>{t('footer.region')}</span>
+    <a href={site.instagram} target="_blank" rel="noopener" tabindex="-1" class="link"><Icon name="instagram" /> {site.instagramHandle}</a>
+  </div>
+</div>

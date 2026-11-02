@@ -1,0 +1,75 @@
+---
+import Base from '../layouts/Base.astro';
+import Button from '../components/Button.astro';
+import SplitText from '../components/SplitText.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import Icon from '../components/Icon.astro';
+import { r, type Lang } from '../i18n/routes';
+import { useT } from '../i18n/ui';
+import { breadcrumbSchema } from '../lib/seo';
+import { site } from '../lib/site';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = useT(lang);
+const de = lang === 'de';
+const crumbs = [
+  { name: t('nav.home'), url: r('home', lang) },
+  { name: t('nav.contact'), url: r('contact', lang) },
+];
+const types = ['event', 'portrait', 'print', 'other'] as const;
+---
+<Base
+  lang={lang}
+  title={de ? 'Kontakt – Fotograf in Zürich anfragen' : 'Contact – Book a Photographer in Zurich'}
+  description={de ? 'Shooting, Event oder Print anfragen: Schreib Fabio Berta, Fotograf in Zürich. Antwort meist innert 24 Stunden.' : 'Enquire about a shoot, event or print: write to Fabio Berta, photographer in Zurich. Reply usually within 24 hours.'}
+  alternate={r('contact', de ? 'en' : 'de')}
+  current="contact"
+  jsonLd={[breadcrumbSchema(crumbs), { '@context': 'https://schema.org', '@type': 'ContactPage', name: t('nav.contact'), about: { '@id': `${site.url}/#business` } }]}
+  footerCta={false}
+>
+  <section class="page-hero container grid-2" style="align-items:start">
+    <div class="stack" style="--stack:1.75rem">
+      <Breadcrumbs items={crumbs} />
+      <span class="eyebrow" data-reveal>{t('nav.contact')}</span>
+      <SplitText as="h1" text={de ? 'Lass uns *reden.*' : "Let's *talk.*"} />
+      <p class="lead" data-reveal>
+        {de
+          ? 'Erzähl mir von deinem Event, deinem Shooting oder dem Bild, das du an deiner Wand sehen möchtest. Ich melde mich meist innert 24 Stunden mit einem unverbindlichen Vorschlag.'
+          : "Tell me about your event, your shoot or the image you would like on your wall. I usually reply within 24 hours with a no-obligation proposal."}
+      </p>
+      <ul class="checklist" data-reveal>
+        <li>{de ? 'Antwort innert 24 Stunden' : 'Reply within 24 hours'}</li>
+        <li>{de ? 'Unverbindliches Angebot' : 'No-obligation quote'}</li>
+        <li>{de ? 'Zürich & ganze Schweiz' : 'Zurich & all of Switzerland'}</li>
+      </ul>
+      <div data-reveal><a class="link" href={site.instagram} target="_blank" rel="noopener"><Icon name="instagram" /> {site.instagramHandle}</a></div>
+    </div>
+
+    <form class="form" data-contact-form data-success={t('form.success')} data-error={t('form.error')} data-sending={t('form.sending')} data-photo-prefix={de ? 'Bild' : 'Image'} data-reveal novalidate={false}>
+      <input type="hidden" name="lang" value={lang} />
+      <div class="hp" aria-hidden="true"><label for="website">Website</label><input id="website" name="website" tabindex="-1" autocomplete="off" /></div>
+      <fieldset class="field radio-pills">
+        <legend>{t('form.type')}</legend>
+        {types.map((ty, i) => (
+          <>
+            <input type="radio" id={`type-${ty}`} name="type" value={ty} checked={i === 0} />
+            <label for={`type-${ty}`}>{t(`form.type.${ty}`)}</label>
+          </>
+        ))}
+      </fieldset>
+      <div class="form__row">
+        <div class="field"><label for="name">{t('form.name')} *</label><input id="name" name="name" required autocomplete="name" maxlength="120" /></div>
+        <div class="field"><label for="email">{t('form.email')} *</label><input id="email" name="email" type="email" required autocomplete="email" maxlength="200" /></div>
+      </div>
+      <div class="form__row">
+        <div class="field"><label for="phone">{t('form.phone')}</label><input id="phone" name="phone" type="tel" autocomplete="tel" maxlength="40" /></div>
+        <div class="field"><label for="date">{t('form.date')}</label><input id="date" name="date" type="date" /></div>
+      </div>
+      <div class="field"><label for="message">{t('form.message')} *</label><textarea id="message" name="message" required minlength="10" maxlength="5000"></textarea></div>
+      <small>{t('form.privacy')} <a href={r('privacy', lang)}>{de ? 'Datenschutz' : 'Privacy policy'}</a></small>
+      <div><Button type="submit" variant="accent" size="lg">{t('form.send')}</Button></div>
+      <p class="form__status" data-form-status role="status" aria-live="polite"></p>
+    </form>
+  </section>
+</Base>

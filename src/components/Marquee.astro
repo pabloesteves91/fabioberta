@@ -1,0 +1,10 @@
+---
+interface Props { items: string[]; duration?: number }
+const { items, duration = 40 } = Astro.props;
+const loop = [...items, ...items];
+---
+<div class="marquee" aria-hidden="true" style={`--marquee-dur:${duration}s`}>
+  <div class="marquee__track">
+    {loop.map((it) => <span class="marquee__item">{it}</span>)}
+  </div>
+</div>

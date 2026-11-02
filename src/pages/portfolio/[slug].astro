@@ -1,0 +1,7 @@
+---
+import View from '../../views/PhotoDetail.astro';
+import { getPhoto } from '../../lib/photos';
+const data = await getPhoto(Astro.params.slug!);
+if (!data) return Astro.rewrite('/404');
+---
+<View lang="de" {...data} />

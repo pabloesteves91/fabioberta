@@ -1,0 +1,154 @@
+---
+import Base from '../layouts/Base.astro';
+import Button from '../components/Button.astro';
+import Icon from '../components/Icon.astro';
+import PhotoCard from '../components/PhotoCard.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import type { Photo } from '../lib/photos';
+import { srcset, genre } from '../lib/photos';
+import { materials, sizeLabel, minPrice, chf, shipping } from '../lib/prints';
+import { r, photoUrl, type Lang } from '../i18n/routes';
+import { useT } from '../i18n/ui';
+import { breadcrumbSchema, imageSchema, abs } from '../lib/seo';
+import { site } from '../lib/site';
+
+interface Props { lang: Lang; photo: Photo; prev: Photo; next: Photo; related: Photo[] }
+const { lang, photo, prev, next, related } = Astro.props;
+const t = useT(lang);
+const de = lang === 'de';
+const portrait = photo.height > photo.width;
+const url = photoUrl(photo.slug, lang);
+const catName = t(`cat.${photo.category}`);
+const genreName = genre[photo.category][lang];
+const crumbs = [
+  { name: t('nav.home'), url: r('home', lang) },
+  { name: t('nav.portfolio'), url: r('portfolio', lang) },
+  { name: catName, url: `${r('portfolio', lang)}?serie=${photo.category}` },
+  { name: photo.title[lang], url },
+];
+const configData = {
+  lang,
+  slug: photo.slug,
+  materials: materials.map((m) => ({
+    id: m.id,
+    description: m.description[lang],
+    sizes: m.sizes.map((s) => ({ id: s.id, label: sizeLabel(s, portrait), price: s.price })),
+  })),
+};
+const productSchema = photo.forSale
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'Product',
+      name: `${photo.title[lang]} – Fine Art Print`,
+      image: abs(photo.src),
+      description: photo.alt[lang],
+      brand: { '@type': 'Brand', name: site.brand },
+      offers: {
+        '@type': 'AggregateOffer',
+        priceCurrency: 'CHF',
+        lowPrice: Math.min(...materials.flatMap((m) => m.sizes.map((s) => s.price))),
+        highPrice: Math.max(...materials.flatMap((m) => m.sizes.map((s) => s.price))),
+        offerCount: materials.reduce((n, m) => n + m.sizes.length, 0),
+        availability: 'https://schema.org/InStock',
+        url: abs(url),
+      },
+    }
+  : null;
+const description = de
+  ? `«${photo.title.de}» – ${photo.alt.de}. ${genreName} von Fabio Berta${photo.location ? `, ${photo.location}` : ''}.${photo.forSale ? ` Als Fine-Art-Print ab ${chf(minPrice)} erhältlich.` : ''}`
+  : `«${photo.title.en}» – ${photo.alt.en}. ${genreName} by Fabio Berta${photo.location ? `, ${photo.location}` : ''}.${photo.forSale ? ` Available as a fine art print from ${chf(minPrice, 'en')}.` : ''}`;
+---
+<Base
+  lang={lang}
+  title={`${photo.title[lang]} – ${genreName}${photo.location ? ` ${photo.location}` : ''}`}
+  description={description}
+  alternate={photoUrl(photo.slug, de ? 'en' : 'de')}
+  current="portfolio"
+  image={photo.src}
+  imageAlt={photo.alt[lang]}
+  type={photo.forSale ? 'product' : 'article'}
+  preload={photo.src}
+  jsonLd={[breadcrumbSchema(crumbs), imageSchema({ src: photo.src, title: photo.title[lang], alt: photo.alt[lang], location: photo.location }, url), ...(productSchema ? [productSchema] : [])]}
+>
+  <article>
+    <div class="photo-detail container">
+      <div class="photo-detail__stage">
+        <img src={photo.src} srcset={srcset(photo)} sizes="(min-width: 1200px) 1200px, 100vw" width={photo.width} height={photo.height} alt={photo.alt[lang]} fetchpriority="high" style={`background:${photo.color}`} transition:name={`photo-${photo.slug}`} />
+      </div>
+      <nav class="photo-detail__nav" aria-label={de ? 'Bildnavigation' : 'Image navigation'}>
+        <a class="link" href={photoUrl(prev.slug, lang)} rel="prev"><Icon name="arrow-left" /> {prev.title[lang]}</a>
+        <a class="link" href={`${r('portfolio', lang)}?serie=${photo.category}`}>{catName}</a>
+        <a class="link" href={photoUrl(next.slug, lang)} rel="next">{next.title[lang]} <Icon name="arrow" /></a>
+      </nav>
+    </div>
+
+    <div class="container photo-detail__info">
+      <div>
+        <Breadcrumbs items={crumbs} />
+        <h1 data-reveal>{photo.title[lang]}</h1>
+        <p class="lead" data-reveal style="margin-top:1.5rem">{photo.alt[lang]}.</p>
+        <dl class="meta-list" data-reveal>
+          <dt>{t('photo.category')}</dt><dd><a class="link" href={`${r('portfolio', lang)}?serie=${photo.category}`}>{catName}</a></dd>
+          {photo.location && (<><dt>{t('photo.location')}</dt><dd>{photo.location}</dd></>)}
+          <dt>©</dt><dd>Fabio Berta</dd>
+        </dl>
+        {!photo.forSale && (
+          <div class="stack" data-reveal style="margin-top:2.5rem">
+            <p class="muted">{t('photo.notForSale')}</p>
+            <Button href={`${r('contact', lang)}?${de ? 'anliegen' : 'type'}=print&${de ? 'bild' : 'photo'}=${encodeURIComponent(photo.title[lang])}`} variant="ghost">{t('cta.contact')}</Button>
+          </div>
+        )}
+      </div>
+
+      {photo.forSale && (
+        <form class="configurator" data-configurator data-error={t('shop.error')} data-reveal aria-labelledby="buy-title">
+          <script type="application/json" set:html={JSON.stringify(configData)} />
+          <div>
+            <span class="eyebrow">Fine Art Print</span>
+            <h2 id="buy-title" style="font-size:var(--fs-lg);margin-top:.75rem">{t('photo.buy')}</h2>
+          </div>
+          <fieldset class="field radio-pills">
+            <legend>{t('shop.material')}</legend>
+            {materials.map((m, i) => (
+              <>
+                <input type="radio" id={`m-${m.id}`} name="material" value={m.id} checked={i === 0} />
+                <label for={`m-${m.id}`}>{m.name[lang]}</label>
+              </>
+            ))}
+          </fieldset>
+          <p class="configurator__desc" data-config-desc aria-live="polite">{materials[0].description[lang]}</p>
+          <div class="field">
+            <label for="size">{t('shop.size')}</label>
+            <select id="size" name="size">
+              {materials[0].sizes.map((s) => <option value={s.id}>{sizeLabel(s, portrait)} – {chf(s.price, lang)}</option>)}
+            </select>
+          </div>
+          <div class="field">
+            <span class="field-label" style="font-size:var(--fs-xs);font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)" id="qty-label">{t('shop.qty')}</span>
+            <div class="qty" role="group" aria-labelledby="qty-label">
+              <button type="button" data-qty-minus aria-label="−1"><Icon name="minus" /></button>
+              <output data-qty aria-live="polite">1</output>
+              <button type="button" data-qty-plus aria-label="+1"><Icon name="plus" /></button>
+            </div>
+          </div>
+          <div class="configurator__total">
+            <span class="muted">{t('shop.total')}</span>
+            <span class="configurator__price" data-config-price aria-live="polite">{chf(materials[0].sizes[0].price, lang)}</span>
+          </div>
+          <Button type="submit" variant="accent" size="lg" class="btn--block">{t('shop.checkout')}</Button>
+          <small class="muted">{t('shop.shipping')} {de ? `Gratisversand ab ${chf(shipping.freeFrom)}.` : `Free shipping from ${chf(shipping.freeFrom, 'en')}.`}</small>
+          <p class="form__status is-error" data-config-status role="alert"></p>
+        </form>
+      )}
+    </div>
+
+    {related.length > 0 && (
+      <section class="container section--tight">
+        <div class="section-head"><h2>{t('photo.related')}</h2></div>
+        <div class="masonry">
+          {related.map((p) => <PhotoCard photo={p} lang={lang} />)}
+        </div>
+      </section>
+    )}
+  </article>
+</Base>

@@ -1,0 +1,94 @@
+---
+import Base from '../layouts/Base.astro';
+import Button from '../components/Button.astro';
+import SplitText from '../components/SplitText.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import Marquee from '../components/Marquee.astro';
+import { siteImage, srcset, getPhotos } from '../lib/photos';
+import { r, type Lang } from '../i18n/routes';
+import { useT } from '../i18n/ui';
+import { breadcrumbSchema, personSchema } from '../lib/seo';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = useT(lang);
+const de = lang === 'de';
+const portrait = siteImage('fabio-berta-fotograf-zuerich');
+const photos = await getPhotos();
+const pick = ['tauben-zuerich', 'train-street', 'spiegelung'].map((s) => photos.find((p) => p.slug === s)).filter((p): p is NonNullable<typeof p> => Boolean(p));
+const crumbs = [
+  { name: t('nav.home'), url: r('home', lang) },
+  { name: t('nav.about'), url: r('about', lang) },
+];
+---
+<Base
+  lang={lang}
+  title={de ? 'Über mich – Fabio Berta, Fotograf aus Zürich' : 'About – Fabio Berta, Photographer from Zurich'}
+  description={de
+    ? 'Ich bin Fabio Berta, Fotograf aus Zürich. Streetfotografie, Events, Sport und Portraits – meine Geschichte und wie ich arbeite.'
+    : "I'm Fabio Berta, a photographer from Zurich. Street photography, events, sports and portraits – my story and how I work."}
+  alternate={r('about', de ? 'en' : 'de')}
+  current="about"
+  image={portrait.src}
+  jsonLd={[breadcrumbSchema(crumbs), personSchema()]}
+>
+  <section class="page-hero container grid-2">
+    <div>
+      <Breadcrumbs items={crumbs} />
+      <span class="eyebrow" data-reveal>{t('nav.about')}</span>
+      <SplitText as="h1" text={de ? 'Hoi, ich bin *Fabio.*' : "Hi, I'm *Fabio.*"} />
+      <div class="prose" style="margin-top:2rem">
+        {de ? (
+          <>
+            <p data-reveal>Fotografie ist für mich seit vielen Jahren eine Leidenschaft, auf die ich nicht mehr verzichten kann. Ich möchte faszinierende Momente festhalten, Emotionen sichtbar machen und Bilder schaffen, die Geschichten erzählen.</p>
+            <p data-reveal>Durch die Streetfotografie habe ich gelernt, das Leben aus neuen Perspektiven zu sehen – in den Gassen von Zürich genauso wie auf Reisen durch Vietnam und Südostasien. Diese Neugier bringe ich heute in jedes Shooting mit: auf die Bühne einer Meisterschaft, an ein Firmenevent oder zu einem Portrait.</p>
+            <p data-reveal>Meine Bilder wurden an der <a href={r('exhibitions', lang)}>Photo Schweiz</a> ausgestellt, und 2024 durfte ich als offizieller Fotograf die <a href={`${r('events', lang)}/snbf-2024`}>SNBF International Open Championship</a> begleiten.</p>
+          </>
+        ) : (
+          <>
+            <p data-reveal>Photography has been a passion of mine for many years – one I can no longer do without. I want to capture fascinating moments, make emotions visible and create images that tell stories.</p>
+            <p data-reveal>Street photography taught me to see life from new perspectives – in the streets of Zurich as much as on journeys through Vietnam and Southeast Asia. I bring that curiosity to every shoot today: on the stage of a championship, at a corporate event or for a portrait.</p>
+            <p data-reveal>My work has been exhibited at <a href={r('exhibitions', lang)}>Photo Schweiz</a>, and in 2024 I was the official photographer of the <a href={`${r('events', lang)}/snbf-2024`}>SNBF International Open Championship</a>.</p>
+          </>
+        )}
+      </div>
+      <div class="btn-row" style="margin-top:2.5rem" data-reveal>
+        <Button href={r('contact', lang)} variant="accent" size="lg">{t('cta.book')}</Button>
+        <Button href={r('portfolio', lang)} variant="ghost" size="lg">{t('cta.portfolio')}</Button>
+      </div>
+    </div>
+    <div class="photo" data-reveal="clip" style={`aspect-ratio:3/4;--ph:${portrait.color}`}>
+      <img src={portrait.thumb} srcset={srcset(portrait)} sizes="(min-width:900px) 45vw, 100vw" alt={portrait.alt[lang]} width={portrait.width} height={portrait.height} fetchpriority="high" />
+    </div>
+  </section>
+
+  <Marquee items={de ? ['Neugier', 'Respekt', 'Geduld', 'Licht', 'Emotion', 'Echtheit'] : ['Curiosity', 'Respect', 'Patience', 'Light', 'Emotion', 'Authenticity']} duration={30} />
+
+  <section class="section container">
+    <div class="section-head">
+      <SplitText as="h2" text={de ? 'Wie ich *arbeite.*' : 'How I *work.*'} />
+    </div>
+    <div class="packages">
+      {(de
+        ? [['01', 'Zuhören', 'Wir sprechen über dein Ziel, deinen Anlass und was die Bilder bewirken sollen.'], ['02', 'Beobachten', 'Vor Ort arbeite ich unauffällig und warte auf die Momente, die zählen.'], ['03', 'Gestalten', 'Jedes Bild wird sorgfältig ausgewählt und in meinem Look bearbeitet.'], ['04', 'Liefern', 'Du erhältst deine Galerie schnell, sauber und in allen nötigen Formaten.']]
+        : [['01', 'Listen', 'We talk about your goal, your occasion and what the images should achieve.'], ['02', 'Observe', 'On site I work discreetly and wait for the moments that matter.'], ['03', 'Craft', 'Every image is carefully selected and edited in my signature look.'], ['04', 'Deliver', 'You receive your gallery quickly, cleanly and in every format you need.']]
+      ).map(([n, title, text], i) => (
+        <div class="package" data-reveal style={`--delay:${i * 0.08}s`}>
+          <span class="eyebrow">{n}</span>
+          <h3>{title}</h3>
+          <p class="muted">{text}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="container">
+    <div class="feature-grid">
+      {pick.map((p, i) => (
+        <a class="photo" href={`${r('portfolio', lang)}/${p.slug}`} data-reveal="clip" data-cursor={t('cta.view')} style={`--ph:${p.color};--delay:${i * 0.1}s`}>
+          <img src={p.thumb} alt={p.alt[lang]} width={p.width} height={p.height} loading="lazy" />
+        </a>
+      ))}
+    </div>
+  </section>
+</Base>

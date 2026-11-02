@@ -1,0 +1,66 @@
+---
+import Base from '../layouts/Base.astro';
+import Button from '../components/Button.astro';
+import SplitText from '../components/SplitText.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { services, packagePrice } from '../lib/content';
+import { getPhotos } from '../lib/photos';
+import { r, type Lang } from '../i18n/routes';
+import { useT } from '../i18n/ui';
+import { breadcrumbSchema } from '../lib/seo';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = useT(lang);
+const de = lang === 'de';
+const photos = await getPhotos();
+const bySlug = new Map(photos.map((p) => [p.slug, p]));
+const crumbs = [
+  { name: t('nav.home'), url: r('home', lang) },
+  { name: t('nav.services'), url: r('services', lang) },
+];
+const href = (s: (typeof services)[number]) => (s.id === 'fine-art' ? r('shop', lang) : `${r('services', lang)}/${s.slug[lang]}`);
+---
+<Base
+  lang={lang}
+  title={de ? 'Leistungen & Preise – Fotograf Zürich' : 'Services & Pricing – Photographer Zurich'}
+  description={de
+    ? 'Event- & Sportfotografie, Portraits, Business-Headshots und Fine-Art-Prints: Leistungen und Preise von Fotograf Fabio Berta in Zürich & der Schweiz.'
+    : 'Event and sports photography, portraits, business headshots and fine art prints: services and transparent pricing by photographer Fabio Berta in Zurich and all of Switzerland.'}
+  alternate={r('services', de ? 'en' : 'de')}
+  current="services"
+  jsonLd={[breadcrumbSchema(crumbs)]}
+>
+  <section class="page-hero container">
+    <Breadcrumbs items={crumbs} />
+    <span class="eyebrow" data-reveal>{t('nav.services')}</span>
+    <SplitText as="h1" text={de ? 'Bilder, die *arbeiten.*' : 'Images that *work.*'} />
+    <p class="lead" data-reveal>
+      {de
+        ? 'Ob du Emotionen von deinem Event teilen, dich auf LinkedIn professionell zeigen oder ein Bild an die Wand hängen willst – hier findest du das passende Angebot. Transparente Preise, persönliche Betreuung.'
+        : 'Whether you want to share the emotion of your event, present yourself professionally on LinkedIn or hang an image on your wall – find the right offer here. Transparent pricing, personal service.'}
+    </p>
+  </section>
+
+  {services.map((s, i) => {
+    const cover = bySlug.get(s.cover) ?? photos[0];
+    return (
+      <section class="section--tight container">
+        <div class="grid-2">
+          <a href={href(s)} class="photo" data-reveal="clip" data-cursor={t('cta.more')} style={`aspect-ratio:4/3;--ph:${cover.color};${i % 2 ? 'order:2' : ''}`}>
+            <img src={cover.thumb} alt={cover.alt[lang]} width={cover.width} height={cover.height} loading={i === 0 ? 'eager' : 'lazy'} />
+          </a>
+          <div class="stack" style="--stack:1.5rem">
+            <span class="eyebrow" data-reveal>0{i + 1} · {s.kicker[lang]}</span>
+            <h2 data-reveal>{s.title[lang]}</h2>
+            <p class="lead" data-reveal>{s.intro[lang]}</p>
+            {s.packages.length > 0 && (
+              <p data-reveal>{de ? 'Ab' : 'From'} <strong>{packagePrice(s.packages[0], lang).replace(/^(ab|from) /, '')}</strong></p>
+            )}
+            <div data-reveal><Button href={href(s)} variant={i === 0 ? 'accent' : 'ghost'}>{s.id === 'fine-art' ? t('cta.prints') : t('cta.more')}</Button></div>
+          </div>
+        </div>
+      </section>
+    );
+  })}
+</Base>

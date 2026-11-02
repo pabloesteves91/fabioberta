@@ -1,0 +1,49 @@
+---
+import type { Photo } from '../lib/photos';
+import { srcset } from '../lib/photos';
+import { photoUrl, type Lang } from '../i18n/routes';
+import { useT } from '../i18n/ui';
+interface Props {
+  photo: Photo;
+  lang: Lang;
+  sizes?: string;
+  eager?: boolean;
+  reveal?: boolean;
+  lightbox?: boolean;
+  index?: number;
+  class?: string;
+  delay?: number;
+  ratio?: boolean;
+}
+const { photo, lang, sizes = '(min-width: 1100px) 33vw, (min-width: 640px) 50vw, 100vw', eager = false, reveal = true, lightbox = false, index, class: cls, delay = 0, ratio = true } = Astro.props;
+const t = useT(lang);
+---
+<a
+  href={photoUrl(photo.slug, lang)}
+  class:list={['photo', cls]}
+  style={`--ph:${photo.color};--delay:${delay}s;${ratio ? `aspect-ratio:${photo.width}/${photo.height}` : ''}`}
+  data-reveal={reveal ? 'clip' : undefined}
+  data-cursor={t('cta.view')}
+  data-category={photo.category}
+  data-lightbox={lightbox ? index : undefined}
+  data-full={photo.src}
+  data-title={photo.title[lang]}
+  data-location={photo.location}
+>
+  <img
+    src={photo.thumb}
+    srcset={srcset(photo)}
+    sizes={sizes}
+    width={photo.width}
+    height={photo.height}
+    alt={photo.alt[lang]}
+    loading={eager ? 'eager' : 'lazy'}
+    decoding="async"
+    fetchpriority={eager ? 'high' : undefined}
+    transition:name={`photo-${photo.slug}`}
+  />
+  <span class="photo__cap">
+    <strong>{photo.title[lang]}</strong>
+    <span>{photo.location}</span>
+  </span>
+</a>

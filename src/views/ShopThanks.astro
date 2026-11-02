@@ -1,0 +1,24 @@
+---
+import Base from '../layouts/Base.astro';
+import Button from '../components/Button.astro';
+import SplitText from '../components/SplitText.astro';
+import { r, type Lang } from '../i18n/routes';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const de = lang === 'de';
+---
+<Base lang={lang} title={de ? 'Danke für deine Bestellung' : 'Thank you for your order'} description={de ? 'Bestellung erhalten.' : 'Order received.'} alternate={r('shopThanks', de ? 'en' : 'de')} noindex>
+  <section class="page-hero container">
+    <span class="eyebrow" data-reveal>{de ? 'Bestellung erhalten' : 'Order received'}</span>
+    <SplitText as="h1" text={de ? 'Herzlichen *Dank!*' : 'Thank you *so much!*'} />
+    <p class="lead" data-reveal>
+      {de
+        ? 'Deine Zahlung ist eingegangen und du erhältst gleich eine Bestätigung per E-Mail. Ich produziere deinen Print mit Sorgfalt und melde mich, sobald er unterwegs ist (in der Regel innert 7–10 Arbeitstagen).'
+        : 'Your payment has been received and a confirmation email is on its way. I will produce your print with care and let you know once it ships (usually within 7–10 working days).'}
+    </p>
+    <div class="btn-row" style="margin-top:2.5rem" data-reveal>
+      <Button href={r('shop', lang)} variant="ghost" size="lg">{de ? 'Weiter stöbern' : 'Keep browsing'}</Button>
+      <Button href={r('home', lang)} size="lg">{de ? 'Zur Startseite' : 'Home'}</Button>
+    </div>
+  </section>
+</Base>

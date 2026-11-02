@@ -1,0 +1,7 @@
+---
+import View from '../../../views/ServiceDetail.astro';
+import { serviceBySlug } from '../../../lib/content';
+const service = serviceBySlug(Astro.params.slug!, 'en');
+if (!service || service.id === 'fine-art') return Astro.rewrite('/404');
+---
+<View lang="en" service={service} />

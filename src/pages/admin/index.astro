@@ -1,0 +1,112 @@
+---
+import '@fontsource/instrument-serif/400.css';
+import '@fontsource-variable/manrope';
+import '../../styles/global.css';
+import { supabaseEnabled } from '../../lib/supabase';
+export const prerender = false;
+---
+<!doctype html>
+<html lang="de-CH" class="js">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Admin · Fabio Berta</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <style>
+      body { padding: 2rem var(--gutter) 6rem; }
+      .admin-head { display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 2rem; }
+      .admin-head h1 { font-size: 2.4rem; }
+      .card { background: var(--surface); border-radius: var(--radius-lg); box-shadow: inset 0 0 0 1px var(--line); padding: 1.5rem; }
+      .tabs { display: flex; gap: .5rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+      .drop { display: grid; place-items: center; text-align: center; gap: .75rem; min-height: 180px; border: 1.5px dashed var(--line-strong); border-radius: var(--radius-lg); padding: 2rem; cursor: pointer; transition: border-color .3s, background .3s; }
+      .drop.is-over { border-color: var(--accent); background: rgba(214,163,92,.06); }
+      .upload-opts { display: flex; gap: 1rem; flex-wrap: wrap; align-items: end; margin-top: 1rem; }
+      .upload-opts .field { min-width: 200px; }
+      .progress { margin-top: 1rem; font-size: var(--fs-sm); color: var(--muted); white-space: pre-line; }
+      .plist { display: grid; gap: 1rem; margin-top: 2rem; }
+      .pitem { display: grid; grid-template-columns: 140px 1fr; gap: 1.25rem; align-items: start; }
+      .pitem img { width: 140px; height: 140px; object-fit: cover; border-radius: var(--radius); background: var(--surface-2); }
+      .pitem .grid { display: grid; gap: .75rem; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
+      .pitem .field input, .pitem .field select { min-height: 42px; padding: .55rem .75rem; }
+      .pitem .row { display: flex; flex-wrap: wrap; gap: .5rem 1.25rem; align-items: center; margin-top: .75rem; font-size: var(--fs-sm); }
+      .pitem label.cb { display: inline-flex; gap: .4rem; align-items: center; text-transform: none; letter-spacing: 0; font-size: var(--fs-sm); color: var(--text); }
+      .small-btn { min-height: 38px; padding: .4rem .9rem; border-radius: 999px; font-size: var(--fs-xs); font-weight: 600; box-shadow: inset 0 0 0 1px var(--line-strong); }
+      .small-btn:hover { background: var(--text); color: var(--bg); }
+      .small-btn.danger { color: var(--danger); }
+      .small-btn.primary { background: var(--accent); color: var(--accent-ink); box-shadow: none; }
+      table { width: 100%; border-collapse: collapse; font-size: var(--fs-sm); }
+      th, td { text-align: left; padding: .75rem .5rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+      th { color: var(--faint); font-weight: 600; font-size: var(--fs-xs); text-transform: uppercase; letter-spacing: .12em; }
+      td.msg { white-space: pre-wrap; max-width: 50ch; }
+      .hidden { display: none !important; }
+      .badge { font-size: var(--fs-xs); color: var(--faint); }
+      @media (max-width: 640px) { .pitem { grid-template-columns: 1fr; } .pitem img { width: 100%; height: 200px; } }
+    </style>
+  </head>
+  <body>
+    <div class="admin-head">
+      <h1>Fabio <em>Berta</em> · Admin</h1>
+      <div class="btn-row">
+        <a class="small-btn" href="/" target="_blank">Website ansehen ↗</a>
+        <button class="small-btn hidden" id="logout">Abmelden</button>
+      </div>
+    </div>
+
+    {!supabaseEnabled ? (
+      <div class="card prose">
+        <h2>Supabase ist noch nicht verbunden</h2>
+        <p>Trage <code>PUBLIC_SUPABASE_URL</code> und <code>PUBLIC_SUPABASE_ANON_KEY</code> in Vercel (bzw. lokal in <code>.env</code>) ein und führe <code>supabase/schema.sql</code> im Supabase SQL-Editor aus. Die Anleitung findest du in <code>SETUP.md</code>.</p>
+        <p>Bis dahin zeigt die Website die Platzhalterbilder aus <code>src/data/photos.json</code>.</p>
+      </div>
+    ) : (
+      <>
+        <form id="login" class="card form hidden" style="max-width:420px">
+          <h2 style="font-size:1.8rem">Anmelden</h2>
+          <div class="field"><label for="l-email">E-Mail</label><input id="l-email" type="email" required autocomplete="username" /></div>
+          <div class="field"><label for="l-pass">Passwort</label><input id="l-pass" type="password" required autocomplete="current-password" /></div>
+          <button class="btn btn--accent" type="submit"><span>Anmelden</span></button>
+          <p class="form__status is-error" id="l-status" role="alert"></p>
+        </form>
+
+        <div id="app" class="hidden">
+          <div class="tabs" role="tablist">
+            <button class="chip is-active" data-tab="photos" role="tab">Fotos <sup id="c-photos"></sup></button>
+            <button class="chip" data-tab="inquiries" role="tab">Anfragen <sup id="c-inq"></sup></button>
+            <button class="chip" data-tab="orders" role="tab">Bestellungen <sup id="c-orders"></sup></button>
+          </div>
+
+          <section data-panel="photos">
+            <div class="card">
+              <label class="drop" id="drop" for="files">
+                <strong style="font-family:var(--font-display);font-size:1.8rem;font-weight:400">Bilder hierher ziehen</strong>
+                <span class="muted">oder klicken zum Auswählen · JPG/PNG/WebP · werden automatisch optimiert (1920 px + 960 px WebP)</span>
+                <input id="files" type="file" accept="image/*" multiple class="visually-hidden" />
+              </label>
+              <div class="upload-opts">
+                <div class="field"><label for="u-cat">Serie</label>
+                  <select id="u-cat"><option value="street">Street</option><option value="landscape">Landschaft</option><option value="travel">Reisen</option><option value="event">Events & Sport</option><option value="portrait">Portrait</option></select>
+                </div>
+                <div class="field"><label for="u-loc">Ort</label><input id="u-loc" placeholder="z. B. Zürich" /></div>
+                <label class="cb" style="display:inline-flex;gap:.5rem;align-items:center;min-height:52px"><input type="checkbox" id="u-sale" /> Als Print verkaufen</label>
+              </div>
+              <p class="progress" id="u-progress" aria-live="polite"></p>
+            </div>
+            <div class="plist" id="plist"></div>
+          </section>
+
+          <section data-panel="inquiries" class="hidden card" style="overflow-x:auto">
+            <table><thead><tr><th>Datum</th><th>Art</th><th>Name / Kontakt</th><th>Nachricht</th><th></th></tr></thead><tbody id="inq"></tbody></table>
+          </section>
+
+          <section data-panel="orders" class="hidden card" style="overflow-x:auto">
+            <table><thead><tr><th>Datum</th><th>Bild</th><th>Variante</th><th>Total</th><th>Kunde</th><th>Adresse</th></tr></thead><tbody id="orders"></tbody></table>
+          </section>
+        </div>
+      </>
+    )}
+    <script>
+      import '../../scripts/admin';
+    </script>
+  </body>
+</html>

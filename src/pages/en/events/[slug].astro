@@ -1,0 +1,7 @@
+---
+import View from '../../../views/EventDetail.astro';
+import { events } from '../../../lib/content';
+const event = events.find((e) => e.slug === Astro.params.slug);
+if (!event) return Astro.rewrite('/404');
+---
+<View lang="en" event={event} />

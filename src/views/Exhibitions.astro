@@ -1,0 +1,70 @@
+---
+import Base from '../layouts/Base.astro';
+import Button from '../components/Button.astro';
+import SplitText from '../components/SplitText.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { exhibitions } from '../lib/content';
+import { siteImage, srcset } from '../lib/photos';
+import { r, type Lang } from '../i18n/routes';
+import { useT } from '../i18n/ui';
+import { breadcrumbSchema } from '../lib/seo';
+import { site } from '../lib/site';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = useT(lang);
+const de = lang === 'de';
+const crumbs = [
+  { name: t('nav.home'), url: r('home', lang) },
+  { name: t('nav.exhibitions'), url: r('exhibitions', lang) },
+];
+const schemas = exhibitions.map((x) => ({
+  '@context': 'https://schema.org',
+  '@type': 'ExhibitionEvent',
+  name: x.title,
+  startDate: x.date,
+  location: { '@type': 'Place', name: x.venue, address: { '@type': 'PostalAddress', addressLocality: x.city, addressCountry: 'CH' } },
+  performer: { '@type': 'Person', name: site.name },
+}));
+---
+<Base
+  lang={lang}
+  title={de ? 'Ausstellungen – Fotokunst von Fabio Berta' : 'Exhibitions – Photo Art by Fabio Berta'}
+  description={de ? 'Vergangene und kommende Ausstellungen von Fotograf Fabio Berta, u. a. an der Photo Schweiz in Zürich-Oerlikon.' : 'Past and upcoming exhibitions by photographer Fabio Berta, including Photo Schweiz in Zurich-Oerlikon.'}
+  alternate={r('exhibitions', de ? 'en' : 'de')}
+  current="exhibitions"
+  jsonLd={[breadcrumbSchema(crumbs), ...schemas]}
+>
+  <section class="page-hero container">
+    <Breadcrumbs items={crumbs} />
+    <span class="eyebrow" data-reveal>{de ? 'Vergangen & kommend' : 'Past & upcoming'}</span>
+    <SplitText as="h1" text={de ? '*Ausstellungen.*' : '*Exhibitions.*'} />
+    <p class="lead" data-reveal>{de ? 'Fotografie gehört an die Wand. Hier findest du meine Ausstellungen – und bald die nächsten Termine.' : 'Photography belongs on the wall. Here are my exhibitions – with upcoming dates soon.'}</p>
+  </section>
+  <section class="container timeline">
+    {exhibitions.map((x) => {
+      const img = siteImage(x.image);
+      return (
+        <article class="timeline__item">
+          <div class="photo" data-reveal="clip" style={`--ph:${img.color}`}><img src={img.thumb} srcset={srcset(img)} sizes="(min-width:900px) 40vw, 100vw" alt={img.alt[lang]} width={img.width} height={img.height} loading="lazy" /></div>
+          <div class="stack" style="--stack:1.5rem">
+            <p class="timeline__date" data-reveal>{x.dateLabel[lang]} · {x.venue}, {x.city}</p>
+            <h2 data-reveal>{x.title}</h2>
+            <p class="lead" data-reveal>{x.text[lang]}</p>
+            <div class="btn-row" data-reveal>
+              <Button href={`${r('portfolio', lang)}/brandung`}>{de ? 'Das Bild ansehen' : 'View the image'}</Button>
+              {x.url && <a class="link" href={x.url} target="_blank" rel="noopener">photo-schweiz.ch ↗</a>}
+            </div>
+          </div>
+        </article>
+      );
+    })}
+  </section>
+  <section class="section container">
+    <div class="stack" style="--stack:1.5rem;max-width:56ch">
+      <h2 data-reveal>{de ? 'Ausstellung oder Galerie?' : 'Exhibition or gallery?'}</h2>
+      <p class="lead" data-reveal>{de ? 'Du organisierst eine Ausstellung oder suchst Fotokunst für Büro oder Hotel? Ich freue mich auf deine Nachricht.' : 'Organising an exhibition or looking for photo art for an office or hotel? I look forward to hearing from you.'}</p>
+      <div data-reveal><Button href={r('contact', lang)} variant="accent">{t('cta.contact')}</Button></div>
+    </div>
+  </section>
+</Base>

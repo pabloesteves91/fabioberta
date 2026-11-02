@@ -1,0 +1,27 @@
+---
+import Icon from './Icon.astro';
+import type { Lang } from '../i18n/routes';
+import { useT } from '../i18n/ui';
+interface Props { lang: Lang }
+const t = useT(Astro.props.lang);
+---
+<dialog class="lightbox" data-lightbox-dialog aria-label="Lightbox">
+  <div class="lightbox__bar">
+    <span data-lb-count></span>
+    <button class="icon-btn" type="button" data-lb-close aria-label={t('lightbox.close')}><Icon name="close" /></button>
+  </div>
+  <div class="lightbox__stage" data-lb-stage>
+    <img alt="" data-lb-img />
+  </div>
+  <div class="lightbox__foot">
+    <div>
+      <div class="lightbox__title" data-lb-title></div>
+      <div class="muted" data-lb-location></div>
+    </div>
+    <div class="btn-row">
+      <a class="link" data-lb-link href="#">{t('cta.view')} <Icon name="arrow" /></a>
+      <button class="icon-btn" type="button" data-lb-prev aria-label={t('photo.prev')}><Icon name="arrow-left" /></button>
+      <button class="icon-btn" type="button" data-lb-next aria-label={t('photo.next')}><Icon name="arrow" /></button>
+    </div>
+  </div>
+</dialog>

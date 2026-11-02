@@ -1,0 +1,1277 @@
+[
+ {
+  "slug": "am-telefon-zuerich",
+  "source": "portfolio-00-36d82e0d.jpg",
+  "category": "street",
+  "title": {
+   "de": "Am Telefon",
+   "en": "On the Phone"
+  },
+  "alt": {
+   "de": "Mann mit Hut telefoniert in einem Hauseingang, Schwarzweiss",
+   "en": "Man in a hat on the phone in a doorway, black and white"
+  },
+  "location": "Zürich",
+  "featured": false,
+  "forSale": false,
+  "sort": 0
+ },
+ {
+  "slug": "drei-voegel-zuerich",
+  "source": "portfolio-01-91849249.jpg",
+  "category": "street",
+  "title": {
+   "de": "Drei Vögel",
+   "en": "Three Birds"
+  },
+  "alt": {
+   "de": "Drei Vögel auf einer Strassenlaterne vor weissem Himmel",
+   "en": "Three birds perched on a street lamp against a white sky"
+  },
+  "location": "Zürich",
+  "featured": false,
+  "forSale": true,
+  "sort": 1
+ },
+ {
+  "slug": "im-ring",
+  "source": "portfolio-02-9ed8d13e.jpg",
+  "category": "event",
+  "title": {
+   "de": "Im Ring",
+   "en": "In the Ring"
+  },
+  "alt": {
+   "de": "Zwei Kickboxer im Kampf im Ring, Scheinwerferlicht",
+   "en": "Two kickboxers fighting in the ring under spotlights"
+  },
+  "location": "Schweiz",
+  "featured": true,
+  "forSale": false,
+  "sort": 2
+ },
+ {
+  "slug": "brandung",
+  "source": "portfolio-03-69a2bb3c.jpg",
+  "category": "landscape",
+  "title": {
+   "de": "Brandung",
+   "en": "Surf"
+  },
+  "alt": {
+   "de": "Luftaufnahme der Meeresbrandung auf goldenem Sand",
+   "en": "Aerial view of sea foam rolling onto golden sand"
+  },
+  "location": "Montenegro",
+  "featured": true,
+  "forSale": true,
+  "sort": 3
+ },
+ {
+  "slug": "nebelmeer",
+  "source": "portfolio-04-1b13b915.jpg",
+  "category": "landscape",
+  "title": {
+   "de": "Nebelmeer",
+   "en": "Sea of Fog"
+  },
+  "alt": {
+   "de": "Nebel zieht über ein Feld mit Hügelzug, Schwarzweiss",
+   "en": "Fog drifting over a field below a ridge, black and white"
+  },
+  "location": "Schweiz",
+  "featured": false,
+  "forSale": true,
+  "sort": 4
+ },
+ {
+  "slug": "alpweide",
+  "source": "portfolio-05-89028ba7.jpg",
+  "category": "landscape",
+  "title": {
+   "de": "Alpweide",
+   "en": "Alpine Pasture"
+  },
+  "alt": {
+   "de": "Grüne Alpweide unter dramatischen Wolken und Felswand",
+   "en": "Green alpine pasture beneath dramatic clouds and a rock face"
+  },
+  "location": "Schweiz",
+  "featured": false,
+  "forSale": true,
+  "sort": 5
+ },
+ {
+  "slug": "mohnblume",
+  "source": "portfolio-06-efa59bf3.jpg",
+  "category": "landscape",
+  "title": {
+   "de": "Mohnblume",
+   "en": "Poppy"
+  },
+  "alt": {
+   "de": "Einzelne rote Mohnblume über einem goldenen Kornfeld",
+   "en": "A single red poppy above a golden wheat field"
+  },
+  "location": "Schweiz",
+  "featured": true,
+  "forSale": true,
+  "sort": 6
+ },
+ {
+  "slug": "blaue-stunde",
+  "source": "portfolio-07-2248d930.jpg",
+  "category": "landscape",
+  "title": {
+   "de": "Blaue Stunde",
+   "en": "Blue Hour"
+  },
+  "alt": {
+   "de": "Sonnenuntergang spiegelt sich in einem ruhigen See",
+   "en": "Sunset reflected in a calm lake at blue hour"
+  },
+  "location": "Schweiz",
+  "featured": false,
+  "forSale": true,
+  "sort": 7
+ },
+ {
+  "slug": "licht-und-schatten-zuerich",
+  "source": "portfolio-08-0c2736ec.jpg",
+  "category": "street",
+  "title": {
+   "de": "Licht und Schatten",
+   "en": "Light and Shadow"
+  },
+  "alt": {
+   "de": "Sonnenlicht auf einer Sandsteinfassade mit sitzender Person",
+   "en": "Sunlight on a sandstone facade with a seated figure"
+  },
+  "location": "Zürich",
+  "featured": false,
+  "forSale": true,
+  "sort": 8
+ },
+ {
+  "slug": "moewen-zuerich",
+  "source": "portfolio-09-81015c05.jpg",
+  "category": "street",
+  "title": {
+   "de": "Möwen",
+   "en": "Seagulls"
+  },
+  "alt": {
+   "de": "Möwen fliegen um eine Person auf einer Mauer, Schwarzweiss",
+   "en": "Seagulls circling a person on a wall, black and white"
+  },
+  "location": "Zürich",
+  "featured": false,
+  "forSale": true,
+  "sort": 9
+ },
+ {
+  "slug": "limmatquai-zuerich",
+  "source": "portfolio-10-42c38c43.jpg",
+  "category": "street",
+  "title": {
+   "de": "Limmatquai",
+   "en": "Limmatquai"
+  },
+  "alt": {
+   "de": "Mofafahrer vor der Altstadt und St. Peter in Zürich",
+   "en": "Moped rider in front of the old town and St. Peter church in Zurich"
+  },
+  "location": "Zürich",
+  "featured": true,
+  "forSale": true,
+  "sort": 10
+ },
+ {
+  "slug": "die-werkstatt-zuerich",
+  "source": "portfolio-11-49c1d7db.jpg",
+  "category": "street",
+  "title": {
+   "de": "Die Werkstatt",
+   "en": "The Workshop"
+  },
+  "alt": {
+   "de": "Älterer Mann in Schürze in seiner Werkstatt, Schwarzweiss",
+   "en": "Elderly man in an apron in his workshop, black and white"
+  },
+  "location": "Zürich",
+  "featured": false,
+  "forSale": false,
+  "sort": 11
+ },
+ {
+  "slug": "grau-in-grau-zuerich",
+  "source": "portfolio-12-67e6be84.jpg",
+  "category": "street",
+  "title": {
+   "de": "Grau in Grau",
+   "en": "Grey on Grey"
+  },
+  "alt": {
+   "de": "Frau in dunklem Mantel geht an einer grauen Wand vorbei",
+   "en": "Woman in a dark coat walking past a grey wall"
+  },
+  "location": "Zürich",
+  "featured": false,
+  "forSale": false,
+  "sort": 12
+ },
+ {
+  "slug": "gruss-zuerich",
+  "source": "portfolio-13-875017cd.jpg",
+  "category": "street",
+  "title": {
+   "de": "Gruss",
+   "en": "Greeting"
+  },
+  "alt": {
+   "de": "Frau mit roter Mütze winkt vor einem Zürcher Tram",
+   "en": "Woman in a red beanie waving in front of a Zurich tram"
+  },
+  "location": "Zürich",
+  "featured": false,
+  "forSale": false,
+  "sort": 13
+ },
+ {
+  "slug": "lachen-zuerich",
+  "source": "portfolio-14-e83e3398.jpg",
+  "category": "street",
+  "title": {
+   "de": "Lachen",
+   "en": "Laughter"
+  },
+  "alt": {
+   "de": "Lachende junge Frau in der Bahnhofstrasse, Schwarzweiss",
+   "en": "Laughing young woman on a city street, black and white"
+  },
+  "location": "Zürich",
+  "featured": false,
+  "forSale": false,
+  "sort": 14
+ },
+ {
+  "slug": "kaffeepause-zuerich",
+  "source": "portfolio-15-9e7c378c.jpg",
+  "category": "street",
+  "title": {
+   "de": "Kaffeepause",
+   "en": "Coffee Break"
+  },
+  "alt": {
+   "de": "Mann mit Kaffeebecher zwischen Steinsäulen",
+   "en": "Man with a coffee cup between stone columns"
+  },
+  "location": "Zürich",
+  "featured": false,
+  "forSale": false,
+  "sort": 15
+ },
+ {
+  "slug": "der-herr-zuerich",
+  "source": "portfolio-16-d4b10366.jpg",
+  "category": "portrait",
+  "title": {
+   "de": "Der Herr",
+   "en": "The Gentleman"
+  },
+  "alt": {
+   "de": "Portrait eines Mannes im Anzug mit Brille, Schwarzweiss",
+   "en": "Portrait of a man in a suit and glasses, black and white"
+  },
+  "location": "Zürich",
+  "featured": false,
+  "forSale": false,
+  "sort": 16
+ },
+ {
+  "slug": "rot-zuerich",
+  "source": "portfolio-17-2e11f291.jpg",
+  "category": "street",
+  "title": {
+   "de": "Rot",
+   "en": "Red"
+  },
+  "alt": {
+   "de": "Mann in roter Jacke zwischen beleuchteten Schaufenstern",
+   "en": "Man in a red jacket between lit shop windows"
+  },
+  "location": "Zürich",
+  "featured": false,
+  "forSale": false,
+  "sort": 17
+ },
+ {
+  "slug": "anruf-zuerich",
+  "source": "portfolio-18-508bb818.jpg",
+  "category": "street",
+  "title": {
+   "de": "Anruf",
+   "en": "The Call"
+  },
+  "alt": {
+   "de": "Mann im Mantel telefoniert vor einer Steinwand, Schwarzweiss",
+   "en": "Man in a coat on the phone against a stone wall, black and white"
+  },
+  "location": "Zürich",
+  "featured": false,
+  "forSale": false,
+  "sort": 18
+ },
+ {
+  "slug": "skater-zuerich",
+  "source": "portfolio-19-50ad386b.jpg",
+  "category": "street",
+  "title": {
+   "de": "Skater",
+   "en": "Skater"
+  },
+  "alt": {
+   "de": "Skateboarder fährt neben einem Tram durch die Stadt, Schwarzweiss",
+   "en": "Skateboarder riding beside a tram, black and white"
+  },
+  "location": "Zürich",
+  "featured": false,
+  "forSale": true,
+  "sort": 19
+ },
+ {
+  "slug": "kickflip-zuerich",
+  "source": "portfolio-20-b4b824fd.jpg",
+  "category": "street",
+  "title": {
+   "de": "Kickflip",
+   "en": "Kickflip"
+  },
+  "alt": {
+   "de": "Skater springt vor einem Zürcher Tram in die Luft",
+   "en": "Skater mid-air in front of a Zurich tram"
+  },
+  "location": "Zürich",
+  "featured": true,
+  "forSale": true,
+  "sort": 20
+ },
+ {
+  "slug": "cafe-zuerich",
+  "source": "portfolio-21-cd07e223.jpg",
+  "category": "street",
+  "title": {
+   "de": "Café",
+   "en": "Café"
+  },
+  "alt": {
+   "de": "Mann schreibt in einem Strassencafé, Schwarzweiss",
+   "en": "Man writing in a street café, black and white"
+  },
+  "location": "Zürich",
+  "featured": false,
+  "forSale": false,
+  "sort": 21
+ },
+ {
+  "slug": "nachtschicht-zuerich",
+  "source": "portfolio-22-31e90821.jpg",
+  "category": "street",
+  "title": {
+   "de": "Nachtschicht",
+   "en": "Night Shift"
+  },
+  "alt": {
+   "de": "Mann sitzt allein im Dunkeln auf einer Bank",
+   "en": "Man sitting alone on a bench in the dark"
+  },
+  "location": "Zürich",
+  "featured": false,
+  "forSale": false,
+  "sort": 22
+ },
+ {
+  "slug": "warteschlange-zuerich",
+  "source": "portfolio-23-cd5cfe20.jpg",
+  "category": "street",
+  "title": {
+   "de": "Warteschlange",
+   "en": "The Queue"
+  },
+  "alt": {
+   "de": "Velo im Vordergrund, Menschen warten in einer Schlange",
+   "en": "Bicycle in the foreground, people waiting in line"
+  },
+  "location": "Zürich",
+  "featured": false,
+  "forSale": false,
+  "sort": 23
+ },
+ {
+  "slug": "drehorgel-zuerich",
+  "source": "portfolio-24-137455ab.jpg",
+  "category": "street",
+  "title": {
+   "de": "Drehorgel",
+   "en": "Barrel Organ"
+  },
+  "alt": {
+   "de": "Drehorgelspieler mit Hut in der Stadt, Schwarzweiss",
+   "en": "Barrel organ player with a hat in the city, black and white"
+  },
+  "location": "Zürich",
+  "featured": false,
+  "forSale": false,
+  "sort": 24
+ },
+ {
+  "slug": "tauben-zuerich",
+  "source": "portfolio-25-3397ac23.jpg",
+  "category": "street",
+  "title": {
+   "de": "Tauben",
+   "en": "Pigeons"
+  },
+  "alt": {
+   "de": "Mann tritt aus einem Laden, Tauben fliegen auf",
+   "en": "Man stepping out of a shop as pigeons take off"
+  },
+  "location": "Zürich",
+  "featured": true,
+  "forSale": true,
+  "sort": 25
+ },
+ {
+  "slug": "gleitschirme",
+  "source": "portfolio-26-019ab67a.jpg",
+  "category": "landscape",
+  "title": {
+   "de": "Gleitschirme",
+   "en": "Paragliders"
+  },
+  "alt": {
+   "de": "Zwei Gleitschirme vor der Sonne über den Bergen, Schwarzweiss",
+   "en": "Two paragliders against the sun above the mountains, black and white"
+  },
+  "location": "Schweiz",
+  "featured": false,
+  "forSale": true,
+  "sort": 26
+ },
+ {
+  "slug": "gipfel",
+  "source": "portfolio-27-d82746a2.jpg",
+  "category": "landscape",
+  "title": {
+   "de": "Gipfel",
+   "en": "Summit"
+  },
+  "alt": {
+   "de": "Schneebedeckter Berggipfel im warmen Abendlicht",
+   "en": "Snow-capped mountain peak in warm evening light"
+  },
+  "location": "Schweiz",
+  "featured": false,
+  "forSale": true,
+  "sort": 27
+ },
+ {
+  "slug": "schneefahrt-zuerich",
+  "source": "portfolio-28-2e99f92e.jpg",
+  "category": "street",
+  "title": {
+   "de": "Schneefahrt",
+   "en": "Snow Ride"
+  },
+  "alt": {
+   "de": "Velofahrer im Schneegestöber, Schwarzweiss",
+   "en": "Cyclist riding through falling snow, black and white"
+  },
+  "location": "Zürich",
+  "featured": false,
+  "forSale": true,
+  "sort": 28
+ },
+ {
+  "slug": "schneenacht-zuerich",
+  "source": "portfolio-29-745e8ab7.jpg",
+  "category": "street",
+  "title": {
+   "de": "Schneenacht",
+   "en": "Snow Night"
+  },
+  "alt": {
+   "de": "Silhouette einer Person im Schneefall bei Nacht",
+   "en": "Silhouette of a person walking through snow at night"
+  },
+  "location": "Zürich",
+  "featured": false,
+  "forSale": true,
+  "sort": 29
+ },
+ {
+  "slug": "die-schneiderei-zuerich",
+  "source": "portfolio-30-29257080.jpg",
+  "category": "street",
+  "title": {
+   "de": "Die Schneiderei",
+   "en": "The Tailor"
+  },
+  "alt": {
+   "de": "Schneider bei der Arbeit an einem grossen Teddybären",
+   "en": "Tailor working on a giant teddy bear"
+  },
+  "location": "Zürich",
+  "featured": false,
+  "forSale": false,
+  "sort": 30
+ },
+ {
+  "slug": "kleiner-entdecker-zuerich",
+  "source": "portfolio-31-5c413210.jpg",
+  "category": "street",
+  "title": {
+   "de": "Kleiner Entdecker",
+   "en": "Little Explorer"
+  },
+  "alt": {
+   "de": "Kleines Kind sitzt allein auf einem grossen Platz",
+   "en": "Small child sitting alone on a large square"
+  },
+  "location": "Zürich",
+  "featured": false,
+  "forSale": false,
+  "sort": 31
+ },
+ {
+  "slug": "auf-der-schwelle-zuerich",
+  "source": "portfolio-32-3978fe6c.jpg",
+  "category": "street",
+  "title": {
+   "de": "Auf der Schwelle",
+   "en": "On the Threshold"
+  },
+  "alt": {
+   "de": "Älterer Mann mit langem Haar sitzt in einem Hauseingang",
+   "en": "Elderly man with long hair sitting in a doorway"
+  },
+  "location": "Zürich",
+  "featured": false,
+  "forSale": false,
+  "sort": 32
+ },
+ {
+  "slug": "am-fluss-zuerich",
+  "source": "portfolio-33-1300b1ae.jpg",
+  "category": "street",
+  "title": {
+   "de": "Am Fluss",
+   "en": "By the River"
+  },
+  "alt": {
+   "de": "Zwei Jogger auf einer Brücke an der Limmat, Schwarzweiss",
+   "en": "Two joggers on a bridge over the Limmat, black and white"
+  },
+  "location": "Zürich",
+  "featured": false,
+  "forSale": true,
+  "sort": 33
+ },
+ {
+  "slug": "schattenspiel-zuerich",
+  "source": "portfolio-34-8a64ed43.jpg",
+  "category": "street",
+  "title": {
+   "de": "Schattenspiel",
+   "en": "Shadow Play"
+  },
+  "alt": {
+   "de": "Skaterin und ihr langer Schatten im Gegenlicht",
+   "en": "Skater and her long shadow in backlight"
+  },
+  "location": "Zürich",
+  "featured": false,
+  "forSale": true,
+  "sort": 34
+ },
+ {
+  "slug": "spiegelung",
+  "source": "portfolio-35-7c84726d.jpg",
+  "category": "landscape",
+  "title": {
+   "de": "Spiegelung",
+   "en": "Reflection"
+  },
+  "alt": {
+   "de": "Verschneiter Berg spiegelt sich in einem Bergsee",
+   "en": "Snowy mountain mirrored in an alpine lake"
+  },
+  "location": "Schweiz",
+  "featured": true,
+  "forSale": true,
+  "sort": 35
+ },
+ {
+  "slug": "gentleman-zuerich",
+  "source": "portfolio-36-5c585c49.jpg",
+  "category": "street",
+  "title": {
+   "de": "Gentleman",
+   "en": "Gentleman"
+  },
+  "alt": {
+   "de": "Mann mit Melone und Aktentasche auf Kopfsteinpflaster",
+   "en": "Man with a bowler hat and briefcase on cobblestones"
+  },
+  "location": "Zürich",
+  "featured": false,
+  "forSale": true,
+  "sort": 36
+ },
+ {
+  "slug": "zwischen-baeumen-zuerich",
+  "source": "portfolio-37-4b424df5.jpg",
+  "category": "street",
+  "title": {
+   "de": "Zwischen Bäumen",
+   "en": "Between Trees"
+  },
+  "alt": {
+   "de": "Mann sitzt nachdenklich zwischen zwei Baumstämmen",
+   "en": "Man sitting thoughtfully between two tree trunks"
+  },
+  "location": "Zürich",
+  "featured": false,
+  "forSale": false,
+  "sort": 37
+ },
+ {
+  "slug": "die-bruecke-zuerich",
+  "source": "portfolio-38-32f92877.jpg",
+  "category": "street",
+  "title": {
+   "de": "Die Brücke",
+   "en": "The Bridge"
+  },
+  "alt": {
+   "de": "Passanten auf einer Fussgängerbrücke, Schwarzweiss",
+   "en": "Pedestrians on a footbridge, black and white"
+  },
+  "location": "Zürich",
+  "featured": false,
+  "forSale": false,
+  "sort": 38
+ },
+ {
+  "slug": "gleisfeld-zuerich",
+  "source": "portfolio-39-ad4587fe.jpg",
+  "category": "street",
+  "title": {
+   "de": "Gleisfeld",
+   "en": "Railway Yard"
+  },
+  "alt": {
+   "de": "Blick durch einen Zaun auf das Gleisfeld, Schwarzweiss",
+   "en": "View through a fence onto the railway tracks, black and white"
+  },
+  "location": "Zürich",
+  "featured": false,
+  "forSale": true,
+  "sort": 39
+ },
+ {
+  "slug": "jubel-zuerich",
+  "source": "portfolio-40-68f4fd93.jpg",
+  "category": "event",
+  "title": {
+   "de": "Jubel",
+   "en": "Celebration"
+  },
+  "alt": {
+   "de": "Fussballfans umarmen sich jubelnd",
+   "en": "Football fans hugging and celebrating"
+  },
+  "location": "Zürich",
+  "featured": false,
+  "forSale": false,
+  "sort": 40
+ },
+ {
+  "slug": "feiernacht-zuerich",
+  "source": "portfolio-41-2e2667a5.jpg",
+  "category": "event",
+  "title": {
+   "de": "Feiernacht",
+   "en": "Night of Celebration"
+  },
+  "alt": {
+   "de": "Feiernde Fans mit Fackeln in der Nacht",
+   "en": "Fans celebrating with flares at night"
+  },
+  "location": "Zürich",
+  "featured": false,
+  "forSale": false,
+  "sort": 41
+ },
+ {
+  "slug": "funkenregen",
+  "source": "portfolio-42-a87a708d.jpg",
+  "category": "event",
+  "title": {
+   "de": "Funkenregen",
+   "en": "Shower of Sparks"
+  },
+  "alt": {
+   "de": "Feuerkünstler in einem Regen aus Funken",
+   "en": "Fire performer in a shower of sparks"
+  },
+  "location": "Schweiz",
+  "featured": true,
+  "forSale": false,
+  "sort": 42
+ },
+ {
+  "slug": "siegesschrei-zuerich",
+  "source": "portfolio-43-82959a0a.jpg",
+  "category": "event",
+  "title": {
+   "de": "Siegesschrei",
+   "en": "Victory Cry"
+  },
+  "alt": {
+   "de": "Fan schreit vor Freude mit geballter Faust",
+   "en": "Fan shouting with joy, fist clenched"
+  },
+  "location": "Zürich",
+  "featured": false,
+  "forSale": false,
+  "sort": 43
+ },
+ {
+  "slug": "fenster",
+  "source": "portfolio-44-26b6b58f.jpg",
+  "category": "travel",
+  "title": {
+   "de": "Fenster",
+   "en": "Window"
+  },
+  "alt": {
+   "de": "Frau mit Rucksack fotografiert durch ein Fenster in einer roten Wand",
+   "en": "Woman with a backpack photographing through a window in a red wall"
+  },
+  "location": "Südostasien",
+  "featured": false,
+  "forSale": false,
+  "sort": 44
+ },
+ {
+  "slug": "am-rand",
+  "source": "portfolio-45-d2347fbe.jpg",
+  "category": "travel",
+  "title": {
+   "de": "Am Rand",
+   "en": "On the Edge"
+  },
+  "alt": {
+   "de": "Mann sitzt am Rand eines Gehwegs unter Arkaden",
+   "en": "Man sitting at the edge of a sidewalk under arcades"
+  },
+  "location": "Südostasien",
+  "featured": false,
+  "forSale": false,
+  "sort": 45
+ },
+ {
+  "slug": "marktstand",
+  "source": "portfolio-46-a03c0bce.jpg",
+  "category": "travel",
+  "title": {
+   "de": "Marktstand",
+   "en": "Market Stall"
+  },
+  "alt": {
+   "de": "Händler zwischen Kleidern an einem Marktstand am Abend",
+   "en": "Vendor among clothes at an evening market stall"
+  },
+  "location": "Südostasien",
+  "featured": false,
+  "forSale": false,
+  "sort": 46
+ },
+ {
+  "slug": "abendflug",
+  "source": "portfolio-47-4d1262a9.jpg",
+  "category": "landscape",
+  "title": {
+   "de": "Abendflug",
+   "en": "Evening Flight"
+  },
+  "alt": {
+   "de": "Drachen am Himmel über dem Meer bei Sonnenuntergang",
+   "en": "Kite in the sky above the sea at sunset"
+  },
+  "location": "Südostasien",
+  "featured": false,
+  "forSale": true,
+  "sort": 47
+ },
+ {
+  "slug": "strassenhaendler",
+  "source": "portfolio-48-33d96b16.jpg",
+  "category": "travel",
+  "title": {
+   "de": "Strassenhändler",
+   "en": "Street Vendor"
+  },
+  "alt": {
+   "de": "Strassenhändler mit Taschen an einer Steinmauer",
+   "en": "Street vendor carrying bags by a stone wall"
+  },
+  "location": "Südostasien",
+  "featured": false,
+  "forSale": false,
+  "sort": 48
+ },
+ {
+  "slug": "strandspiel",
+  "source": "portfolio-49-7b612141.jpg",
+  "category": "travel",
+  "title": {
+   "de": "Strandspiel",
+   "en": "Beach Game"
+  },
+  "alt": {
+   "de": "Silhouette eines Spielers am Strand bei Sonnenaufgang",
+   "en": "Silhouette of a player on the beach at sunrise"
+  },
+  "location": "Südostasien",
+  "featured": false,
+  "forSale": true,
+  "sort": 49
+ },
+ {
+  "slug": "meditation",
+  "source": "portfolio-50-c161b0ce.jpg",
+  "category": "travel",
+  "title": {
+   "de": "Meditation",
+   "en": "Meditation"
+  },
+  "alt": {
+   "de": "Frau meditiert am Strand im Gegenlicht",
+   "en": "Woman meditating on the beach against the sun"
+  },
+  "location": "Südostasien",
+  "featured": false,
+  "forSale": true,
+  "sort": 50
+ },
+ {
+  "slug": "am-strand",
+  "source": "portfolio-51-0011dd5c.jpg",
+  "category": "travel",
+  "title": {
+   "de": "Am Strand",
+   "en": "At the Beach"
+  },
+  "alt": {
+   "de": "Frau trägt einen Korb auf dem Kopf am Strand",
+   "en": "Woman carrying a basket on her head on the beach"
+  },
+  "location": "Südostasien",
+  "featured": false,
+  "forSale": true,
+  "sort": 51
+ },
+ {
+  "slug": "street-style",
+  "source": "portfolio-52-15c5f404.jpg",
+  "category": "travel",
+  "title": {
+   "de": "Street Style",
+   "en": "Street Style"
+  },
+  "alt": {
+   "de": "Tätowiertes Paar posiert auf einem Platz",
+   "en": "Tattooed couple posing on a city square"
+  },
+  "location": "Südostasien",
+  "featured": false,
+  "forSale": false,
+  "sort": 52
+ },
+ {
+  "slug": "freunde",
+  "source": "portfolio-53-9c080f05.jpg",
+  "category": "travel",
+  "title": {
+   "de": "Freunde",
+   "en": "Friends"
+  },
+  "alt": {
+   "de": "Gruppe junger Leute auf der Strasse, Schwarzweiss",
+   "en": "Group of young friends on the street, black and white"
+  },
+  "location": "Südostasien",
+  "featured": false,
+  "forSale": false,
+  "sort": 53
+ },
+ {
+  "slug": "prozession",
+  "source": "portfolio-54-10136bca.jpg",
+  "category": "travel",
+  "title": {
+   "de": "Prozession",
+   "en": "Procession"
+  },
+  "alt": {
+   "de": "Prozession mit Kreuz im warmen Abendlicht",
+   "en": "Procession with a cross in warm evening light"
+  },
+  "location": "Südostasien",
+  "featured": false,
+  "forSale": false,
+  "sort": 54
+ },
+ {
+  "slug": "kreuzung",
+  "source": "portfolio-55-6136cdd8.jpg",
+  "category": "travel",
+  "title": {
+   "de": "Kreuzung",
+   "en": "Crossroads"
+  },
+  "alt": {
+   "de": "Händler schiebt einen beladenen Wagen über eine Kreuzung",
+   "en": "Vendor pushing a loaded cart across an intersection"
+  },
+  "location": "Südostasien",
+  "featured": false,
+  "forSale": true,
+  "sort": 55
+ },
+ {
+  "slug": "altstadt",
+  "source": "portfolio-56-f7284e42.jpg",
+  "category": "travel",
+  "title": {
+   "de": "Altstadt",
+   "en": "Old Town"
+  },
+  "alt": {
+   "de": "Strassenschlucht mit Kabeln und alten Häusern",
+   "en": "Street canyon with tangled cables and old buildings"
+  },
+  "location": "Südostasien",
+  "featured": false,
+  "forSale": true,
+  "sort": 56
+ },
+ {
+  "slug": "rush-hour",
+  "source": "portfolio-57-e57831f2.jpg",
+  "category": "travel",
+  "title": {
+   "de": "Rush Hour",
+   "en": "Rush Hour"
+  },
+  "alt": {
+   "de": "Pick-up mit Passagieren auf dem Dach in einer Gasse",
+   "en": "Pickup truck with passengers on the roof in a narrow street"
+  },
+  "location": "Südostasien",
+  "featured": false,
+  "forSale": true,
+  "sort": 57
+ },
+ {
+  "slug": "der-verkaeufer",
+  "source": "portfolio-58-5a425dfd.jpg",
+  "category": "travel",
+  "title": {
+   "de": "Der Verkäufer",
+   "en": "The Vendor"
+  },
+  "alt": {
+   "de": "Junger Mann sitzt an seinem Verkaufswagen im Gedränge",
+   "en": "Young man sitting by his vending cart in a busy street"
+  },
+  "location": "Südostasien",
+  "featured": false,
+  "forSale": false,
+  "sort": 58
+ },
+ {
+  "slug": "garkueche",
+  "source": "portfolio-59-54332b50.jpg",
+  "category": "travel",
+  "title": {
+   "de": "Garküche",
+   "en": "Street Kitchen"
+  },
+  "alt": {
+   "de": "Frau im Halbdunkel einer kleinen Garküche",
+   "en": "Woman in the half-light of a small street kitchen"
+  },
+  "location": "Südostasien",
+  "featured": false,
+  "forSale": false,
+  "sort": 59
+ },
+ {
+  "slug": "regenschirm",
+  "source": "portfolio-60-7ef43019.jpg",
+  "category": "travel",
+  "title": {
+   "de": "Regenschirm",
+   "en": "Umbrella"
+  },
+  "alt": {
+   "de": "Rollerfahrer mit Sonnenschirm in einer nassen Gasse",
+   "en": "Scooter rider with an umbrella in a wet alley"
+  },
+  "location": "Vietnam",
+  "featured": false,
+  "forSale": true,
+  "sort": 60
+ },
+ {
+  "slug": "train-street",
+  "source": "portfolio-61-fc546b79.jpg",
+  "category": "travel",
+  "title": {
+   "de": "Train Street",
+   "en": "Train Street"
+  },
+  "alt": {
+   "de": "Bahngleise führen durch eine enge, grüne Gasse",
+   "en": "Railway tracks running through a narrow green alley"
+  },
+  "location": "Vietnam",
+  "featured": true,
+  "forSale": true,
+  "sort": 61
+ },
+ {
+  "slug": "barbier",
+  "source": "portfolio-62-af2181cd.jpg",
+  "category": "travel",
+  "title": {
+   "de": "Barbier",
+   "en": "Barber"
+  },
+  "alt": {
+   "de": "Strassenbarbier schneidet einem Mann die Haare",
+   "en": "Street barber cutting a man's hair"
+  },
+  "location": "Vietnam",
+  "featured": false,
+  "forSale": false,
+  "sort": 62
+ },
+ {
+  "slug": "transport",
+  "source": "portfolio-63-c8b741f7.jpg",
+  "category": "travel",
+  "title": {
+   "de": "Transport",
+   "en": "Delivery"
+  },
+  "alt": {
+   "de": "Rollerfahrer transportiert eine riesige orange Kiste",
+   "en": "Scooter rider carrying a huge orange box"
+  },
+  "location": "Vietnam",
+  "featured": false,
+  "forSale": true,
+  "sort": 63
+ },
+ {
+  "slug": "mutter-und-kind",
+  "source": "portfolio-64-3d005a1a.jpg",
+  "category": "travel",
+  "title": {
+   "de": "Mutter und Kind",
+   "en": "Mother and Child"
+  },
+  "alt": {
+   "de": "Frau trägt ihr Kind auf dem Rücken im Sonnenlicht",
+   "en": "Woman carrying her child on her back in the sunlight"
+  },
+  "location": "Vietnam",
+  "featured": false,
+  "forSale": false,
+  "sort": 64
+ },
+ {
+  "slug": "lotusfeld",
+  "source": "portfolio-65-6eacbe05.jpg",
+  "category": "travel",
+  "title": {
+   "de": "Lotusfeld",
+   "en": "Lotus Field"
+  },
+  "alt": {
+   "de": "Bauer arbeitet in einem Lotusfeld vor Karstfelsen",
+   "en": "Farmer working in a lotus field below karst cliffs"
+  },
+  "location": "Vietnam",
+  "featured": true,
+  "forSale": true,
+  "sort": 65
+ },
+ {
+  "slug": "der-moench",
+  "source": "portfolio-66-7d5ad4b6.jpg",
+  "category": "travel",
+  "title": {
+   "de": "Der Mönch",
+   "en": "The Monk"
+  },
+  "alt": {
+   "de": "Mönch in orangem Gewand blickt aus einem Fenster",
+   "en": "Monk in an orange robe looking out of a window"
+  },
+  "location": "Südostasien",
+  "featured": false,
+  "forSale": false,
+  "sort": 66
+ },
+ {
+  "slug": "ink",
+  "source": "portfolio-67-8613c635.jpg",
+  "category": "portrait",
+  "title": {
+   "de": "Ink",
+   "en": "Ink"
+  },
+  "alt": {
+   "de": "Portrait eines Mannes mit Halstattoo, Cap und Sonnenbrille",
+   "en": "Portrait of a man with a neck tattoo, cap and sunglasses"
+  },
+  "location": "Südostasien",
+  "featured": false,
+  "forSale": false,
+  "sort": 67
+ },
+ {
+  "slug": "laecheln",
+  "source": "portfolio-68-b60145a1.jpg",
+  "category": "portrait",
+  "title": {
+   "de": "Lächeln",
+   "en": "Smile"
+  },
+  "alt": {
+   "de": "Lächelnder älterer Mann sitzt vor seinem Motorrad",
+   "en": "Smiling elderly man sitting in front of his motorbike"
+  },
+  "location": "Vietnam",
+  "featured": false,
+  "forSale": false,
+  "sort": 68
+ },
+ {
+  "slug": "die-pfeife",
+  "source": "portfolio-69-f789be67.jpg",
+  "category": "portrait",
+  "title": {
+   "de": "Die Pfeife",
+   "en": "The Pipe"
+  },
+  "alt": {
+   "de": "Älterer Mann mit Pfeife, Schwarzweiss-Portrait",
+   "en": "Elderly man with a pipe, black and white portrait"
+  },
+  "location": "Südostasien",
+  "featured": false,
+  "forSale": false,
+  "sort": 69
+ },
+ {
+  "slug": "werkstatt",
+  "source": "portfolio-70-78420e1d.jpg",
+  "category": "travel",
+  "title": {
+   "de": "Werkstatt",
+   "en": "Workshop"
+  },
+  "alt": {
+   "de": "Mechaniker zwischen Rollern in einer Werkstatt",
+   "en": "Mechanic among scooters in a workshop"
+  },
+  "location": "Vietnam",
+  "featured": false,
+  "forSale": false,
+  "sort": 70
+ },
+ {
+  "slug": "peace",
+  "source": "portfolio-71-a45c213a.jpg",
+  "category": "travel",
+  "title": {
+   "de": "Peace",
+   "en": "Peace"
+  },
+  "alt": {
+   "de": "Frau in roter Jacke zeigt das Peace-Zeichen",
+   "en": "Woman in a red jacket showing the peace sign"
+  },
+  "location": "Vietnam",
+  "featured": false,
+  "forSale": false,
+  "sort": 71
+ },
+ {
+  "slug": "burnout",
+  "source": "portfolio-72-7b02eacc.jpg",
+  "category": "event",
+  "title": {
+   "de": "Burnout",
+   "en": "Burnout"
+  },
+  "alt": {
+   "de": "Auto-Burnout mit Rauchwolke bei einem Treffen",
+   "en": "Car burnout with a cloud of smoke at a meet"
+  },
+  "location": "Südostasien",
+  "featured": false,
+  "forSale": false,
+  "sort": 72
+ },
+ {
+  "slug": "fabio-berta-fotograf-zuerich",
+  "source": "about-me-73-72f3cd46.jpg",
+  "category": "_site",
+  "title": {
+   "de": "Fabio Berta",
+   "en": "Fabio Berta"
+  },
+  "alt": {
+   "de": "Portrait von Fabio Berta, Fotograf aus Zürich",
+   "en": "Portrait of Fabio Berta, photographer from Zurich"
+  },
+  "location": "Zürich",
+  "featured": false,
+  "forSale": false,
+  "sort": 900
+ },
+ {
+  "slug": "photo-schweiz-2021-ausstellung",
+  "source": "ausstellungen-74-06c83f2d.jpg",
+  "category": "_site",
+  "title": {
+   "de": "Photo Schweiz 2021",
+   "en": "Photo Schweiz 2021"
+  },
+  "alt": {
+   "de": "Ausstellungsplakat Photo Schweiz 2021 mit Brandungsbild von Fabio Berta",
+   "en": "Photo Schweiz 2021 exhibition poster with surf image by Fabio Berta"
+  },
+  "location": "Zürich",
+  "featured": false,
+  "forSale": false,
+  "sort": 901
+ }
+]

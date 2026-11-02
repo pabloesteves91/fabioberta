@@ -1,0 +1,54 @@
+---
+import Base from '../layouts/Base.astro';
+import Button from '../components/Button.astro';
+import SplitText from '../components/SplitText.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import type { EventItem } from '../lib/content';
+import { getPhotos, srcset } from '../lib/photos';
+import { r, eventUrl, type Lang } from '../i18n/routes';
+import { useT } from '../i18n/ui';
+import { breadcrumbSchema, abs } from '../lib/seo';
+import { site } from '../lib/site';
+
+interface Props { lang: Lang; event: EventItem }
+const { lang, event: e } = Astro.props;
+const t = useT(lang);
+const de = lang === 'de';
+const cover = (await getPhotos()).find((p) => p.slug === e.cover);
+const crumbs = [
+  { name: t('nav.home'), url: r('home', lang) },
+  { name: t('nav.events'), url: r('events', lang) },
+  { name: e.title, url: eventUrl(e.slug, lang) },
+];
+const eventSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Event',
+  name: e.title,
+  startDate: e.date,
+  eventStatus: 'https://schema.org/EventScheduled',
+  location: { '@type': 'Place', name: e.location, address: { '@type': 'PostalAddress', addressCountry: 'CH' } },
+  image: cover ? abs(cover.src) : undefined,
+  description: e.summary[lang],
+  contributor: { '@type': 'Person', name: site.name, jobTitle: de ? 'Offizieller Fotograf' : 'Official photographer' },
+};
+---
+<Base lang={lang} title={`${e.title} – ${de ? 'Fotos' : 'Photos'}`} description={e.summary[lang]} alternate={eventUrl(e.slug, de ? 'en' : 'de')} current="events" image={cover?.src} jsonLd={[breadcrumbSchema(crumbs), eventSchema]}>
+  <section class="page-hero container">
+    <Breadcrumbs items={crumbs} />
+    <span class="eyebrow" data-reveal>{new Date(e.date).toLocaleDateString(de ? 'de-CH' : 'en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
+    <SplitText as="h1" text={e.title} />
+  </section>
+  <section class="container grid-2" style="align-items:start">
+    {cover && <div class="photo" data-reveal="clip" style={`aspect-ratio:${cover.width}/${cover.height};--ph:${cover.color}`}><img src={cover.thumb} srcset={srcset(cover)} sizes="(min-width:900px) 45vw, 100vw" alt={cover.alt[lang]} width={cover.width} height={cover.height} /></div>}
+    <div class="stack" style="--stack:2rem">
+      <p class="lead" data-reveal style="color:var(--text)">{e.body[lang]}</p>
+      <p data-reveal>— Fabio</p>
+      <div class="btn-row" data-reveal>
+        {e.galleryUrl
+          ? <Button href={e.galleryUrl} variant="accent" size="lg" target="_blank" rel="noopener">{de ? 'Zu den Fotos' : 'To the photos'}</Button>
+          : <Button href={`${r('contact', lang)}?${de ? 'anliegen' : 'type'}=event`} variant="accent" size="lg">{de ? 'Fotos anfragen' : 'Request photos'}</Button>}
+        <Button href={r('events', lang)} variant="ghost" size="lg">{de ? 'Alle Events' : 'All events'}</Button>
+      </div>
+    </div>
+  </section>
+</Base>

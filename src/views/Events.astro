@@ -1,0 +1,62 @@
+---
+import Base from '../layouts/Base.astro';
+import Button from '../components/Button.astro';
+import SplitText from '../components/SplitText.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { events, services } from '../lib/content';
+import { getPhotos } from '../lib/photos';
+import { r, eventUrl, type Lang } from '../i18n/routes';
+import { useT } from '../i18n/ui';
+import { breadcrumbSchema } from '../lib/seo';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = useT(lang);
+const de = lang === 'de';
+const bySlug = new Map((await getPhotos()).map((p) => [p.slug, p]));
+const crumbs = [
+  { name: t('nav.home'), url: r('home', lang) },
+  { name: t('nav.events'), url: r('events', lang) },
+];
+const svc = services.find((s) => s.id === 'event-sport')!;
+---
+<Base
+  lang={lang}
+  title={de ? 'Events & Galerien – Eventfotograf Zürich' : 'Events & Galleries – Event Photographer Zurich'}
+  description={de
+    ? 'Event-Galerien von Fabio Berta: Hier finden Teilnehmende ihre Fotos von Meisterschaften und Events, z. B. der SNBF International Open Championship 2024.'
+    : 'Event galleries by Fabio Berta: participants find their photos from championships and events such as the SNBF International Open Championship 2024.'}
+  alternate={r('events', de ? 'en' : 'de')}
+  current="events"
+  jsonLd={[breadcrumbSchema(crumbs)]}
+>
+  <section class="page-hero container">
+    <Breadcrumbs items={crumbs} />
+    <span class="eyebrow" data-reveal>{de ? 'Galerien für Teilnehmende' : 'Galleries for participants'}</span>
+    <SplitText as="h1" text={de ? 'Deine *Event*-Fotos.' : 'Your *event* photos.'} />
+    <p class="lead" data-reveal>{de ? 'Warst du dabei? Hier findest du die Bilder der Events, die ich fotografiert habe.' : 'Were you there? Find the images of the events I photographed here.'}</p>
+  </section>
+  <section class="container timeline">
+    {events.map((e) => {
+      const cover = bySlug.get(e.cover);
+      return (
+        <article class="timeline__item">
+          {cover && <a class="photo" href={eventUrl(e.slug, lang)} data-reveal="clip" data-cursor={t('cta.view')} style={`--ph:${cover.color}`}><img src={cover.thumb} alt={cover.alt[lang]} width={cover.width} height={cover.height} /></a>}
+          <div class="stack" style="--stack:1.5rem">
+            <p class="timeline__date" data-reveal>{new Date(e.date).toLocaleDateString(de ? 'de-CH' : 'en-GB', { month: 'long', year: 'numeric' })} · {e.location}</p>
+            <h2 data-reveal>{e.title}</h2>
+            <p class="lead" data-reveal>{e.summary[lang]}</p>
+            <div data-reveal><Button href={eventUrl(e.slug, lang)}>{de ? 'Zu den Fotos' : 'To the photos'}</Button></div>
+          </div>
+        </article>
+      );
+    })}
+  </section>
+  <section class="section container">
+    <div class="stack" style="--stack:1.5rem;max-width:60ch">
+      <h2 data-reveal>{de ? 'Du planst ein Event?' : 'Planning an event?'}</h2>
+      <p class="lead" data-reveal>{svc.seoDescription[lang]}</p>
+      <div data-reveal><Button href={`${r('services', lang)}/${svc.slug[lang]}`} variant="accent">{svc.title[lang]}</Button></div>
+    </div>
+  </section>
+</Base>

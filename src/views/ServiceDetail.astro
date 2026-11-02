@@ -1,0 +1,134 @@
+---
+import Base from '../layouts/Base.astro';
+import Button from '../components/Button.astro';
+import PhotoCard from '../components/PhotoCard.astro';
+import SplitText from '../components/SplitText.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { type Service, packagePrice, services } from '../lib/content';
+import { getPhotos, srcset } from '../lib/photos';
+import { r, type Lang } from '../i18n/routes';
+import { useT } from '../i18n/ui';
+import { breadcrumbSchema, faqSchema, abs } from '../lib/seo';
+import { site } from '../lib/site';
+
+interface Props { lang: Lang; service: Service }
+const { lang, service: s } = Astro.props;
+const t = useT(lang);
+const de = lang === 'de';
+const photos = await getPhotos();
+const bySlug = new Map(photos.map((p) => [p.slug, p]));
+const cover = bySlug.get(s.cover) ?? photos[0];
+const gallery = s.gallery.map((g) => bySlug.get(g)).filter((p): p is NonNullable<typeof p> => Boolean(p));
+const url = `${r('services', lang)}/${s.slug[lang]}`;
+const crumbs = [
+  { name: t('nav.home'), url: r('home', lang) },
+  { name: t('nav.services'), url: r('services', lang) },
+  { name: s.title[lang], url },
+];
+const type = s.id === 'event-sport' ? 'event' : 'portrait';
+const serviceSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: s.title[lang],
+  serviceType: s.title[lang],
+  description: s.seoDescription[lang],
+  provider: { '@id': `${site.url}/#business` },
+  areaServed: site.areaServed.map((name) => ({ '@type': 'Place', name })),
+  url: abs(url),
+  offers: s.packages.map((p) => ({
+    '@type': 'Offer',
+    name: p.name[lang],
+    priceCurrency: 'CHF',
+    price: Number(packagePrice(p, 'de').replace(/[^\d]/g, '')),
+  })),
+};
+const other = services.filter((x) => x.id !== s.id);
+---
+<Base
+  lang={lang}
+  title={s.seoTitle[lang]}
+  description={s.seoDescription[lang]}
+  alternate={`${r('services', de ? 'en' : 'de')}/${s.slug[de ? 'en' : 'de']}`}
+  current="services"
+  image={cover.src}
+  preload={cover.src}
+  jsonLd={[breadcrumbSchema(crumbs), serviceSchema, faqSchema(s.faq.map((f) => ({ q: f.q[lang], a: f.a[lang] })))]}
+>
+  <section class="hero" style="height:88svh">
+    <div class="hero__slides"><div class="hero__slide is-active">
+      <img src={cover.src} srcset={srcset(cover)} sizes="100vw" alt={cover.alt[lang]} width={cover.width} height={cover.height} fetchpriority="high" />
+    </div></div>
+    <div class="container hero__content">
+      <Breadcrumbs items={crumbs} />
+      <span class="eyebrow" data-reveal>{s.kicker[lang]}</span>
+      <SplitText as="h1" class="display" text={s.title[lang]} />
+      <div class="btn-row" style="margin-top:2rem" data-reveal>
+        <Button href={`${r('contact', lang)}?${de ? 'anliegen' : 'type'}=${type}`} variant="accent" size="lg">{t('cta.book')}</Button>
+        <Button href="#pakete" variant="ghost" size="lg">{de ? 'Pakete & Preise' : 'Packages & pricing'}</Button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section container grid-2">
+    <div class="stack" style="--stack:1.75rem">
+      <span class="eyebrow" data-reveal>{de ? 'Mein Ansatz' : 'My approach'}</span>
+      <p class="lead" data-reveal style="color:var(--text);font-size:var(--fs-lg);line-height:1.4">{s.intro[lang]}</p>
+    </div>
+    <ul class="checklist" data-reveal>
+      {s.highlights[lang].map((h) => <li>{h}</li>)}
+    </ul>
+  </section>
+
+  {gallery.length > 0 && (
+    <section class="container">
+      <div class="masonry">
+        {gallery.map((p, i) => <PhotoCard photo={p} lang={lang} lightbox index={i} delay={(i % 3) * 0.08} />)}
+      </div>
+    </section>
+  )}
+
+  <section class="section container" id="pakete">
+    <div class="section-head">
+      <div class="stack">
+        <span class="eyebrow" data-reveal>{de ? 'Pakete' : 'Packages'}</span>
+        <SplitText as="h2" text={de ? 'Klar kalkuliert, *flexibel* anpassbar.' : 'Clear pricing, *flexibly* adapted.'} />
+      </div>
+      <p class="muted" data-reveal style="max-width:38ch">{de ? 'Alle Preise in CHF, inkl. Bildbearbeitung. Individuelle Angebote auf Anfrage.' : 'All prices in CHF incl. editing. Custom quotes on request.'}</p>
+    </div>
+    <div class="packages">
+      {s.packages.map((p, i) => (
+        <div class:list={['package', p.popular && 'package--popular']} data-reveal style={`--delay:${i * 0.1}s`}>
+          {p.popular && <span class="package__badge">{de ? 'Beliebt' : 'Popular'}</span>}
+          <h3>{p.name[lang]}</h3>
+          <p class="package__price">{packagePrice(p, lang)}</p>
+          <ul>{p.features[lang].map((f) => <li>{f}</li>)}</ul>
+          <Button href={`${r('contact', lang)}?${de ? 'anliegen' : 'type'}=${type}`} variant={p.popular ? 'accent' : 'ghost'} class="btn--block">{de ? 'Anfragen' : 'Enquire'}</Button>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="section container" style="padding-top:0">
+    <div class="grid-2" style="align-items:start">
+      <div class="stack">
+        <span class="eyebrow" data-reveal>FAQ</span>
+        <SplitText as="h2" text={de ? 'Häufige *Fragen.*' : 'Frequently asked *questions.*'} />
+      </div>
+      <div class="faq" data-reveal>
+        {s.faq.map((f, i) => (
+          <details open={i === 0}>
+            <summary>{f.q[lang]}</summary>
+            <p>{f.a[lang]}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="container section--tight">
+    <p class="eyebrow" style="margin-bottom:1.5rem">{de ? 'Weitere Leistungen' : 'More services'}</p>
+    <div class="btn-row">
+      {other.map((o) => <Button href={o.id === 'fine-art' ? r('shop', lang) : `${r('services', lang)}/${o.slug[lang]}`} variant="ghost">{o.title[lang]}</Button>)}
+    </div>
+  </section>
+</Base>

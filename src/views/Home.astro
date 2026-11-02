@@ -1,0 +1,249 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Button from '../components/Button.astro';
+import PhotoCard from '../components/PhotoCard.astro';
+import SplitText from '../components/SplitText.astro';
+import Marquee from '../components/Marquee.astro';
+import Icon from '../components/Icon.astro';
+import { getPhotos, siteImage, srcset, categories } from '../lib/photos';
+import { services, exhibitions, events } from '../lib/content';
+import { r, photoUrl, type Lang } from '../i18n/routes';
+import { useT } from '../i18n/ui';
+import { personSchema } from '../lib/seo';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = useT(lang);
+const de = lang === 'de';
+
+const photos = await getPhotos();
+const bySlug = new Map(photos.map((p) => [p.slug, p]));
+const heroOrder = ['kickflip-zuerich', 'spiegelung', 'train-street', 'im-ring', 'tauben-zuerich'];
+const featured = photos.filter((p) => p.featured);
+const hero = [...heroOrder.map((s) => bySlug.get(s)).filter(Boolean), ...featured].filter((p, i, a) => p && a.indexOf(p) === i).slice(0, 5) as typeof photos;
+const selected = featured.filter((p) => !hero.slice(0, 1).includes(p)).slice(0, 6);
+const streetSeries = photos.filter((p) => p.category === 'street').slice(0, 9);
+const portrait = siteImage('fabio-berta-fotograf-zuerich');
+const printPhoto = bySlug.get('spiegelung') ?? photos[0];
+const ctaPhoto = bySlug.get('funkenregen') ?? photos[0];
+const servicePreview = (slug: string) => bySlug.get(slug) ?? photos[0];
+const posts = (await getCollection('journal', (p) => p.data.lang === lang)).sort((a, b) => +b.data.date - +a.data.date).slice(0, 3);
+
+const svcHref = (s: (typeof services)[number]) => (s.id === 'fine-art' ? r('shop', lang) : `${r('services', lang)}/${s.slug[lang]}`);
+---
+<Base
+  lang={lang}
+  title={de ? 'Fotograf Zürich – Events, Portraits & Street | Fabio Berta' : 'Photographer Zurich – Events, Portraits & Street | Fabio Berta'}
+  description={de
+    ? 'Fotograf in Zürich für Events, Sport, Portraits und Businessfotos. Street- und Landschaftsfotografie als signierte Fine-Art-Prints. Jetzt anfragen.'
+    : 'Photographer in Zurich for event & sports photography, portraits and business photos. Street and landscape photography as hand-signed fine art prints.'}
+  alternate={r('home', de ? 'en' : 'de')}
+  current="home"
+  preload={hero[0]?.src}
+  jsonLd={[personSchema()]}
+  footerCta={false}
+>
+  <!-- HERO -->
+  <section class="hero" data-hero aria-label={de ? 'Ausgewählte Fotografien' : 'Selected photographs'}>
+    <div class="hero__slides">
+      {hero.map((p, i) => (
+        <div class:list={['hero__slide', i === 0 && 'is-active']} data-meta={`${p.title[lang]} — ${p.location}`}>
+          <img src={p.src} srcset={srcset(p)} sizes="100vw" width={p.width} height={p.height} alt={p.alt[lang]} loading={i === 0 ? 'eager' : 'lazy'} fetchpriority={i === 0 ? 'high' : undefined} decoding="async" />
+        </div>
+      ))}
+    </div>
+    <p class="hero__meta" data-hero-meta aria-live="off">{hero[0] && `${hero[0].title[lang]} — ${hero[0].location}`}</p>
+    <div class="container hero__content">
+      <span class="eyebrow" data-reveal style="--delay:.1s">{de ? 'Fotograf · Zürich · Schweiz' : 'Photographer · Zurich · Switzerland'}</span>
+      <SplitText as="h1" class="hero__title display" text={de ? 'Momente, die *bleiben.*' : 'Moments that *stay.*'} delay={0.15} />
+      <div class="hero__row">
+        <div>
+          <p class="lead" data-reveal style="--delay:.5s">
+            {de
+              ? 'Street, Events, Sport und Portraits – ungestellt, nah und voller Emotion. Ich bin Fabio und halte fest, was nicht wiederkommt.'
+              : "Street, events, sports and portraits – unposed, close and full of emotion. I'm Fabio, and I capture what never comes back."}
+          </p>
+          <div class="hero__progress" role="group" aria-label={de ? 'Bild wählen' : 'Choose image'}>
+            {hero.map((p, i) => <button type="button" data-hero-dot class:list={[i === 0 && 'is-active']} aria-label={`${i + 1}: ${p.title[lang]}`}></button>)}
+            <button type="button" class="hero__pause" data-hero-pause aria-pressed="false" data-label-pause={de ? 'Slideshow pausieren' : 'Pause slideshow'} data-label-play={de ? 'Slideshow abspielen' : 'Play slideshow'} aria-label={de ? 'Slideshow pausieren' : 'Pause slideshow'}><span aria-hidden="true"></span></button>
+          </div>
+        </div>
+        <div class="btn-row" data-reveal style="--delay:.65s">
+          <Button href={r('portfolio', lang)} size="lg">{t('cta.portfolio')}</Button>
+          <Button href={r('contact', lang)} variant="ghost" size="lg">{t('cta.book')}</Button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INTRO -->
+  <section class="section">
+    <div class="container grid-2">
+      <div class="stack" style="--stack:2rem">
+        <span class="eyebrow" data-reveal>{de ? 'Hallo, ich bin Fabio' : "Hi, I'm Fabio"}</span>
+        <SplitText
+          as="h2"
+          class="display"
+          text={de ? 'Ich fotografiere das *Echte* – auf der Strasse, auf der Bühne und in den Bergen.' : 'I photograph what is *real* – on the street, on stage and in the mountains.'}
+        />
+        <p class="lead" data-reveal>
+          {de
+            ? 'Was als Leidenschaft für Streetfotografie in Zürich begann, ist heute meine Art, Geschichten zu erzählen. Ob Meisterschaft, Firmenevent oder Portrait: Ich suche den Moment, in dem Menschen die Kamera vergessen.'
+            : 'What started as a passion for street photography in Zurich is now my way of telling stories. Whether a championship, corporate event or portrait: I look for the moment when people forget the camera.'}
+        </p>
+        <div data-reveal><a class="link" href={r('about', lang)}>{de ? 'Mehr über mich' : 'More about me'} <Icon name="arrow" /></a></div>
+      </div>
+      <div class="photo" data-reveal="clip" style={`aspect-ratio:4/5;--ph:${portrait.color}`}>
+        <img src={portrait.thumb} srcset={srcset(portrait)} sizes="(min-width:900px) 45vw, 100vw" width={portrait.width} height={portrait.height} alt={portrait.alt[lang]} loading="lazy" data-parallax="-0.06" style="height:112%;margin-top:-6%" />
+      </div>
+    </div>
+  </section>
+
+  <Marquee items={de ? ['Street', 'Events', 'Sport', 'Portrait', 'Business', 'Landschaft', 'Reisen', 'Fine Art'] : ['Street', 'Events', 'Sports', 'Portrait', 'Business', 'Landscape', 'Travel', 'Fine Art']} />
+
+  <!-- SELECTED WORK -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <div class="stack">
+          <span class="eyebrow" data-reveal>{de ? 'Ausgewählte Arbeiten' : 'Selected work'}</span>
+          <SplitText as="h2" text={de ? 'Geschichten in *einem* Bild.' : 'Stories in *one* frame.'} />
+        </div>
+        <Button href={r('portfolio', lang)} variant="ghost" data-reveal>{t('cta.portfolio')}</Button>
+      </div>
+      <div class="feature-grid">
+        {selected.map((p, i) => <PhotoCard photo={p} lang={lang} ratio={false} delay={(i % 2) * 0.12} sizes="(min-width: 800px) 55vw, 100vw" />)}
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="section" style="padding-top:0">
+    <div class="container">
+      <div class="section-head">
+        <div class="stack">
+          <span class="eyebrow" data-reveal>{t('nav.services')}</span>
+          <SplitText as="h2" text={de ? 'Was ich für dich *fotografiere.*' : 'What I *photograph* for you.'} />
+        </div>
+        <p class="lead" data-reveal style="max-width:38ch">
+          {de ? 'Basis in Zürich, unterwegs in der ganzen Schweiz – für Unternehmen, Vereine, Veranstalter und Menschen mit Geschichten.' : 'Based in Zurich, working all over Switzerland – for companies, clubs, organisers and people with stories.'}
+        </p>
+      </div>
+      <div class="service-list">
+        {services.map((s, i) => {
+          const prev = servicePreview(s.cover);
+          return (
+            <a class="service-row" href={svcHref(s)} data-reveal style={`--delay:${i * 0.08}s`}>
+              <span class="service-row__no">0{i + 1}</span>
+              <span>
+                <span class="service-row__title">{s.title[lang]}</span>
+                <span class="service-row__kicker">{s.kicker[lang]}</span>
+              </span>
+              <span class="service-row__arrow"><Icon name="arrow" /></span>
+              <span class="service-row__preview" aria-hidden="true"><img src={prev.thumb} alt="" loading="lazy" width={prev.width} height={prev.height} /></span>
+            </a>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <!-- HORIZONTAL STREET SERIES -->
+  <section class="hscroll" data-hscroll aria-label={de ? 'Serie: Zürich auf der Strasse' : 'Series: Zurich on the street'}>
+    <div class="hscroll__sticky">
+      <div class="hscroll__track" data-hscroll-track>
+        <div class="hscroll__intro">
+          <span class="eyebrow">{de ? 'Serie' : 'Series'} · <span class="hscroll__count" data-hscroll-count>01</span> / {String(streetSeries.length).padStart(2, '0')}</span>
+          <h2>{de ? <>Zürich, <em>ungestellt.</em></> : <>Zurich, <em>unposed.</em></>}</h2>
+          <p class="muted">{de ? 'Trams, Tauben, Schnee und Skater: Streetfotografie aus meiner Stadt.' : 'Trams, pigeons, snow and skaters: street photography from my city.'}</p>
+          <div><Button href={`${r('portfolio', lang)}?serie=street`} variant="ghost">{de ? 'Ganze Serie' : 'Full series'}</Button></div>
+        </div>
+        {streetSeries.map((p, i) => (
+          <figure class="hscroll__card">
+            <PhotoCard photo={p} lang={lang} reveal={false} sizes="60vw" />
+            <figcaption><span>{p.title[lang]}</span><span>{String(i + 1).padStart(2, '0')}</span></figcaption>
+          </figure>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="section">
+    <div class="container">
+      <div class="stats">
+        <div data-reveal><div class="stat__num" data-count-to={photos.length} data-suffix="+">{photos.length}+</div><p class="stat__label">{de ? 'Bilder im Portfolio' : 'Images in the portfolio'}</p></div>
+        <div data-reveal style="--delay:.1s"><div class="stat__num" data-count-to={categories.length}>{categories.length}</div><p class="stat__label">{de ? 'Serien von Street bis Landschaft' : 'Series from street to landscape'}</p></div>
+        <div data-reveal style="--delay:.2s"><div class="stat__num">2021</div><p class="stat__label">{de ? `Aussteller ${exhibitions[0].title}` : `Exhibitor ${exhibitions[0].title}`}</p></div>
+        <div data-reveal style="--delay:.3s"><div class="stat__num">2024</div><p class="stat__label">{de ? `Offizieller Fotograf ${events[0].slug.toUpperCase().replace('-', ' ')}` : `Official photographer ${events[0].slug.toUpperCase().replace('-', ' ')}`}</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRINTS -->
+  <section class="section" style="padding-top:0">
+    <div class="container grid-2">
+      <a href={photoUrl(printPhoto.slug, lang)} class="photo" data-reveal="clip" data-cursor={t('cta.view')} style={`aspect-ratio:4/5;--ph:${printPhoto.color}`}>
+        <img src={printPhoto.thumb} srcset={srcset(printPhoto)} sizes="(min-width:900px) 45vw, 100vw" alt={printPhoto.alt[lang]} width={printPhoto.width} height={printPhoto.height} loading="lazy" />
+      </a>
+      <div class="stack" style="--stack:2rem">
+        <span class="eyebrow" data-reveal>Fine Art Prints</span>
+        <SplitText as="h2" text={de ? 'Fotokunst für *deine* Wand.' : 'Photo art for *your* wall.'} />
+        <p class="lead" data-reveal>
+          {de
+            ? 'Ausgewählte Bilder als handsignierte Fine-Art-Prints, auf Alu-Dibond, als Leinwand oder fertig gerahmt. In der Schweiz produziert und sicher verpackt geliefert.'
+            : 'Selected images as hand-signed fine art prints, on aluminium, canvas or ready framed. Produced in Switzerland and shipped safely.'}
+        </p>
+        <ul class="checklist" data-reveal>
+          <li>{de ? 'Museumsqualität auf Hahnemühle-Papier' : 'Museum quality on Hahnemühle paper'}</li>
+          <li>{de ? 'Bezahlung mit TWINT, Karte, Apple Pay' : 'Pay with TWINT, card, Apple Pay'}</li>
+          <li>{de ? 'Ausgestellt an der Photo Schweiz' : 'Exhibited at Photo Schweiz'}</li>
+        </ul>
+        <div data-reveal><Button href={r('shop', lang)} variant="accent" size="lg">{t('cta.prints')}</Button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- JOURNAL -->
+  {posts.length > 0 && (
+    <section class="section" style="padding-top:0">
+      <div class="container">
+        <div class="section-head">
+          <div class="stack">
+            <span class="eyebrow" data-reveal>Journal</span>
+            <SplitText as="h2" text={de ? 'Geschichten & *Tipps.*' : 'Stories & *tips.*'} />
+          </div>
+          <Button href={r('journal', lang)} variant="ghost" data-reveal>{de ? 'Alle Beiträge' : 'All posts'}</Button>
+        </div>
+        <div class="post-grid">
+          {posts.map((post, i) => {
+            const cover = bySlug.get(post.data.cover) ?? photos[0];
+            return (
+              <a class="post-card" href={`${r('journal', lang)}/${post.data.slug}`} data-reveal style={`--delay:${i * 0.1}s`}>
+                <div class="photo" style={`--ph:${cover.color}`}><img src={cover.thumb} alt={cover.alt[lang]} loading="lazy" width={cover.width} height={cover.height} /></div>
+                <p class="post-card__meta">{post.data.date.toLocaleDateString(de ? 'de-CH' : 'en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
+                <h3>{post.data.title}</h3>
+              </a>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- CTA -->
+  <section class="container">
+    <div class="cta-band">
+      <div class="cta-band__bg" data-parallax="0.12" aria-hidden="true"><img src={ctaPhoto.src} alt="" loading="lazy" width={ctaPhoto.width} height={ctaPhoto.height} /></div>
+      <div class="cta-band__content">
+        <span class="eyebrow">{de ? 'Bereit?' : 'Ready?'}</span>
+        <SplitText as="h2" text={de ? 'Erzählen wir *deine* Geschichte.' : "Let's tell *your* story."} />
+        <div class="btn-row" style="justify-content:center">
+          <Button href={r('contact', lang)} variant="accent" size="lg">{t('cta.book')}</Button>
+          <Button href={r('services', lang)} variant="ghost" size="lg">{de ? 'Preise ansehen' : 'See pricing'}</Button>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>

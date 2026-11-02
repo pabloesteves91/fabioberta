@@ -1,0 +1,80 @@
+---
+import Base from '../layouts/Base.astro';
+import Button from '../components/Button.astro';
+import SplitText from '../components/SplitText.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { getPhotos, srcset } from '../lib/photos';
+import { materials, minPrice, chf, shipping } from '../lib/prints';
+import { r, photoUrl, type Lang } from '../i18n/routes';
+import { useT } from '../i18n/ui';
+import { breadcrumbSchema, abs } from '../lib/seo';
+import { services } from '../lib/content';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = useT(lang);
+const de = lang === 'de';
+const svc = services.find((s) => s.id === 'fine-art')!;
+const prints = (await getPhotos()).filter((p) => p.forSale);
+const crumbs = [
+  { name: t('nav.home'), url: r('home', lang) },
+  { name: t('nav.shop'), url: r('shop', lang) },
+];
+const listSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'Fine Art Prints',
+  itemListElement: prints.map((p, i) => ({ '@type': 'ListItem', position: i + 1, url: abs(photoUrl(p.slug, lang)), name: p.title[lang] })),
+};
+---
+<Base lang={lang} title={svc.seoTitle[lang]} description={svc.seoDescription[lang]} alternate={r('shop', de ? 'en' : 'de')} current="shop" jsonLd={[breadcrumbSchema(crumbs), listSchema]}>
+  <section class="page-hero container">
+    <Breadcrumbs items={crumbs} />
+    <span class="eyebrow" data-reveal>{t('shop.from')} {chf(minPrice, lang)} · {de ? 'handsigniert' : 'hand-signed'}</span>
+    <SplitText as="h1" text={de ? 'Fine-Art-*Prints.*' : 'Fine art *prints.*'} />
+    <p class="lead" data-reveal>{svc.intro[lang]}</p>
+  </section>
+
+  <section class="container">
+    <div class="shop-grid">
+      {prints.map((p, i) => (
+        <a class="shop-card" href={photoUrl(p.slug, lang)} data-reveal style={`--delay:${(i % 3) * 0.08}s`} data-cursor={t('cta.view')}>
+          <div class="photo" style={`--ph:${p.color}`}>
+            <img src={p.thumb} srcset={srcset(p)} sizes="(min-width: 1000px) 33vw, (min-width: 640px) 50vw, 100vw" alt={p.alt[lang]} width={p.width} height={p.height} loading={i < 3 ? 'eager' : 'lazy'} transition:name={`photo-${p.slug}`} />
+          </div>
+          <div class="shop-card__body">
+            <span class="shop-card__title">{p.title[lang]}</span>
+            <span class="shop-card__price">{t('shop.from')} {chf(minPrice, lang)}</span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="section container">
+    <div class="section-head">
+      <div class="stack">
+        <span class="eyebrow" data-reveal>{t('shop.material')}</span>
+        <SplitText as="h2" text={de ? 'Vier Materialien, *ein* Anspruch.' : 'Four materials, *one* standard.'} />
+      </div>
+      <a class="link" href={`${r('journal', lang)}/${de ? 'fine-art-print-material' : 'choosing-print-material'}`} data-reveal>{de ? 'Welches Material passt?' : 'Which material suits?'} →</a>
+    </div>
+    <div class="material-cards">
+      {materials.map((m, i) => (
+        <div class="material-card" data-reveal style={`--delay:${i * 0.08}s`}>
+          <h3>{m.name[lang]}</h3>
+          <p>{m.description[lang]}</p>
+          <p style="margin-top:1rem;color:var(--text)">{t('shop.from')} {chf(Math.min(...m.sizes.map((s) => s.price)), lang)}</p>
+        </div>
+      ))}
+    </div>
+    <p class="muted" style="margin-top:2rem;font-size:var(--fs-sm)">
+      {de
+        ? `${shipping.ch.label.de}: ${chf(shipping.ch.price)} · ${shipping.eu.label.de}: ${chf(shipping.eu.price)} · Gratis ab ${chf(shipping.freeFrom)}. Bezahlung sicher über Stripe mit TWINT, Kreditkarte, Apple Pay und Google Pay.`
+        : `${shipping.ch.label.en}: ${chf(shipping.ch.price, 'en')} · ${shipping.eu.label.en}: ${chf(shipping.eu.price, 'en')} · Free from ${chf(shipping.freeFrom, 'en')}. Secure payment via Stripe with TWINT, credit card, Apple Pay and Google Pay.`}
+    </p>
+    <div class="btn-row" style="margin-top:2rem">
+      <Button href={`${r('contact', lang)}?${de ? 'anliegen' : 'type'}=print`} variant="ghost">{de ? 'Individuelles Format anfragen' : 'Request a custom size'}</Button>
+    </div>
+  </section>
+</Base>

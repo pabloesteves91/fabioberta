@@ -1,0 +1,1652 @@
+[
+ {
+  "id": "am-telefon-zuerich",
+  "slug": "am-telefon-zuerich",
+  "category": "street",
+  "title": {
+   "de": "Am Telefon",
+   "en": "On the Phone"
+  },
+  "alt": {
+   "de": "Mann mit Hut telefoniert in einem Hauseingang, Schwarzweiss",
+   "en": "Man in a hat on the phone in a doorway, black and white"
+  },
+  "location": "Zürich",
+  "featured": false,
+  "forSale": false,
+  "sort": 0,
+  "src": "/photos/am-telefon-zuerich-1920.webp",
+  "thumb": "/photos/am-telefon-zuerich-960.webp",
+  "width": 1920,
+  "height": 1280,
+  "color": "#686868"
+ },
+ {
+  "id": "drei-voegel-zuerich",
+  "slug": "drei-voegel-zuerich",
+  "category": "street",
+  "title": {
+   "de": "Drei Vögel",
+   "en": "Three Birds"
+  },
+  "alt": {
+   "de": "Drei Vögel auf einer Strassenlaterne vor weissem Himmel",
+   "en": "Three birds perched on a street lamp against a white sky"
+  },
+  "location": "Zürich",
+  "featured": false,
+  "forSale": true,
+  "sort": 1,
+  "src": "/photos/drei-voegel-zuerich-1920.webp",
+  "thumb": "/photos/drei-voegel-zuerich-960.webp",
+  "width": 1920,
+  "height": 1280,
+  "color": "#f8f8f8"
+ },
+ {
+  "id": "im-ring",
+  "slug": "im-ring",
+  "category": "event",
+  "title": {
+   "de": "Im Ring",
+   "en": "In the Ring"
+  },
+  "alt": {
+   "de": "Zwei Kickboxer im Kampf im Ring, Scheinwerferlicht",
+   "en": "Two kickboxers fighting in the ring under spotlights"
+  },
+  "location": "Schweiz",
+  "featured": true,
+  "forSale": false,
+  "sort": 2,
+  "src": "/photos/im-ring-1920.webp",
+  "thumb": "/photos/im-ring-960.webp",
+  "width": 1920,
+  "height": 1280,
+  "color": "#080808"
+ },
+ {
+  "id": "brandung",
+  "slug": "brandung",
+  "category": "landscape",
+  "title": {
+   "de": "Brandung",
+   "en": "Surf"
+  },
+  "alt": {
+   "de": "Luftaufnahme der Meeresbrandung auf goldenem Sand",
+   "en": "Aerial view of sea foam rolling onto golden sand"
+  },
+  "location": "Montenegro",
+  "featured": true,
+  "forSale": true,
+  "sort": 3,
+  "src": "/photos/brandung-1920.webp",
+  "thumb": "/photos/brandung-960.webp",
+  "width": 1920,
+  "height": 1440,
+  "color": "#e8d8b8"
+ },
+ {
+  "id": "nebelmeer",
+  "slug": "nebelmeer",
+  "category": "landscape",
+  "title": {
+   "de": "Nebelmeer",
+   "en": "Sea of Fog"
+  },
+  "alt": {
+   "de": "Nebel zieht über ein Feld mit Hügelzug, Schwarzweiss",
+   "en": "Fog drifting over a field below a ridge, black and white"
+  },
+  "location": "Schweiz",
+  "featured": false,
+  "forSale": true,
+  "sort": 4,
+  "src": "/photos/nebelmeer-1920.webp",
+  "thumb": "/photos/nebelmeer-960.webp",
+  "width": 1920,
+  "height": 1403,
+  "color": "#c8c8c8"
+ },
+ {
+  "id": "alpweide",
+  "slug": "alpweide",
+  "category": "landscape",
+  "title": {
+   "de": "Alpweide",
+   "en": "Alpine Pasture"
+  },
+  "alt": {
+   "de": "Grüne Alpweide unter dramatischen Wolken und Felswand",
+   "en": "Green alpine pasture beneath dramatic clouds and a rock face"
+  },
+  "location": "Schweiz",
+  "featured": false,
+  "forSale": true,
+  "sort": 5,
+  "src": "/photos/alpweide-1920.webp",
+  "thumb": "/photos/alpweide-960.webp",
+  "width": 1920,
+  "height": 1440,
+  "color": "#383828"
+ },
+ {
+  "id": "mohnblume",
+  "slug": "mohnblume",
+  "category": "landscape",
+  "title": {
+   "de": "Mohnblume",
+   "en": "Poppy"
+  },
+  "alt": {
+   "de": "Einzelne rote Mohnblume über einem goldenen Kornfeld",
+   "en": "A single red poppy above a golden wheat field"
+  },
+  "location": "Schweiz",
+  "featured": true,
+  "forSale": true,
+  "sort": 6,
+  "src": "/photos/mohnblume-1920.webp",
+  "thumb": "/photos/mohnblume-960.webp",
+  "width": 1920,
+  "height": 1440,
+  "color": "#b87828"
+ },
+ {
+  "id": "blaue-stunde",
+  "slug": "blaue-stunde",
+  "category": "landscape",
+  "title": {
+   "de": "Blaue Stunde",
+   "en": "Blue Hour"
+  },
+  "alt": {
+   "de": "Sonnenuntergang spiegelt sich in einem ruhigen See",
+   "en": "Sunset reflected in a calm lake at blue hour"
+  },
+  "location": "Schweiz",
+  "featured": false,
+  "forSale": true,
+  "sort": 7,
+  "src": "/photos/blaue-stunde-1920.webp",
+  "thumb": "/photos/blaue-stunde-960.webp",
+  "width": 1920,
+  "height": 1440,
+  "color": "#080808"
+ },
+ {
+  "id": "licht-und-schatten-zuerich",
+  "slug": "licht-und-schatten-zuerich",
+  "category": "street",
+  "title": {
+   "de": "Licht und Schatten",
+   "en": "Light and Shadow"
+  },
+  "alt": {
+   "de": "Sonnenlicht auf einer Sandsteinfassade mit sitzender Person",
+   "en": "Sunlight on a sandstone facade with a seated figure"
+  },
+  "location": "Zürich",
+  "featured": false,
+  "forSale": true,
+  "sort": 8,
+  "src": "/photos/licht-und-schatten-zuerich-1920.webp",
+  "thumb": "/photos/licht-und-schatten-zuerich-960.webp",
+  "width": 1920,
+  "height": 1280,
+  "color": "#080808"
+ },
+ {
+  "id": "moewen-zuerich",
+  "slug": "moewen-zuerich",
+  "category": "street",
+  "title": {
+   "de": "Möwen",
+   "en": "Seagulls"
+  },
+  "alt": {
+   "de": "Möwen fliegen um eine Person auf einer Mauer, Schwarzweiss",
+   "en": "Seagulls circling a person on a wall, black and white"
+  },
+  "location": "Zürich",
+  "featured": false,
+  "forSale": true,
+  "sort": 9,
+  "src": "/photos/moewen-zuerich-1920.webp",
+  "thumb": "/photos/moewen-zuerich-960.webp",
+  "width": 1920,
+  "height": 1280,
+  "color": "#181818"
+ },
+ {
+  "id": "limmatquai-zuerich",
+  "slug": "limmatquai-zuerich",
+  "category": "street",
+  "title": {
+   "de": "Limmatquai",
+   "en": "Limmatquai"
+  },
+  "alt": {
+   "de": "Mofafahrer vor der Altstadt und St. Peter in Zürich",
+   "en": "Moped rider in front of the old town and St. Peter church in Zurich"
+  },
+  "location": "Zürich",
+  "featured": true,
+  "forSale": true,
+  "sort": 10,
+  "src": "/photos/limmatquai-zuerich-1920.webp",
+  "thumb": "/photos/limmatquai-zuerich-960.webp",
+  "width": 1920,
+  "height": 1280,
+  "color": "#f8f8f8"
+ },
+ {
+  "id": "die-werkstatt-zuerich",
+  "slug": "die-werkstatt-zuerich",
+  "category": "street",
+  "title": {
+   "de": "Die Werkstatt",
+   "en": "The Workshop"
+  },
+  "alt": {
+   "de": "Älterer Mann in Schürze in seiner Werkstatt, Schwarzweiss",
+   "en": "Elderly man in an apron in his workshop, black and white"
+  },
+  "location": "Zürich",
+  "featured": false,
+  "forSale": false,
+  "sort": 11,
+  "src": "/photos/die-werkstatt-zuerich-1920.webp",
+  "thumb": "/photos/die-werkstatt-zuerich-960.webp",
+  "width": 1920,
+  "height": 1280,
+  "color": "#080808"
+ },
+ {
+  "id": "grau-in-grau-zuerich",
+  "slug": "grau-in-grau-zuerich",
+  "category": "street",
+  "title": {
+   "de": "Grau in Grau",
+   "en": "Grey on Grey"
+  },
+  "alt": {
+   "de": "Frau in dunklem Mantel geht an einer grauen Wand vorbei",
+   "en": "Woman in a dark coat walking past a grey wall"
+  },
+  "location": "Zürich",
+  "featured": false,
+  "forSale": false,
+  "sort": 12,
+  "src": "/photos/grau-in-grau-zuerich-1920.webp",
+  "thumb": "/photos/grau-in-grau-zuerich-960.webp",
+  "width": 1920,
+  "height": 1280,
+  "color": "#787878"
+ },
+ {
+  "id": "gruss-zuerich",
+  "slug": "gruss-zuerich",
+  "category": "street",
+  "title": {
+   "de": "Gruss",
+   "en": "Greeting"
+  },
+  "alt": {
+   "de": "Frau mit roter Mütze winkt vor einem Zürcher Tram",
+   "en": "Woman in a red beanie waving in front of a Zurich tram"
+  },
+  "location": "Zürich",
+  "featured": false,
+  "forSale": false,
+  "sort": 13,
+  "src": "/photos/gruss-zuerich-1920.webp",
+  "thumb": "/photos/gruss-zuerich-960.webp",
+  "width": 1920,
+  "height": 1280,
+  "color": "#080808"
+ },
+ {
+  "id": "lachen-zuerich",
+  "slug": "lachen-zuerich",
+  "category": "street",
+  "title": {
+   "de": "Lachen",
+   "en": "Laughter"
+  },
+  "alt": {
+   "de": "Lachende junge Frau in der Bahnhofstrasse, Schwarzweiss",
+   "en": "Laughing young woman on a city street, black and white"
+  },
+  "location": "Zürich",
+  "featured": false,
+  "forSale": false,
+  "sort": 14,
+  "src": "/photos/lachen-zuerich-1920.webp",
+  "thumb": "/photos/lachen-zuerich-960.webp",
+  "width": 1920,
+  "height": 1280,
+  "color": "#585858"
+ },
+ {
+  "id": "kaffeepause-zuerich",
+  "slug": "kaffeepause-zuerich",
+  "category": "street",
+  "title": {
+   "de": "Kaffeepause",
+   "en": "Coffee Break"
+  },
+  "alt": {
+   "de": "Mann mit Kaffeebecher zwischen Steinsäulen",
+   "en": "Man with a coffee cup between stone columns"
+  },
+  "location": "Zürich",
+  "featured": false,
+  "forSale": false,
+  "sort": 15,
+  "src": "/photos/kaffeepause-zuerich-1920.webp",
+  "thumb": "/photos/kaffeepause-zuerich-960.webp",
+  "width": 1920,
+  "height": 1280,
+  "color": "#989898"
+ },
+ {
+  "id": "der-herr-zuerich",
+  "slug": "der-herr-zuerich",
+  "category": "portrait",
+  "title": {
+   "de": "Der Herr",
+   "en": "The Gentleman"
+  },
+  "alt": {
+   "de": "Portrait eines Mannes im Anzug mit Brille, Schwarzweiss",
+   "en": "Portrait of a man in a suit and glasses, black and white"
+  },
+  "location": "Zürich",
+  "featured": false,
+  "forSale": false,
+  "sort": 16,
+  "src": "/photos/der-herr-zuerich-1920.webp",
+  "thumb": "/photos/der-herr-zuerich-960.webp",
+  "width": 1920,
+  "height": 1280,
+  "color": "#080808"
+ },
+ {
+  "id": "rot-zuerich",
+  "slug": "rot-zuerich",
+  "category": "street",
+  "title": {
+   "de": "Rot",
+   "en": "Red"
+  },
+  "alt": {
+   "de": "Mann in roter Jacke zwischen beleuchteten Schaufenstern",
+   "en": "Man in a red jacket between lit shop windows"
+  },
+  "location": "Zürich",
+  "featured": false,
+  "forSale": false,
+  "sort": 17,
+  "src": "/photos/rot-zuerich-1920.webp",
+  "thumb": "/photos/rot-zuerich-960.webp",
+  "width": 1920,
+  "height": 1280,
+  "color": "#a8a8a8"
+ },
+ {
+  "id": "anruf-zuerich",
+  "slug": "anruf-zuerich",
+  "category": "street",
+  "title": {
+   "de": "Anruf",
+   "en": "The Call"
+  },
+  "alt": {
+   "de": "Mann im Mantel telefoniert vor einer Steinwand, Schwarzweiss",
+   "en": "Man in a coat on the phone against a stone wall, black and white"
+  },
+  "location": "Zürich",
+  "featured": false,
+  "forSale": false,
+  "sort": 18,
+  "src": "/photos/anruf-zuerich-1920.webp",
+  "thumb": "/photos/anruf-zuerich-960.webp",
+  "width": 1920,
+  "height": 1280,
+  "color": "#a8a8a8"
+ },
+ {
+  "id": "skater-zuerich",
+  "slug": "skater-zuerich",
+  "category": "street",
+  "title": {
+   "de": "Skater",
+   "en": "Skater"
+  },
+  "alt": {
+   "de": "Skateboarder fährt neben einem Tram durch die Stadt, Schwarzweiss",
+   "en": "Skateboarder riding beside a tram, black and white"
+  },
+  "location": "Zürich",
+  "featured": false,
+  "forSale": true,
+  "sort": 19,
+  "src": "/photos/skater-zuerich-1920.webp",
+  "thumb": "/photos/skater-zuerich-960.webp",
+  "width": 1920,
+  "height": 1280,
+  "color": "#888888"
+ },
+ {
+  "id": "kickflip-zuerich",
+  "slug": "kickflip-zuerich",
+  "category": "street",
+  "title": {
+   "de": "Kickflip",
+   "en": "Kickflip"
+  },
+  "alt": {
+   "de": "Skater springt vor einem Zürcher Tram in die Luft",
+   "en": "Skater mid-air in front of a Zurich tram"
+  },
+  "location": "Zürich",
+  "featured": true,
+  "forSale": true,
+  "sort": 20,
+  "src": "/photos/kickflip-zuerich-1920.webp",
+  "thumb": "/photos/kickflip-zuerich-960.webp",
+  "width": 1920,
+  "height": 1280,
+  "color": "#888888"
+ },
+ {
+  "id": "cafe-zuerich",
+  "slug": "cafe-zuerich",
+  "category": "street",
+  "title": {
+   "de": "Café",
+   "en": "Café"
+  },
+  "alt": {
+   "de": "Mann schreibt in einem Strassencafé, Schwarzweiss",
+   "en": "Man writing in a street café, black and white"
+  },
+  "location": "Zürich",
+  "featured": false,
+  "forSale": false,
+  "sort": 21,
+  "src": "/photos/cafe-zuerich-1920.webp",
+  "thumb": "/photos/cafe-zuerich-960.webp",
+  "width": 1920,
+  "height": 1280,
+  "color": "#080808"
+ },
+ {
+  "id": "nachtschicht-zuerich",
+  "slug": "nachtschicht-zuerich",
+  "category": "street",
+  "title": {
+   "de": "Nachtschicht",
+   "en": "Night Shift"
+  },
+  "alt": {
+   "de": "Mann sitzt allein im Dunkeln auf einer Bank",
+   "en": "Man sitting alone on a bench in the dark"
+  },
+  "location": "Zürich",
+  "featured": false,
+  "forSale": false,
+  "sort": 22,
+  "src": "/photos/nachtschicht-zuerich-1920.webp",
+  "thumb": "/photos/nachtschicht-zuerich-960.webp",
+  "width": 1920,
+  "height": 1280,
+  "color": "#080808"
+ },
+ {
+  "id": "warteschlange-zuerich",
+  "slug": "warteschlange-zuerich",
+  "category": "street",
+  "title": {
+   "de": "Warteschlange",
+   "en": "The Queue"
+  },
+  "alt": {
+   "de": "Velo im Vordergrund, Menschen warten in einer Schlange",
+   "en": "Bicycle in the foreground, people waiting in line"
+  },
+  "location": "Zürich",
+  "featured": false,
+  "forSale": false,
+  "sort": 23,
+  "src": "/photos/warteschlange-zuerich-1920.webp",
+  "thumb": "/photos/warteschlange-zuerich-960.webp",
+  "width": 1920,
+  "height": 1280,
+  "color": "#080808"
+ },
+ {
+  "id": "drehorgel-zuerich",
+  "slug": "drehorgel-zuerich",
+  "category": "street",
+  "title": {
+   "de": "Drehorgel",
+   "en": "Barrel Organ"
+  },
+  "alt": {
+   "de": "Drehorgelspieler mit Hut in der Stadt, Schwarzweiss",
+   "en": "Barrel organ player with a hat in the city, black and white"
+  },
+  "location": "Zürich",
+  "featured": false,
+  "forSale": false,
+  "sort": 24,
+  "src": "/photos/drehorgel-zuerich-1920.webp",
+  "thumb": "/photos/drehorgel-zuerich-960.webp",
+  "width": 1920,
+  "height": 1280,
+  "color": "#989898"
+ },
+ {
+  "id": "tauben-zuerich",
+  "slug": "tauben-zuerich",
+  "category": "street",
+  "title": {
+   "de": "Tauben",
+   "en": "Pigeons"
+  },
+  "alt": {
+   "de": "Mann tritt aus einem Laden, Tauben fliegen auf",
+   "en": "Man stepping out of a shop as pigeons take off"
+  },
+  "location": "Zürich",
+  "featured": true,
+  "forSale": true,
+  "sort": 25,
+  "src": "/photos/tauben-zuerich-1920.webp",
+  "thumb": "/photos/tauben-zuerich-960.webp",
+  "width": 1920,
+  "height": 1280,
+  "color": "#080808"
+ },
+ {
+  "id": "gleitschirme",
+  "slug": "gleitschirme",
+  "category": "landscape",
+  "title": {
+   "de": "Gleitschirme",
+   "en": "Paragliders"
+  },
+  "alt": {
+   "de": "Zwei Gleitschirme vor der Sonne über den Bergen, Schwarzweiss",
+   "en": "Two paragliders against the sun above the mountains, black and white"
+  },
+  "location": "Schweiz",
+  "featured": false,
+  "forSale": true,
+  "sort": 26,
+  "src": "/photos/gleitschirme-1920.webp",
+  "thumb": "/photos/gleitschirme-960.webp",
+  "width": 1920,
+  "height": 1280,
+  "color": "#888888"
+ },
+ {
+  "id": "gipfel",
+  "slug": "gipfel",
+  "category": "landscape",
+  "title": {
+   "de": "Gipfel",
+   "en": "Summit"
+  },
+  "alt": {
+   "de": "Schneebedeckter Berggipfel im warmen Abendlicht",
+   "en": "Snow-capped mountain peak in warm evening light"
+  },
+  "location": "Schweiz",
+  "featured": false,
+  "forSale": true,
+  "sort": 27,
+  "src": "/photos/gipfel-1920.webp",
+  "thumb": "/photos/gipfel-960.webp",
+  "width": 1920,
+  "height": 1280,
+  "color": "#f8f8f8"
+ },
+ {
+  "id": "schneefahrt-zuerich",
+  "slug": "schneefahrt-zuerich",
+  "category": "street",
+  "title": {
+   "de": "Schneefahrt",
+   "en": "Snow Ride"
+  },
+  "alt": {
+   "de": "Velofahrer im Schneegestöber, Schwarzweiss",
+   "en": "Cyclist riding through falling snow, black and white"
+  },
+  "location": "Zürich",
+  "featured": false,
+  "forSale": true,
+  "sort": 28,
+  "src": "/photos/schneefahrt-zuerich-1920.webp",
+  "thumb": "/photos/schneefahrt-zuerich-960.webp",
+  "width": 1920,
+  "height": 1280,
+  "color": "#989898"
+ },
+ {
+  "id": "schneenacht-zuerich",
+  "slug": "schneenacht-zuerich",
+  "category": "street",
+  "title": {
+   "de": "Schneenacht",
+   "en": "Snow Night"
+  },
+  "alt": {
+   "de": "Silhouette einer Person im Schneefall bei Nacht",
+   "en": "Silhouette of a person walking through snow at night"
+  },
+  "location": "Zürich",
+  "featured": false,
+  "forSale": true,
+  "sort": 29,
+  "src": "/photos/schneenacht-zuerich-1920.webp",
+  "thumb": "/photos/schneenacht-zuerich-960.webp",
+  "width": 1920,
+  "height": 1280,
+  "color": "#080808"
+ },
+ {
+  "id": "die-schneiderei-zuerich",
+  "slug": "die-schneiderei-zuerich",
+  "category": "street",
+  "title": {
+   "de": "Die Schneiderei",
+   "en": "The Tailor"
+  },
+  "alt": {
+   "de": "Schneider bei der Arbeit an einem grossen Teddybären",
+   "en": "Tailor working on a giant teddy bear"
+  },
+  "location": "Zürich",
+  "featured": false,
+  "forSale": false,
+  "sort": 30,
+  "src": "/photos/die-schneiderei-zuerich-1920.webp",
+  "thumb": "/photos/die-schneiderei-zuerich-960.webp",
+  "width": 1920,
+  "height": 1280,
+  "color": "#080808"
+ },
+ {
+  "id": "kleiner-entdecker-zuerich",
+  "slug": "kleiner-entdecker-zuerich",
+  "category": "street",
+  "title": {
+   "de": "Kleiner Entdecker",
+   "en": "Little Explorer"
+  },
+  "alt": {
+   "de": "Kleines Kind sitzt allein auf einem grossen Platz",
+   "en": "Small child sitting alone on a large square"
+  },
+  "location": "Zürich",
+  "featured": false,
+  "forSale": false,
+  "sort": 31,
+  "src": "/photos/kleiner-entdecker-zuerich-1920.webp",
+  "thumb": "/photos/kleiner-entdecker-zuerich-960.webp",
+  "width": 1920,
+  "height": 1280,
+  "color": "#080808"
+ },
+ {
+  "id": "auf-der-schwelle-zuerich",
+  "slug": "auf-der-schwelle-zuerich",
+  "category": "street",
+  "title": {
+   "de": "Auf der Schwelle",
+   "en": "On the Threshold"
+  },
+  "alt": {
+   "de": "Älterer Mann mit langem Haar sitzt in einem Hauseingang",
+   "en": "Elderly man with long hair sitting in a doorway"
+  },
+  "location": "Zürich",
+  "featured": false,
+  "forSale": false,
+  "sort": 32,
+  "src": "/photos/auf-der-schwelle-zuerich-1920.webp",
+  "thumb": "/photos/auf-der-schwelle-zuerich-960.webp",
+  "width": 1920,
+  "height": 1280,
+  "color": "#080808"
+ },
+ {
+  "id": "am-fluss-zuerich",
+  "slug": "am-fluss-zuerich",
+  "category": "street",
+  "title": {
+   "de": "Am Fluss",
+   "en": "By the River"
+  },
+  "alt": {
+   "de": "Zwei Jogger auf einer Brücke an der Limmat, Schwarzweiss",
+   "en": "Two joggers on a bridge over the Limmat, black and white"
+  },
+  "location": "Zürich",
+  "featured": false,
+  "forSale": true,
+  "sort": 33,
+  "src": "/photos/am-fluss-zuerich-1920.webp",
+  "thumb": "/photos/am-fluss-zuerich-960.webp",
+  "width": 1920,
+  "height": 1280,
+  "color": "#585858"
+ },
+ {
+  "id": "schattenspiel-zuerich",
+  "slug": "schattenspiel-zuerich",
+  "category": "street",
+  "title": {
+   "de": "Schattenspiel",
+   "en": "Shadow Play"
+  },
+  "alt": {
+   "de": "Skaterin und ihr langer Schatten im Gegenlicht",
+   "en": "Skater and her long shadow in backlight"
+  },
+  "location": "Zürich",
+  "featured": false,
+  "forSale": true,
+  "sort": 34,
+  "src": "/photos/schattenspiel-zuerich-1920.webp",
+  "thumb": "/photos/schattenspiel-zuerich-960.webp",
+  "width": 1920,
+  "height": 1280,
+  "color": "#080808"
+ },
+ {
+  "id": "spiegelung",
+  "slug": "spiegelung",
+  "category": "landscape",
+  "title": {
+   "de": "Spiegelung",
+   "en": "Reflection"
+  },
+  "alt": {
+   "de": "Verschneiter Berg spiegelt sich in einem Bergsee",
+   "en": "Snowy mountain mirrored in an alpine lake"
+  },
+  "location": "Schweiz",
+  "featured": true,
+  "forSale": true,
+  "sort": 35,
+  "src": "/photos/spiegelung-1920.webp",
+  "thumb": "/photos/spiegelung-960.webp",
+  "width": 1920,
+  "height": 1280,
+  "color": "#080808"
+ },
+ {
+  "id": "gentleman-zuerich",
+  "slug": "gentleman-zuerich",
+  "category": "street",
+  "title": {
+   "de": "Gentleman",
+   "en": "Gentleman"
+  },
+  "alt": {
+   "de": "Mann mit Melone und Aktentasche auf Kopfsteinpflaster",
+   "en": "Man with a bowler hat and briefcase on cobblestones"
+  },
+  "location": "Zürich",
+  "featured": false,
+  "forSale": true,
+  "sort": 36,
+  "src": "/photos/gentleman-zuerich-1920.webp",
+  "thumb": "/photos/gentleman-zuerich-960.webp",
+  "width": 1365,
+  "height": 2048,
+  "color": "#080808"
+ },
+ {
+  "id": "zwischen-baeumen-zuerich",
+  "slug": "zwischen-baeumen-zuerich",
+  "category": "street",
+  "title": {
+   "de": "Zwischen Bäumen",
+   "en": "Between Trees"
+  },
+  "alt": {
+   "de": "Mann sitzt nachdenklich zwischen zwei Baumstämmen",
+   "en": "Man sitting thoughtfully between two tree trunks"
+  },
+  "location": "Zürich",
+  "featured": false,
+  "forSale": false,
+  "sort": 37,
+  "src": "/photos/zwischen-baeumen-zuerich-1920.webp",
+  "thumb": "/photos/zwischen-baeumen-zuerich-960.webp",
+  "width": 1920,
+  "height": 1280,
+  "color": "#282828"
+ },
+ {
+  "id": "die-bruecke-zuerich",
+  "slug": "die-bruecke-zuerich",
+  "category": "street",
+  "title": {
+   "de": "Die Brücke",
+   "en": "The Bridge"
+  },
+  "alt": {
+   "de": "Passanten auf einer Fussgängerbrücke, Schwarzweiss",
+   "en": "Pedestrians on a footbridge, black and white"
+  },
+  "location": "Zürich",
+  "featured": false,
+  "forSale": false,
+  "sort": 38,
+  "src": "/photos/die-bruecke-zuerich-1920.webp",
+  "thumb": "/photos/die-bruecke-zuerich-960.webp",
+  "width": 1920,
+  "height": 1280,
+  "color": "#d8d8d8"
+ },
+ {
+  "id": "gleisfeld-zuerich",
+  "slug": "gleisfeld-zuerich",
+  "category": "street",
+  "title": {
+   "de": "Gleisfeld",
+   "en": "Railway Yard"
+  },
+  "alt": {
+   "de": "Blick durch einen Zaun auf das Gleisfeld, Schwarzweiss",
+   "en": "View through a fence onto the railway tracks, black and white"
+  },
+  "location": "Zürich",
+  "featured": false,
+  "forSale": true,
+  "sort": 39,
+  "src": "/photos/gleisfeld-zuerich-1920.webp",
+  "thumb": "/photos/gleisfeld-zuerich-960.webp",
+  "width": 1920,
+  "height": 1280,
+  "color": "#080808"
+ },
+ {
+  "id": "jubel-zuerich",
+  "slug": "jubel-zuerich",
+  "category": "event",
+  "title": {
+   "de": "Jubel",
+   "en": "Celebration"
+  },
+  "alt": {
+   "de": "Fussballfans umarmen sich jubelnd",
+   "en": "Football fans hugging and celebrating"
+  },
+  "location": "Zürich",
+  "featured": false,
+  "forSale": false,
+  "sort": 40,
+  "src": "/photos/jubel-zuerich-1920.webp",
+  "thumb": "/photos/jubel-zuerich-960.webp",
+  "width": 1920,
+  "height": 1280,
+  "color": "#080808"
+ },
+ {
+  "id": "feiernacht-zuerich",
+  "slug": "feiernacht-zuerich",
+  "category": "event",
+  "title": {
+   "de": "Feiernacht",
+   "en": "Night of Celebration"
+  },
+  "alt": {
+   "de": "Feiernde Fans mit Fackeln in der Nacht",
+   "en": "Fans celebrating with flares at night"
+  },
+  "location": "Zürich",
+  "featured": false,
+  "forSale": false,
+  "sort": 41,
+  "src": "/photos/feiernacht-zuerich-1920.webp",
+  "thumb": "/photos/feiernacht-zuerich-960.webp",
+  "width": 1920,
+  "height": 1280,
+  "color": "#080808"
+ },
+ {
+  "id": "funkenregen",
+  "slug": "funkenregen",
+  "category": "event",
+  "title": {
+   "de": "Funkenregen",
+   "en": "Shower of Sparks"
+  },
+  "alt": {
+   "de": "Feuerkünstler in einem Regen aus Funken",
+   "en": "Fire performer in a shower of sparks"
+  },
+  "location": "Schweiz",
+  "featured": true,
+  "forSale": false,
+  "sort": 42,
+  "src": "/photos/funkenregen-1920.webp",
+  "thumb": "/photos/funkenregen-960.webp",
+  "width": 1365,
+  "height": 2048,
+  "color": "#080808"
+ },
+ {
+  "id": "siegesschrei-zuerich",
+  "slug": "siegesschrei-zuerich",
+  "category": "event",
+  "title": {
+   "de": "Siegesschrei",
+   "en": "Victory Cry"
+  },
+  "alt": {
+   "de": "Fan schreit vor Freude mit geballter Faust",
+   "en": "Fan shouting with joy, fist clenched"
+  },
+  "location": "Zürich",
+  "featured": false,
+  "forSale": false,
+  "sort": 43,
+  "src": "/photos/siegesschrei-zuerich-1920.webp",
+  "thumb": "/photos/siegesschrei-zuerich-960.webp",
+  "width": 1365,
+  "height": 2048,
+  "color": "#080808"
+ },
+ {
+  "id": "fenster",
+  "slug": "fenster",
+  "category": "travel",
+  "title": {
+   "de": "Fenster",
+   "en": "Window"
+  },
+  "alt": {
+   "de": "Frau mit Rucksack fotografiert durch ein Fenster in einer roten Wand",
+   "en": "Woman with a backpack photographing through a window in a red wall"
+  },
+  "location": "Südostasien",
+  "featured": false,
+  "forSale": false,
+  "sort": 44,
+  "src": "/photos/fenster-1920.webp",
+  "thumb": "/photos/fenster-960.webp",
+  "width": 1365,
+  "height": 2048,
+  "color": "#482828"
+ },
+ {
+  "id": "am-rand",
+  "slug": "am-rand",
+  "category": "travel",
+  "title": {
+   "de": "Am Rand",
+   "en": "On the Edge"
+  },
+  "alt": {
+   "de": "Mann sitzt am Rand eines Gehwegs unter Arkaden",
+   "en": "Man sitting at the edge of a sidewalk under arcades"
+  },
+  "location": "Südostasien",
+  "featured": false,
+  "forSale": false,
+  "sort": 45,
+  "src": "/photos/am-rand-1920.webp",
+  "thumb": "/photos/am-rand-960.webp",
+  "width": 1365,
+  "height": 2048,
+  "color": "#381818"
+ },
+ {
+  "id": "marktstand",
+  "slug": "marktstand",
+  "category": "travel",
+  "title": {
+   "de": "Marktstand",
+   "en": "Market Stall"
+  },
+  "alt": {
+   "de": "Händler zwischen Kleidern an einem Marktstand am Abend",
+   "en": "Vendor among clothes at an evening market stall"
+  },
+  "location": "Südostasien",
+  "featured": false,
+  "forSale": false,
+  "sort": 46,
+  "src": "/photos/marktstand-1920.webp",
+  "thumb": "/photos/marktstand-960.webp",
+  "width": 1365,
+  "height": 2048,
+  "color": "#080808"
+ },
+ {
+  "id": "abendflug",
+  "slug": "abendflug",
+  "category": "landscape",
+  "title": {
+   "de": "Abendflug",
+   "en": "Evening Flight"
+  },
+  "alt": {
+   "de": "Drachen am Himmel über dem Meer bei Sonnenuntergang",
+   "en": "Kite in the sky above the sea at sunset"
+  },
+  "location": "Südostasien",
+  "featured": false,
+  "forSale": true,
+  "sort": 47,
+  "src": "/photos/abendflug-1920.webp",
+  "thumb": "/photos/abendflug-960.webp",
+  "width": 1365,
+  "height": 2048,
+  "color": "#080808"
+ },
+ {
+  "id": "strassenhaendler",
+  "slug": "strassenhaendler",
+  "category": "travel",
+  "title": {
+   "de": "Strassenhändler",
+   "en": "Street Vendor"
+  },
+  "alt": {
+   "de": "Strassenhändler mit Taschen an einer Steinmauer",
+   "en": "Street vendor carrying bags by a stone wall"
+  },
+  "location": "Südostasien",
+  "featured": false,
+  "forSale": false,
+  "sort": 48,
+  "src": "/photos/strassenhaendler-1920.webp",
+  "thumb": "/photos/strassenhaendler-960.webp",
+  "width": 1365,
+  "height": 2048,
+  "color": "#181828"
+ },
+ {
+  "id": "strandspiel",
+  "slug": "strandspiel",
+  "category": "travel",
+  "title": {
+   "de": "Strandspiel",
+   "en": "Beach Game"
+  },
+  "alt": {
+   "de": "Silhouette eines Spielers am Strand bei Sonnenaufgang",
+   "en": "Silhouette of a player on the beach at sunrise"
+  },
+  "location": "Südostasien",
+  "featured": false,
+  "forSale": true,
+  "sort": 49,
+  "src": "/photos/strandspiel-1920.webp",
+  "thumb": "/photos/strandspiel-960.webp",
+  "width": 1365,
+  "height": 2048,
+  "color": "#f8f8b8"
+ },
+ {
+  "id": "meditation",
+  "slug": "meditation",
+  "category": "travel",
+  "title": {
+   "de": "Meditation",
+   "en": "Meditation"
+  },
+  "alt": {
+   "de": "Frau meditiert am Strand im Gegenlicht",
+   "en": "Woman meditating on the beach against the sun"
+  },
+  "location": "Südostasien",
+  "featured": false,
+  "forSale": true,
+  "sort": 50,
+  "src": "/photos/meditation-1920.webp",
+  "thumb": "/photos/meditation-960.webp",
+  "width": 1365,
+  "height": 2048,
+  "color": "#f8e8c8"
+ },
+ {
+  "id": "am-strand",
+  "slug": "am-strand",
+  "category": "travel",
+  "title": {
+   "de": "Am Strand",
+   "en": "At the Beach"
+  },
+  "alt": {
+   "de": "Frau trägt einen Korb auf dem Kopf am Strand",
+   "en": "Woman carrying a basket on her head on the beach"
+  },
+  "location": "Südostasien",
+  "featured": false,
+  "forSale": true,
+  "sort": 51,
+  "src": "/photos/am-strand-1920.webp",
+  "thumb": "/photos/am-strand-960.webp",
+  "width": 1365,
+  "height": 2048,
+  "color": "#b8c8d8"
+ },
+ {
+  "id": "street-style",
+  "slug": "street-style",
+  "category": "travel",
+  "title": {
+   "de": "Street Style",
+   "en": "Street Style"
+  },
+  "alt": {
+   "de": "Tätowiertes Paar posiert auf einem Platz",
+   "en": "Tattooed couple posing on a city square"
+  },
+  "location": "Südostasien",
+  "featured": false,
+  "forSale": false,
+  "sort": 52,
+  "src": "/photos/street-style-1920.webp",
+  "thumb": "/photos/street-style-960.webp",
+  "width": 1365,
+  "height": 2048,
+  "color": "#080808"
+ },
+ {
+  "id": "freunde",
+  "slug": "freunde",
+  "category": "travel",
+  "title": {
+   "de": "Freunde",
+   "en": "Friends"
+  },
+  "alt": {
+   "de": "Gruppe junger Leute auf der Strasse, Schwarzweiss",
+   "en": "Group of young friends on the street, black and white"
+  },
+  "location": "Südostasien",
+  "featured": false,
+  "forSale": false,
+  "sort": 53,
+  "src": "/photos/freunde-1920.webp",
+  "thumb": "/photos/freunde-960.webp",
+  "width": 1365,
+  "height": 2048,
+  "color": "#181818"
+ },
+ {
+  "id": "prozession",
+  "slug": "prozession",
+  "category": "travel",
+  "title": {
+   "de": "Prozession",
+   "en": "Procession"
+  },
+  "alt": {
+   "de": "Prozession mit Kreuz im warmen Abendlicht",
+   "en": "Procession with a cross in warm evening light"
+  },
+  "location": "Südostasien",
+  "featured": false,
+  "forSale": false,
+  "sort": 54,
+  "src": "/photos/prozession-1920.webp",
+  "thumb": "/photos/prozession-960.webp",
+  "width": 1365,
+  "height": 2048,
+  "color": "#080808"
+ },
+ {
+  "id": "kreuzung",
+  "slug": "kreuzung",
+  "category": "travel",
+  "title": {
+   "de": "Kreuzung",
+   "en": "Crossroads"
+  },
+  "alt": {
+   "de": "Händler schiebt einen beladenen Wagen über eine Kreuzung",
+   "en": "Vendor pushing a loaded cart across an intersection"
+  },
+  "location": "Südostasien",
+  "featured": false,
+  "forSale": true,
+  "sort": 55,
+  "src": "/photos/kreuzung-1920.webp",
+  "thumb": "/photos/kreuzung-960.webp",
+  "width": 1365,
+  "height": 2048,
+  "color": "#182828"
+ },
+ {
+  "id": "altstadt",
+  "slug": "altstadt",
+  "category": "travel",
+  "title": {
+   "de": "Altstadt",
+   "en": "Old Town"
+  },
+  "alt": {
+   "de": "Strassenschlucht mit Kabeln und alten Häusern",
+   "en": "Street canyon with tangled cables and old buildings"
+  },
+  "location": "Südostasien",
+  "featured": false,
+  "forSale": true,
+  "sort": 56,
+  "src": "/photos/altstadt-1920.webp",
+  "thumb": "/photos/altstadt-960.webp",
+  "width": 1365,
+  "height": 2048,
+  "color": "#081818"
+ },
+ {
+  "id": "rush-hour",
+  "slug": "rush-hour",
+  "category": "travel",
+  "title": {
+   "de": "Rush Hour",
+   "en": "Rush Hour"
+  },
+  "alt": {
+   "de": "Pick-up mit Passagieren auf dem Dach in einer Gasse",
+   "en": "Pickup truck with passengers on the roof in a narrow street"
+  },
+  "location": "Südostasien",
+  "featured": false,
+  "forSale": true,
+  "sort": 57,
+  "src": "/photos/rush-hour-1920.webp",
+  "thumb": "/photos/rush-hour-960.webp",
+  "width": 1365,
+  "height": 2048,
+  "color": "#081818"
+ },
+ {
+  "id": "der-verkaeufer",
+  "slug": "der-verkaeufer",
+  "category": "travel",
+  "title": {
+   "de": "Der Verkäufer",
+   "en": "The Vendor"
+  },
+  "alt": {
+   "de": "Junger Mann sitzt an seinem Verkaufswagen im Gedränge",
+   "en": "Young man sitting by his vending cart in a busy street"
+  },
+  "location": "Südostasien",
+  "featured": false,
+  "forSale": false,
+  "sort": 58,
+  "src": "/photos/der-verkaeufer-1920.webp",
+  "thumb": "/photos/der-verkaeufer-960.webp",
+  "width": 1365,
+  "height": 2048,
+  "color": "#080808"
+ },
+ {
+  "id": "garkueche",
+  "slug": "garkueche",
+  "category": "travel",
+  "title": {
+   "de": "Garküche",
+   "en": "Street Kitchen"
+  },
+  "alt": {
+   "de": "Frau im Halbdunkel einer kleinen Garküche",
+   "en": "Woman in the half-light of a small street kitchen"
+  },
+  "location": "Südostasien",
+  "featured": false,
+  "forSale": false,
+  "sort": 59,
+  "src": "/photos/garkueche-1920.webp",
+  "thumb": "/photos/garkueche-960.webp",
+  "width": 1365,
+  "height": 2048,
+  "color": "#081818"
+ },
+ {
+  "id": "regenschirm",
+  "slug": "regenschirm",
+  "category": "travel",
+  "title": {
+   "de": "Regenschirm",
+   "en": "Umbrella"
+  },
+  "alt": {
+   "de": "Rollerfahrer mit Sonnenschirm in einer nassen Gasse",
+   "en": "Scooter rider with an umbrella in a wet alley"
+  },
+  "location": "Vietnam",
+  "featured": false,
+  "forSale": true,
+  "sort": 60,
+  "src": "/photos/regenschirm-1920.webp",
+  "thumb": "/photos/regenschirm-960.webp",
+  "width": 1920,
+  "height": 1280,
+  "color": "#181818"
+ },
+ {
+  "id": "train-street",
+  "slug": "train-street",
+  "category": "travel",
+  "title": {
+   "de": "Train Street",
+   "en": "Train Street"
+  },
+  "alt": {
+   "de": "Bahngleise führen durch eine enge, grüne Gasse",
+   "en": "Railway tracks running through a narrow green alley"
+  },
+  "location": "Vietnam",
+  "featured": true,
+  "forSale": true,
+  "sort": 61,
+  "src": "/photos/train-street-1920.webp",
+  "thumb": "/photos/train-street-960.webp",
+  "width": 1365,
+  "height": 2048,
+  "color": "#081818"
+ },
+ {
+  "id": "barbier",
+  "slug": "barbier",
+  "category": "travel",
+  "title": {
+   "de": "Barbier",
+   "en": "Barber"
+  },
+  "alt": {
+   "de": "Strassenbarbier schneidet einem Mann die Haare",
+   "en": "Street barber cutting a man's hair"
+  },
+  "location": "Vietnam",
+  "featured": false,
+  "forSale": false,
+  "sort": 62,
+  "src": "/photos/barbier-1920.webp",
+  "thumb": "/photos/barbier-960.webp",
+  "width": 1365,
+  "height": 2048,
+  "color": "#081818"
+ },
+ {
+  "id": "transport",
+  "slug": "transport",
+  "category": "travel",
+  "title": {
+   "de": "Transport",
+   "en": "Delivery"
+  },
+  "alt": {
+   "de": "Rollerfahrer transportiert eine riesige orange Kiste",
+   "en": "Scooter rider carrying a huge orange box"
+  },
+  "location": "Vietnam",
+  "featured": false,
+  "forSale": true,
+  "sort": 63,
+  "src": "/photos/transport-1920.webp",
+  "thumb": "/photos/transport-960.webp",
+  "width": 1920,
+  "height": 1280,
+  "color": "#181818"
+ },
+ {
+  "id": "mutter-und-kind",
+  "slug": "mutter-und-kind",
+  "category": "travel",
+  "title": {
+   "de": "Mutter und Kind",
+   "en": "Mother and Child"
+  },
+  "alt": {
+   "de": "Frau trägt ihr Kind auf dem Rücken im Sonnenlicht",
+   "en": "Woman carrying her child on her back in the sunlight"
+  },
+  "location": "Vietnam",
+  "featured": false,
+  "forSale": false,
+  "sort": 64,
+  "src": "/photos/mutter-und-kind-1920.webp",
+  "thumb": "/photos/mutter-und-kind-960.webp",
+  "width": 1365,
+  "height": 2048,
+  "color": "#181818"
+ },
+ {
+  "id": "lotusfeld",
+  "slug": "lotusfeld",
+  "category": "travel",
+  "title": {
+   "de": "Lotusfeld",
+   "en": "Lotus Field"
+  },
+  "alt": {
+   "de": "Bauer arbeitet in einem Lotusfeld vor Karstfelsen",
+   "en": "Farmer working in a lotus field below karst cliffs"
+  },
+  "location": "Vietnam",
+  "featured": true,
+  "forSale": true,
+  "sort": 65,
+  "src": "/photos/lotusfeld-1920.webp",
+  "thumb": "/photos/lotusfeld-960.webp",
+  "width": 1920,
+  "height": 1280,
+  "color": "#182828"
+ },
+ {
+  "id": "der-moench",
+  "slug": "der-moench",
+  "category": "travel",
+  "title": {
+   "de": "Der Mönch",
+   "en": "The Monk"
+  },
+  "alt": {
+   "de": "Mönch in orangem Gewand blickt aus einem Fenster",
+   "en": "Monk in an orange robe looking out of a window"
+  },
+  "location": "Südostasien",
+  "featured": false,
+  "forSale": false,
+  "sort": 66,
+  "src": "/photos/der-moench-1920.webp",
+  "thumb": "/photos/der-moench-960.webp",
+  "width": 1365,
+  "height": 2048,
+  "color": "#282828"
+ },
+ {
+  "id": "ink",
+  "slug": "ink",
+  "category": "portrait",
+  "title": {
+   "de": "Ink",
+   "en": "Ink"
+  },
+  "alt": {
+   "de": "Portrait eines Mannes mit Halstattoo, Cap und Sonnenbrille",
+   "en": "Portrait of a man with a neck tattoo, cap and sunglasses"
+  },
+  "location": "Südostasien",
+  "featured": false,
+  "forSale": false,
+  "sort": 67,
+  "src": "/photos/ink-1920.webp",
+  "thumb": "/photos/ink-960.webp",
+  "width": 1920,
+  "height": 1280,
+  "color": "#080808"
+ },
+ {
+  "id": "laecheln",
+  "slug": "laecheln",
+  "category": "portrait",
+  "title": {
+   "de": "Lächeln",
+   "en": "Smile"
+  },
+  "alt": {
+   "de": "Lächelnder älterer Mann sitzt vor seinem Motorrad",
+   "en": "Smiling elderly man sitting in front of his motorbike"
+  },
+  "location": "Vietnam",
+  "featured": false,
+  "forSale": false,
+  "sort": 68,
+  "src": "/photos/laecheln-1920.webp",
+  "thumb": "/photos/laecheln-960.webp",
+  "width": 1365,
+  "height": 2048,
+  "color": "#e8e8e8"
+ },
+ {
+  "id": "die-pfeife",
+  "slug": "die-pfeife",
+  "category": "portrait",
+  "title": {
+   "de": "Die Pfeife",
+   "en": "The Pipe"
+  },
+  "alt": {
+   "de": "Älterer Mann mit Pfeife, Schwarzweiss-Portrait",
+   "en": "Elderly man with a pipe, black and white portrait"
+  },
+  "location": "Südostasien",
+  "featured": false,
+  "forSale": false,
+  "sort": 69,
+  "src": "/photos/die-pfeife-1920.webp",
+  "thumb": "/photos/die-pfeife-960.webp",
+  "width": 1365,
+  "height": 2048,
+  "color": "#080808"
+ },
+ {
+  "id": "werkstatt",
+  "slug": "werkstatt",
+  "category": "travel",
+  "title": {
+   "de": "Werkstatt",
+   "en": "Workshop"
+  },
+  "alt": {
+   "de": "Mechaniker zwischen Rollern in einer Werkstatt",
+   "en": "Mechanic among scooters in a workshop"
+  },
+  "location": "Vietnam",
+  "featured": false,
+  "forSale": false,
+  "sort": 70,
+  "src": "/photos/werkstatt-1920.webp",
+  "thumb": "/photos/werkstatt-960.webp",
+  "width": 1920,
+  "height": 1280,
+  "color": "#081818"
+ },
+ {
+  "id": "peace",
+  "slug": "peace",
+  "category": "travel",
+  "title": {
+   "de": "Peace",
+   "en": "Peace"
+  },
+  "alt": {
+   "de": "Frau in roter Jacke zeigt das Peace-Zeichen",
+   "en": "Woman in a red jacket showing the peace sign"
+  },
+  "location": "Vietnam",
+  "featured": false,
+  "forSale": false,
+  "sort": 71,
+  "src": "/photos/peace-1920.webp",
+  "thumb": "/photos/peace-960.webp",
+  "width": 1920,
+  "height": 1280,
+  "color": "#080808"
+ },
+ {
+  "id": "burnout",
+  "slug": "burnout",
+  "category": "event",
+  "title": {
+   "de": "Burnout",
+   "en": "Burnout"
+  },
+  "alt": {
+   "de": "Auto-Burnout mit Rauchwolke bei einem Treffen",
+   "en": "Car burnout with a cloud of smoke at a meet"
+  },
+  "location": "Südostasien",
+  "featured": false,
+  "forSale": false,
+  "sort": 72,
+  "src": "/photos/burnout-1920.webp",
+  "thumb": "/photos/burnout-960.webp",
+  "width": 1920,
+  "height": 1280,
+  "color": "#080808"
+ },
+ {
+  "id": "fabio-berta-fotograf-zuerich",
+  "slug": "fabio-berta-fotograf-zuerich",
+  "category": "_site",
+  "title": {
+   "de": "Fabio Berta",
+   "en": "Fabio Berta"
+  },
+  "alt": {
+   "de": "Portrait von Fabio Berta, Fotograf aus Zürich",
+   "en": "Portrait of Fabio Berta, photographer from Zurich"
+  },
+  "location": "Zürich",
+  "featured": false,
+  "forSale": false,
+  "sort": 900,
+  "src": "/photos/fabio-berta-fotograf-zuerich-1920.webp",
+  "thumb": "/photos/fabio-berta-fotograf-zuerich-960.webp",
+  "width": 2017,
+  "height": 2690,
+  "color": "#484848"
+ },
+ {
+  "id": "photo-schweiz-2021-ausstellung",
+  "slug": "photo-schweiz-2021-ausstellung",
+  "category": "_site",
+  "title": {
+   "de": "Photo Schweiz 2021",
+   "en": "Photo Schweiz 2021"
+  },
+  "alt": {
+   "de": "Ausstellungsplakat Photo Schweiz 2021 mit Brandungsbild von Fabio Berta",
+   "en": "Photo Schweiz 2021 exhibition poster with surf image by Fabio Berta"
+  },
+  "location": "Zürich",
+  "featured": false,
+  "forSale": false,
+  "sort": 901,
+  "src": "/photos/photo-schweiz-2021-ausstellung-1920.webp",
+  "thumb": "/photos/photo-schweiz-2021-ausstellung-960.webp",
+  "width": 1181,
+  "height": 1181,
+  "color": "#c8d8e8"
+ }
+]

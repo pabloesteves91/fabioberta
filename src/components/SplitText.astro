@@ -1,0 +1,13 @@
+---
+/** Teilt Text in Wörter für die Einblend-Animation. Unterstützt *kursiv* via Markdown-Sternchen. */
+interface Props { text: string; as?: 'h1' | 'h2' | 'h3' | 'p' | 'span'; class?: string; delay?: number }
+const { text, as: Tag = 'h2', class: cls, delay = 0 } = Astro.props;
+const words = text.split(' ').map((w) => ({ italic: /^\*.*\*[.,!?]?$/.test(w), text: w.replace(/\*/g, '') }));
+---
+<Tag class:list={['split', cls]} data-split style={`--delay:${delay}s`} aria-label={text.replace(/\*/g, '')}>
+  {words.map((w, i) => (
+    <>
+      <span class="w" aria-hidden="true"><span class="wi" style={`--i:${i}`}>{w.italic ? <em>{w.text}</em> : w.text}</span></span>{' '}
+    </>
+  ))}
+</Tag>

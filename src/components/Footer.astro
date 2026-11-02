@@ -1,0 +1,64 @@
+---
+import Button from './Button.astro';
+import Icon from './Icon.astro';
+import { r, type Lang } from '../i18n/routes';
+import { useT } from '../i18n/ui';
+import { site } from '../lib/site';
+import { services } from '../lib/content';
+interface Props { lang: Lang; cta?: boolean }
+const { lang, cta = true } = Astro.props;
+const t = useT(lang);
+const year = new Date().getFullYear();
+const svcBase = r('services', lang);
+---
+<footer class="footer">
+  <div class="container">
+    {cta && (<div class="footer__cta">
+      <span class="eyebrow">{t('nav.contact')}</span>
+      <p class="display split" data-split>{t('footer.cta')}</p>
+      <div class="btn-row">
+        <Button href={r('contact', lang)} size="lg" variant="accent">{t('cta.book')}</Button>
+        <Button href={site.instagram} variant="ghost" size="lg" target="_blank" rel="noopener">Instagram</Button>
+      </div>
+    </div>)}
+    <div class="footer__grid">
+      <div>
+        <h2>Fabio Berta</h2>
+        <p class="muted">{t('footer.region')}</p>
+      </div>
+      <div>
+        <h2>{t('nav.services')}</h2>
+        <ul>
+          {services.map((s) => <li><a href={s.id === 'fine-art' ? r('shop', lang) : `${svcBase}/${s.slug[lang]}`}>{s.title[lang]}</a></li>)}
+          <li><a href={r('events', lang)}>{t('nav.events')}</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>{lang === 'de' ? 'Entdecken' : 'Explore'}</h2>
+        <ul>
+          <li><a href={r('portfolio', lang)}>{t('nav.portfolio')}</a></li>
+          <li><a href={r('exhibitions', lang)}>{t('nav.exhibitions')}</a></li>
+          <li><a href={r('journal', lang)}>{t('nav.journal')}</a></li>
+          <li><a href={r('about', lang)}>{t('nav.about')}</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>{t('footer.legal')}</h2>
+        <ul>
+          <li><a href={r('imprint', lang)}>{lang === 'de' ? 'Impressum' : 'Imprint'}</a></li>
+          <li><a href={r('privacy', lang)}>{lang === 'de' ? 'Datenschutz' : 'Privacy'}</a></li>
+          <li><a href={r('terms', lang)}>{lang === 'de' ? 'AGB' : 'Terms'}</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>{t('footer.follow')}</h2>
+        <ul><li><a href={site.instagram} target="_blank" rel="noopener" class="link"><Icon name="instagram" /> Instagram</a></li></ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span>© {year} {site.brand}. {t('footer.rights')}</span>
+      <span>{lang === 'de' ? 'Fotograf Zürich · Schweiz' : 'Photographer Zurich · Switzerland'}</span>
+    </div>
+    <div class="footer__giant" aria-hidden="true" data-parallax="-0.08">Fabio Berta</div>
+  </div>
+</footer>

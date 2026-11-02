@@ -1,0 +1,60 @@
+---
+import Base from '../layouts/Base.astro';
+import PhotoCard from '../components/PhotoCard.astro';
+import SplitText from '../components/SplitText.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { getPhotos, categories } from '../lib/photos';
+import { r, photoUrl, type Lang } from '../i18n/routes';
+import { useT } from '../i18n/ui';
+import { breadcrumbSchema, abs } from '../lib/seo';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = useT(lang);
+const de = lang === 'de';
+const photos = await getPhotos();
+const counts = Object.fromEntries(categories.map((c) => [c, photos.filter((p) => p.category === c).length]));
+const crumbs = [
+  { name: t('nav.home'), url: r('home', lang) },
+  { name: t('nav.portfolio'), url: r('portfolio', lang) },
+];
+const gallerySchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ImageGallery',
+  name: de ? 'Portfolio Fabio Berta' : 'Portfolio Fabio Berta',
+  url: abs(r('portfolio', lang)),
+  image: photos.slice(0, 30).map((p) => ({ '@type': 'ImageObject', contentUrl: abs(p.src), name: p.title[lang], url: abs(photoUrl(p.slug, lang)) })),
+};
+---
+<Base
+  lang={lang}
+  title={de ? 'Portfolio – Street, Events & Landschaft | Fotograf Zürich' : 'Portfolio – Street, Events & Landscape | Photographer Zurich'}
+  description={de
+    ? 'Das Portfolio von Fabio Berta: Streetfotografie aus Zürich, Event- und Sportfotos, Schweizer Landschaften, Reisefotografie aus Südostasien und Portraits.'
+    : "Fabio Berta's portfolio: street photography from Zurich, event and sports photos, Swiss landscapes, travel photography from Southeast Asia and portraits."}
+  alternate={r('portfolio', de ? 'en' : 'de')}
+  current="portfolio"
+  jsonLd={[breadcrumbSchema(crumbs), gallerySchema]}
+>
+  <section class="page-hero container">
+    <Breadcrumbs items={crumbs} />
+    <span class="eyebrow" data-reveal>{photos.length} {de ? 'Bilder' : 'images'} · {categories.length} {de ? 'Serien' : 'series'}</span>
+    <SplitText as="h1" text={de ? 'Das *Portfolio.*' : 'The *portfolio.*'} />
+    <p class="lead" data-reveal>
+      {de
+        ? 'Von den Gassen Zürichs über Schweizer Bergseen bis zu den Strassen Hanois. Klick auf ein Bild für die Vollansicht – viele davon gibt es auch als Print.'
+        : 'From the streets of Zurich to Swiss mountain lakes and the alleys of Hanoi. Click an image for full view – many are also available as prints.'}
+    </p>
+  </section>
+  <section class="container">
+    <div class="filters" role="group" aria-label={de ? 'Nach Serie filtern' : 'Filter by series'} data-reveal>
+      <button type="button" class="chip" data-filter="all" aria-pressed="true">{t('cat.all')} <sup>{photos.length}</sup></button>
+      {categories.map((c) => counts[c] > 0 && (
+        <button type="button" class="chip" data-filter={c} aria-pressed="false">{t(`cat.${c}`)} <sup>{counts[c]}</sup></button>
+      ))}
+    </div>
+    <div class="masonry" data-gallery>
+      {photos.map((p, i) => <PhotoCard photo={p} lang={lang} lightbox index={i} eager={i < 3} />)}
+    </div>
+  </section>
+</Base>

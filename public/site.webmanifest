@@ -1,0 +1,9 @@
+{
+  "name": "Fabio Berta Photography",
+  "short_name": "Fabio Berta",
+  "icons": [{ "src": "/apple-touch-icon.png", "sizes": "180x180", "type": "image/png" }, { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" }],
+  "theme_color": "#0c0b0a",
+  "background_color": "#0c0b0a",
+  "display": "standalone",
+  "start_url": "/"
+}

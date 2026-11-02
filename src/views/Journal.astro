@@ -1,0 +1,58 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import SplitText from '../components/SplitText.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { getPhotos } from '../lib/photos';
+import { r, type Lang } from '../i18n/routes';
+import { useT } from '../i18n/ui';
+import { breadcrumbSchema, abs } from '../lib/seo';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = useT(lang);
+const de = lang === 'de';
+const photos = await getPhotos();
+const bySlug = new Map(photos.map((p) => [p.slug, p]));
+const posts = (await getCollection('journal', (p) => p.data.lang === lang)).sort((a, b) => +b.data.date - +a.data.date);
+const crumbs = [
+  { name: t('nav.home'), url: r('home', lang) },
+  { name: 'Journal', url: r('journal', lang) },
+];
+const blogSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Blog',
+  name: 'Journal – Fabio Berta',
+  url: abs(r('journal', lang)),
+  blogPost: posts.map((p) => ({ '@type': 'BlogPosting', headline: p.data.title, url: abs(`${r('journal', lang)}/${p.data.slug}`), datePublished: p.data.date.toISOString() })),
+};
+---
+<Base
+  lang={lang}
+  title={de ? 'Journal – Fotografie-Tipps & Geschichten aus Zürich' : 'Journal – Photography Tips & Stories from Zurich'}
+  description={de ? 'Tipps zur Eventfotografie, Streetfotografie in Zürich, Fine-Art-Prints und Geschichten hinter den Bildern von Fotograf Fabio Berta.' : 'Tips on event photography, street photography in Zurich, fine art prints and the stories behind the images by photographer Fabio Berta.'}
+  alternate={r('journal', de ? 'en' : 'de')}
+  current="journal"
+  jsonLd={[breadcrumbSchema(crumbs), blogSchema]}
+>
+  <section class="page-hero container">
+    <Breadcrumbs items={crumbs} />
+    <span class="eyebrow" data-reveal>Journal</span>
+    <SplitText as="h1" text={de ? 'Geschichten hinter den *Bildern.*' : 'Stories behind the *images.*'} />
+  </section>
+  <section class="container">
+    <div class="post-grid">
+      {posts.map((post, i) => {
+        const cover = bySlug.get(post.data.cover) ?? photos[0];
+        return (
+          <a class="post-card" href={`${r('journal', lang)}/${post.data.slug}`} data-reveal style={`--delay:${(i % 3) * 0.1}s`}>
+            <div class="photo" style={`--ph:${cover.color}`}><img src={cover.thumb} alt={cover.alt[lang]} loading={i < 3 ? 'eager' : 'lazy'} width={cover.width} height={cover.height} /></div>
+            <p class="post-card__meta">{post.data.date.toLocaleDateString(de ? 'de-CH' : 'en-GB', { day: 'numeric', month: 'long', year: 'numeric' })} · {post.data.tags.join(', ')}</p>
+            <h2 class="h3" style="font-size:2rem;line-height:1.05;margin-top:.6rem">{post.data.title}</h2>
+            <p>{post.data.description}</p>
+          </a>
+        );
+      })}
+    </div>
+  </section>
+</Base>
