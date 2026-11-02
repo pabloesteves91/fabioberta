@@ -1,8 +1,7 @@
 import type { APIRoute } from 'astro';
 import { routes, photoUrl, eventUrl, type RouteKey } from '../i18n/routes';
 import { getPhotos } from '../lib/photos';
-import { services } from '../lib/content';
-import { getEvents, getPosts } from '../lib/data';
+import { getEvents, getPosts, getServices } from '../lib/data';
 import { site } from '../lib/site';
 
 type Entry = { de: string; en: string; priority: number; lastmod?: string; image?: string };
@@ -14,7 +13,7 @@ export const GET: APIRoute = async () => {
     ['events', 0.6], ['exhibitions', 0.5], ['journal', 0.6], ['imprint', 0.1], ['privacy', 0.1], ['terms', 0.1],
   ];
   keys.forEach(([k, priority]) => entries.push({ ...routes[k], priority }));
-  services.filter((s) => s.id !== 'fine-art').forEach((s) =>
+  (await getServices()).filter((s) => s.id !== 'fine-art').forEach((s) =>
     entries.push({ de: `${routes.services.de}/${s.slug.de}`, en: `${routes.services.en}/${s.slug.en}`, priority: 0.9 }),
   );
   (await getEvents()).forEach((e) => entries.push({ de: eventUrl(e.slug, 'de'), en: eventUrl(e.slug, 'en'), priority: 0.5 }));

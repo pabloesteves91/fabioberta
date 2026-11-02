@@ -3,7 +3,8 @@ import Base from '../layouts/Base.astro';
 import Button from '../components/Button.astro';
 import SplitText from '../components/SplitText.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
-import { services, packagePrice } from '../lib/content';
+import { packagePrice, type Service } from '../lib/content';
+import { getServices, serviceHref } from '../lib/data';
 import { getPhotos } from '../lib/photos';
 import { r, type Lang } from '../i18n/routes';
 import { useT } from '../i18n/ui';
@@ -19,7 +20,8 @@ const crumbs = [
   { name: t('nav.home'), url: r('home', lang) },
   { name: t('nav.services'), url: r('services', lang) },
 ];
-const href = (s: (typeof services)[number]) => (s.id === 'fine-art' ? r('shop', lang) : `${r('services', lang)}/${s.slug[lang]}`);
+const services = await getServices();
+const href = (s: Service) => serviceHref(s, lang, r('services', lang), r('shop', lang));
 ---
 <Base
   lang={lang}

@@ -5,11 +5,11 @@ import SplitText from '../components/SplitText.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import { getPhotos, srcset } from '../lib/photos';
 import { activeMaterials, minPrice as getMin, chf } from '../lib/prints';
-import { getPrintConfig } from '../lib/data';
+import { getPrintConfig, getService } from '../lib/data';
+import { defaultServices } from '../lib/content';
 import { r, photoUrl, type Lang } from '../i18n/routes';
 import { useT } from '../i18n/ui';
 import { breadcrumbSchema, abs } from '../lib/seo';
-import { services } from '../lib/content';
 
 interface Props { lang: Lang }
 const { lang } = Astro.props;
@@ -19,7 +19,7 @@ const cfg = await getPrintConfig();
 const materials = activeMaterials(cfg);
 const minPrice = getMin(cfg);
 const shipping = cfg.shipping;
-const svc = services.find((s) => s.id === 'fine-art')!;
+const svc = (await getService('fine-art')) ?? defaultServices.find((s) => s.id === 'fine-art')!;
 const prints = (await getPhotos()).filter((p) => p.forSale);
 const crumbs = [
   { name: t('nav.home'), url: r('home', lang) },

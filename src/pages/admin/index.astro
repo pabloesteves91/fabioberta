@@ -5,7 +5,7 @@ import '@fontsource-variable/manrope';
 import '../../styles/global.css';
 import '../../styles/admin.css';
 import local from '../../data/photos.json';
-import { defaultEvents, defaultExhibitions } from '../../lib/content';
+import { defaultEvents, defaultExhibitions, defaultServices } from '../../lib/content';
 import { defaultPosts } from '../../lib/posts';
 import { defaultPrintConfig } from '../../lib/prints';
 export const prerender = false;
@@ -27,6 +27,7 @@ const defaults = configured
       exhibitions: defaultExhibitions,
       posts: (await defaultPosts()).map((p) => ({ ...p, date: p.date.toISOString() })),
       prints: defaultPrintConfig,
+      services: defaultServices.map((s, i) => ({ ...s, sort: i, published: true })),
     }
   : null;
 ---
@@ -81,6 +82,7 @@ const defaults = configured
             <nav aria-label="Admin-Navigation">
               <button data-view="dashboard"><span class="a-ico">◎</span><span>Übersicht</span></button>
               <button data-view="photos"><span class="a-ico">▦</span><span>Fotos</span></button>
+              <button data-view="services"><span class="a-ico">◇</span><span>Leistungen</span></button>
               <button data-view="events"><span class="a-ico">★</span><span>Events</span></button>
               <button data-view="exhibitions"><span class="a-ico">◫</span><span>Ausstellungen</span></button>
               <button data-view="posts"><span class="a-ico">✎</span><span>Journal</span></button>

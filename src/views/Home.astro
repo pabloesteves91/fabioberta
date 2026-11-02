@@ -6,8 +6,8 @@ import SplitText from '../components/SplitText.astro';
 import Marquee from '../components/Marquee.astro';
 import Icon from '../components/Icon.astro';
 import { getPhotos, siteImage, srcset, categories } from '../lib/photos';
-import { services } from '../lib/content';
-import { getEvents, getExhibitions, getPosts } from '../lib/data';
+import { getEvents, getExhibitions, getPosts, getServices, serviceHref } from '../lib/data';
+import type { Service } from '../lib/content';
 import { r, photoUrl, type Lang } from '../i18n/routes';
 import { useT } from '../i18n/ui';
 import { personSchema } from '../lib/seo';
@@ -33,7 +33,8 @@ const [events, exhibitions] = await Promise.all([getEvents(), getExhibitions()])
 const firstExhibition = exhibitions[exhibitions.length - 1];
 const firstEvent = events[0];
 
-const svcHref = (s: (typeof services)[number]) => (s.id === 'fine-art' ? r('shop', lang) : `${r('services', lang)}/${s.slug[lang]}`);
+const services = await getServices();
+const svcHref = (s: Service) => serviceHref(s, lang, r('services', lang), r('shop', lang));
 ---
 <Base
   lang={lang}

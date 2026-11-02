@@ -3,8 +3,7 @@ import Base from '../layouts/Base.astro';
 import Button from '../components/Button.astro';
 import SplitText from '../components/SplitText.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
-import { services } from '../lib/content';
-import { getEvents } from '../lib/data';
+import { getEvents, getService } from '../lib/data';
 import { getPhotos } from '../lib/photos';
 import { r, eventUrl, type Lang } from '../i18n/routes';
 import { useT } from '../i18n/ui';
@@ -20,7 +19,7 @@ const crumbs = [
   { name: t('nav.home'), url: r('home', lang) },
   { name: t('nav.events'), url: r('events', lang) },
 ];
-const svc = services.find((s) => s.id === 'event-sport')!;
+const svc = await getService('event-sport');
 ---
 <Base
   lang={lang}
@@ -54,6 +53,7 @@ const svc = services.find((s) => s.id === 'event-sport')!;
       );
     })}
   </section>
+  {svc && (
   <section class="section container">
     <div class="stack" style="--stack:1.5rem;max-width:60ch">
       <h2 data-reveal>{de ? 'Du planst ein Event?' : 'Planning an event?'}</h2>
@@ -61,4 +61,5 @@ const svc = services.find((s) => s.id === 'event-sport')!;
       <div data-reveal><Button href={`${r('services', lang)}/${svc.slug[lang]}`} variant="accent">{svc.title[lang]}</Button></div>
     </div>
   </section>
+  )}
 </Base>

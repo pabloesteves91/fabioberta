@@ -3,7 +3,8 @@ import type { Lang } from '../i18n/routes';
 type L = Record<Lang, string>;
 
 export interface Service {
-  id: 'event-sport' | 'portrait-business' | 'fine-art';
+  /** 'fine-art' ist speziell: verlinkt auf den Print-Shop statt auf eine eigene Seite */
+  id: string;
   slug: L;
   title: L;
   kicker: L;
@@ -15,9 +16,14 @@ export interface Service {
   highlights: Record<Lang, string[]>;
   packages: { name: L; price: string | L; features: Record<Lang, string[]>; popular?: boolean }[];
   faq: { q: L; a: L }[];
+  /** Vorauswahl im Kontaktformular: event | portrait | print | other */
+  inquiryType?: string;
+  published?: boolean;
+  sort?: number;
 }
 
-export const services: Service[] = [
+/** Standard-Leistungen (werden ersetzt, sobald in Firebase Leistungen angelegt sind). */
+export const defaultServices: Service[] = [
   {
     id: 'event-sport',
     slug: { de: 'eventfotografie-sportfotografie', en: 'event-sports-photography' },
@@ -35,6 +41,7 @@ export const services: Service[] = [
       de: 'Ich halte die Momente fest, die man nicht wiederholen kann: den Jubel nach dem Sieg, die Anspannung vor dem Auftritt, die Energie im Saal. Als offizieller Fotograf der SNBF International Open Championship weiss ich, worauf es bei Meisterschaften und Events ankommt: Tempo, Diskretion und Bilder, die Emotionen tragen.',
       en: 'I capture the moments that cannot be repeated: the cheer after a win, the tension before stepping on stage, the energy in the room. As official photographer of the SNBF International Open Championship I know what matters at championships and events: speed, discretion and images that carry emotion.',
     },
+    inquiryType: 'event',
     cover: 'im-ring',
     gallery: ['im-ring', 'funkenregen', 'jubel-zuerich', 'siegesschrei-zuerich', 'feiernacht-zuerich', 'burnout'],
     highlights: {
@@ -116,6 +123,7 @@ export const services: Service[] = [
       de: 'Meine Portraits entstehen dort, wo das Leben spielt: in den Gassen von Zürich, im Atelier oder direkt in deinem Büro. Aus der Streetfotografie bringe ich den Blick für echte Momente mit – das Ergebnis sind Bilder, auf denen du dich wiedererkennst, statt steife Studiofotos.',
       en: 'My portraits are made where life happens: in the streets of Zurich, in the studio or right at your office. From street photography I bring an eye for genuine moments – resulting in images you recognise yourself in, rather than stiff studio shots.',
     },
+    inquiryType: 'portrait',
     cover: 'der-herr-zuerich',
     gallery: ['der-herr-zuerich', 'ink', 'laecheln', 'die-pfeife', 'lachen-zuerich', 'rot-zuerich'],
     highlights: {
@@ -187,6 +195,7 @@ export const services: Service[] = [
       de: 'Ausgewählte Bilder aus meinem Portfolio gibt es als hochwertige Prints – produziert in der Schweiz und von mir handsigniert. Bereits ausgestellt an der Photo Schweiz.',
       en: 'Selected images from my portfolio are available as high-quality prints – produced in Switzerland and hand-signed by me. Previously exhibited at Photo Schweiz.',
     },
+    inquiryType: 'print',
     cover: 'spiegelung',
     gallery: [],
     highlights: { de: [], en: [] },
@@ -194,8 +203,6 @@ export const services: Service[] = [
     faq: [],
   },
 ];
-
-export const serviceBySlug = (slug: string, lang: Lang) => services.find((s) => s.slug[lang] === slug);
 
 export const packagePrice = (p: Service['packages'][number], lang: Lang) =>
   typeof p.price === 'string' ? p.price : p.price[lang];

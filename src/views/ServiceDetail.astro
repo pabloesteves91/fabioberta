@@ -4,7 +4,8 @@ import Button from '../components/Button.astro';
 import PhotoCard from '../components/PhotoCard.astro';
 import SplitText from '../components/SplitText.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
-import { type Service, packagePrice, services } from '../lib/content';
+import { type Service, packagePrice } from '../lib/content';
+import { getServices, serviceHref } from '../lib/data';
 import { getPhotos, srcset } from '../lib/photos';
 import { r, type Lang } from '../i18n/routes';
 import { useT } from '../i18n/ui';
@@ -25,7 +26,7 @@ const crumbs = [
   { name: t('nav.services'), url: r('services', lang) },
   { name: s.title[lang], url },
 ];
-const type = s.id === 'event-sport' ? 'event' : 'portrait';
+const type = s.inquiryType || (s.id === 'event-sport' ? 'event' : 'portrait');
 const serviceSchema = {
   '@context': 'https://schema.org',
   '@type': 'Service',
@@ -39,10 +40,10 @@ const serviceSchema = {
     '@type': 'Offer',
     name: p.name[lang],
     priceCurrency: 'CHF',
-    price: Number(packagePrice(p, 'de').replace(/[^\d]/g, '')),
+    price: Number(packagePrice(p, 'de').replace(/[^\d]/g, '')) || undefined,
   })),
 };
-const other = services.filter((x) => x.id !== s.id);
+const other = (await getServices()).filter((x) => x.id !== s.id);
 ---
 <Base
   lang={lang}
@@ -52,7 +53,7 @@ const other = services.filter((x) => x.id !== s.id);
   current="services"
   image={cover.src}
   preload={cover.src}
-  jsonLd={[breadcrumbSchema(crumbs), serviceSchema, faqSchema(s.faq.map((f) => ({ q: f.q[lang], a: f.a[lang] })))]}
+  jsonLd={[breadcrumbSchema(crumbs), serviceSchema, ...(s.faq.length ? [faqSchema(s.faq.map((f) => ({ q: f.q[lang], a: f.a[lang] })))] : [])]}
 >
   <section class="hero" style="height:88svh">
     <div class="hero__slides"><div class="hero__slide is-active">
@@ -64,7 +65,7 @@ const other = services.filter((x) => x.id !== s.id);
       <SplitText as="h1" class="display" text={s.title[lang]} />
       <div class="btn-row" style="margin-top:2rem" data-reveal>
         <Button href={`${r('contact', lang)}?${de ? 'anliegen' : 'type'}=${type}`} variant="accent" size="lg">{t('cta.book')}</Button>
-        <Button href="#pakete" variant="ghost" size="lg">{de ? 'Pakete & Preise' : 'Packages & pricing'}</Button>
+        {s.packages.length > 0 && <Button href="#pakete" variant="ghost" size="lg">{de ? 'Pakete & Preise' : 'Packages & pricing'}</Button>}
       </div>
     </div>
   </section>
@@ -74,9 +75,11 @@ const other = services.filter((x) => x.id !== s.id);
       <span class="eyebrow" data-reveal>{de ? 'Mein Ansatz' : 'My approach'}</span>
       <p class="lead" data-reveal style="color:var(--text);font-size:var(--fs-lg);line-height:1.4">{s.intro[lang]}</p>
     </div>
+    {s.highlights[lang].length > 0 && (
     <ul class="checklist" data-reveal>
       {s.highlights[lang].map((h) => <li>{h}</li>)}
     </ul>
+    )}
   </section>
 
   {gallery.length > 0 && (
@@ -87,6 +90,7 @@ const other = services.filter((x) => x.id !== s.id);
     </section>
   )}
 
+  {s.packages.length > 0 && (
   <section class="section container" id="pakete">
     <div class="section-head">
       <div class="stack">
@@ -107,7 +111,9 @@ const other = services.filter((x) => x.id !== s.id);
       ))}
     </div>
   </section>
+  )}
 
+  {s.faq.length > 0 && (
   <section class="section container" style="padding-top:0">
     <div class="grid-2" style="align-items:start">
       <div class="stack">
@@ -124,11 +130,12 @@ const other = services.filter((x) => x.id !== s.id);
       </div>
     </div>
   </section>
+  )}
 
   <section class="container section--tight">
     <p class="eyebrow" style="margin-bottom:1.5rem">{de ? 'Weitere Leistungen' : 'More services'}</p>
     <div class="btn-row">
-      {other.map((o) => <Button href={o.id === 'fine-art' ? r('shop', lang) : `${r('services', lang)}/${o.slug[lang]}`} variant="ghost">{o.title[lang]}</Button>)}
+      {other.map((o) => <Button href={serviceHref(o, lang, r('services', lang), r('shop', lang))} variant="ghost">{o.title[lang]}</Button>)}
     </div>
   </section>
 </Base>

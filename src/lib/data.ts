@@ -4,7 +4,7 @@
  * werden die Standardinhalte aus dem Code verwendet.
  */
 import { getDb, cached } from './firebase';
-import { defaultEvents, defaultExhibitions, type EventItem, type Exhibition } from './content';
+import { defaultEvents, defaultExhibitions, defaultServices, type EventItem, type Exhibition, type Service } from './content';
 import { defaultPosts, type Post } from './posts';
 import { defaultPrintConfig, type PrintConfig } from './prints';
 import type { Lang } from '../i18n/routes';
@@ -26,6 +26,23 @@ async function loadCollection<T>(name: string, map: (id: string, d: FirebaseFire
 }
 
 const ts = (v: unknown) => (v && typeof v === 'object' && 'toDate' in v ? (v as { toDate(): Date }).toDate() : new Date(String(v)));
+
+export async function getServices(): Promise<Service[]> {
+  const rows = await loadCollection('services', (id, d) => ({ ...d, id }) as Service);
+  const list = rows && rows.length ? rows.filter((s) => s.published !== false) : defaultServices;
+  return [...list].sort((a, b) => (a.sort ?? 0) - (b.sort ?? 0));
+}
+
+export async function getService(id: string) {
+  return (await getServices()).find((s) => s.id === id) ?? null;
+}
+
+export async function getServiceBySlug(slug: string, lang: Lang) {
+  return (await getServices()).find((s) => s.slug?.[lang] === slug) ?? null;
+}
+
+/** Link einer Leistung: «Fine-Art-Prints» führt in den Shop, alle anderen auf ihre eigene Seite. */
+export const serviceHref = (s: Service, lang: Lang, base: string, shop: string) => (s.id === 'fine-art' ? shop : `${base}/${s.slug[lang]}`);
 
 export async function getEvents(): Promise<EventItem[]> {
   const rows = await loadCollection('events', (id, d) => ({ id, ...d }) as EventItem);

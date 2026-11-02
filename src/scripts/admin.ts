@@ -85,7 +85,7 @@ function boot(config: Row, defaults: Row) {
   }
 
   const state = {
-    photos: [] as Row[], events: [] as Row[], exhibitions: [] as Row[], posts: [] as Row[],
+    photos: [] as Row[], services: [] as Row[], events: [] as Row[], exhibitions: [] as Row[], posts: [] as Row[],
     inquiries: [] as Row[], orders: [] as Row[], prints: null as Row | null,
     view: 'dashboard',
     photoFilter: { q: '', cat: 'all', status: 'all' },
@@ -145,11 +145,12 @@ function boot(config: Row, defaults: Row) {
   }
   async function loadAll() {
     try {
-      const [photos, events, exhibitions, posts, inquiries, orders, prints] = await Promise.all([
-        loadCol('photos'), loadCol('events'), loadCol('exhibitions'), loadCol('posts'), loadCol('inquiries'), loadCol('orders'),
+      const [photos, services, events, exhibitions, posts, inquiries, orders, prints] = await Promise.all([
+        loadCol('photos'), loadCol('services'), loadCol('events'), loadCol('exhibitions'), loadCol('posts'), loadCol('inquiries'), loadCol('orders'),
         getDoc(doc(db, 'settings', 'prints')),
       ]);
       state.photos = photos.sort((a: Row, b: Row) => (a.sort ?? 0) - (b.sort ?? 0));
+      state.services = services.sort((a: Row, b: Row) => (a.sort ?? 0) - (b.sort ?? 0));
       state.events = events.sort((a: Row, b: Row) => String(b.date).localeCompare(String(a.date)));
       state.exhibitions = exhibitions.sort((a: Row, b: Row) => String(b.date).localeCompare(String(a.date)));
       state.posts = posts.sort((a: Row, b: Row) => +(toDate(b.date) ?? 0) - +(toDate(a.date) ?? 0));
@@ -172,7 +173,7 @@ function boot(config: Row, defaults: Row) {
 
   /* ---------- Navigation ---------- */
   const views: Record<string, () => void> = {
-    dashboard: renderDashboard, photos: renderPhotos, events: renderEvents, exhibitions: renderExhibitions,
+    dashboard: renderDashboard, photos: renderPhotos, services: renderServices, events: renderEvents, exhibitions: renderExhibitions,
     posts: renderPosts, prices: renderPrices, inquiries: renderInquiries, orders: renderOrders,
   };
   function go(view: string) {
@@ -314,7 +315,7 @@ function boot(config: Row, defaults: Row) {
       <div class="a-head"><div><h1>${hello}, Fabio 👋</h1><p>Hier verwaltest du alles auf fabioberta.com. Änderungen sind nach spätestens 5 Minuten live.</p></div></div>
       ${empty ? `<div class="a-card" style="margin-bottom:1.5rem;display:grid;gap:.75rem">
         <h2>Los geht’s: bestehende Inhalte übernehmen</h2>
-        <p class="muted">Deine Datenbank ist noch leer. Mit einem Klick übernimmst du alle ${defaults.photos.length} bisherigen Bilder, Events, Ausstellungen, Journal-Beiträge und Print-Preise. Danach kannst du alles hier bearbeiten.</p>
+        <p class="muted">Deine Datenbank ist noch leer. Mit einem Klick übernimmst du alle ${defaults.photos.length} bisherigen Bilder, Leistungen, Events, Ausstellungen, Journal-Beiträge und Print-Preise. Danach kannst du alles hier bearbeiten.</p>
         <div><button class="a-btn a-btn--primary" data-import>Inhalte jetzt übernehmen</button></div></div>` : ''}
       <div class="a-stats">
         <button class="a-stat" data-go="photos"><b>${state.photos.filter((p) => p.published !== false).length}</b><span>Fotos online</span></button>
@@ -326,7 +327,8 @@ function boot(config: Row, defaults: Row) {
         <button class="a-btn a-btn--primary" data-upload>＋ Bilder hochladen</button>
         <button class="a-btn" data-new="events">＋ Neues Event</button>
         <button class="a-btn" data-new="posts">＋ Neuer Journal-Beitrag</button>
-        <button class="a-btn" data-go="prices">Preise anpassen</button>
+        <button class="a-btn" data-go="services">Leistungen & Pakete</button>
+        <button class="a-btn" data-go="prices">Print-Preise</button>
       </div>
       <div class="a-grid2">
         <section class="a-card"><div class="a-head" style="margin-bottom:.5rem"><h2>Neueste Anfragen</h2><button class="a-link" data-go="inquiries">Alle</button></div>
@@ -352,6 +354,7 @@ function boot(config: Row, defaults: Row) {
         const { id, ...rest } = p;
         ops.push(['photos', null, { ...rest, published: true, storagePath: null, createdAt: serverTimestamp() }]);
       });
+      if (!state.services.length) defaults.services.forEach((sv: Row) => { const { id, ...rest } = sv; ops.push(['services', id, rest]); });
       if (!state.events.length) defaults.events.forEach((e: Row) => ops.push(['events', null, { ...e, published: true }]));
       if (!state.exhibitions.length) defaults.exhibitions.forEach((e: Row) => ops.push(['exhibitions', null, { ...e, published: true }]));
       if (!state.posts.length) defaults.posts.forEach((p: Row) => ops.push(['posts', null, { ...p, date: Timestamp.fromDate(new Date(p.date)), published: true }]));
@@ -362,8 +365,8 @@ function boot(config: Row, defaults: Row) {
         await batch.commit();
       }
       await loadAll();
-      toast(`${ops.length} Einträge übernommen. Willkommen im neuen Admin!`);
-      renderDashboard();
+      toast(`${ops.length} Einträge übernommen.`);
+      views[state.view]();
     } catch (err) {
       toast(`Import fehlgeschlagen: ${(err as Error).message}`, 'error');
       btn.disabled = false; btn.textContent = 'Inhalte jetzt übernehmen';
@@ -644,6 +647,179 @@ function boot(config: Row, defaults: Row) {
     $$('[data-x]', body).forEach((b) => (b.onclick = close));
     modal.oncancel = (e) => { e.preventDefault(); close(); };
     if (initial.length) start(initial);
+  }
+
+
+  /* ======================================================================
+     Leistungen
+     ====================================================================== */
+  const INQ: [string, string][] = [['event', 'Event / Sport'], ['portrait', 'Portrait / Business'], ['print', 'Print / Lizenz'], ['other', 'Etwas anderes']];
+  const L = (v: any, lang: 'de' | 'en') => (v && typeof v === 'object' ? v[lang] ?? '' : lang === 'de' ? v ?? '' : '');
+  function renderServices() {
+    view.innerHTML = `
+      <div class="a-head"><div><h1>Leistungen</h1><p>Deine Angebote mit Texten, Paketen & Preisen und häufigen Fragen. Reihenfolge = Reihenfolge auf der Website.</p></div>
+        <button class="a-btn a-btn--primary" data-new>＋ Neue Leistung</button></div>
+      ${state.services.length ? '' : `<div class="a-card" style="margin-bottom:1.25rem;display:grid;gap:.75rem"><h2>Bestehende Leistungen übernehmen</h2>
+        <p class="muted">Übernimm die drei bisherigen Leistungen (Event & Sport, Portrait & Business, Fine-Art-Prints) mit allen Paketen und Fragen, um sie hier zu bearbeiten.</p>
+        <div><button class="a-btn a-btn--primary" data-import>Leistungen übernehmen</button></div></div>`}
+      <div class="a-items">${state.services.map((sv, i) => {
+        const c = photoBySlug(sv.cover);
+        return `<div class="a-item a-item--click" data-id="${esc(sv.id)}"><img src="${esc(c?.thumb ?? '')}" alt="" /><div>
+          <div class="a-item__title">${esc(sv.title?.de)}</div><div class="a-item__sub">${esc(sv.kicker?.de)}</div>
+          <div class="a-photo__tags" style="margin-top:.4rem">${sv.published === false ? '<span class="a-tag a-tag--warn">versteckt</span>' : '<span class="a-tag a-tag--ok">online</span>'}
+            ${sv.id === 'fine-art' ? '<span class="a-tag">führt zum Print-Shop</span>' : `<span class="a-tag">${(sv.packages ?? []).length} Pakete</span><span class="a-tag">${(sv.faq ?? []).length} Fragen</span>`}</div></div>
+          <div class="a-item__actions"><button class="a-btn a-btn--sm" data-up ${i === 0 ? 'disabled' : ''} aria-label="Nach oben">↑</button><button class="a-btn a-btn--sm" data-down ${i === state.services.length - 1 ? 'disabled' : ''} aria-label="Nach unten">↓</button><button class="a-btn a-btn--sm">Bearbeiten</button></div></div>`;
+      }).join('')}</div>`;
+    view.onclick = async (e) => {
+      const t = e.target as HTMLElement;
+      if (t.closest('[data-new]')) return editService();
+      if (t.closest('[data-import]')) return importDefaults(t.closest('button')!);
+      const item = t.closest<HTMLElement>('[data-id]'); if (!item) return;
+      const i = state.services.findIndex((x) => x.id === item.dataset.id);
+      if (t.closest('[data-up]') || t.closest('[data-down]')) {
+        const j = t.closest('[data-up]') ? i - 1 : i + 1;
+        [state.services[i], state.services[j]] = [state.services[j], state.services[i]];
+        try {
+          const batch = writeBatch(db);
+          state.services.forEach((x, n) => { x.sort = n; batch.update(doc(db, 'services', x.id), { sort: n }); });
+          await batch.commit(); toast('Reihenfolge gespeichert');
+        } catch (err) { toast(`Fehler: ${(err as Error).message}`, 'error'); }
+        return renderServices();
+      }
+      editService(item.dataset.id);
+    };
+  }
+
+  const pkgBlock = (p: Row = {}) => `
+    <div class="a-repeat" data-pkg>
+      <div class="a-repeat__head"><b>Paket</b><button type="button" class="a-btn a-btn--sm" data-mv="-1" aria-label="Nach oben">↑</button><button type="button" class="a-btn a-btn--sm" data-mv="1" aria-label="Nach unten">↓</button><button type="button" class="a-btn a-btn--sm a-btn--danger" data-rm-block>Entfernen</button></div>
+      <div class="a-row">${field('Name (Deutsch)', `<input data-k="name_de" value="${esc(L(p.name, 'de'))}" placeholder="z. B. Halbtag" />`)}${field('Name (Englisch)', `<input data-k="name_en" value="${esc(L(p.name, 'en'))}" />`)}</div>
+      <div class="a-row">${field('Preis (Deutsch)', `<input data-k="price_de" value="${esc(L(p.price, 'de'))}" placeholder="z. B. CHF 890 oder ab CHF 1’900" />`)}${field('Preis (Englisch)', `<input data-k="price_en" value="${esc(L(p.price, 'en') || L(p.price, 'de'))}" placeholder="from CHF 1,900" />`)}</div>
+      ${field('Leistungen (Deutsch) – eine pro Zeile', `<textarea data-k="features_de" rows="4">${esc((p.features?.de ?? []).join('\n'))}</textarea>`)}
+      ${field('Leistungen (Englisch) – eine pro Zeile', `<textarea data-k="features_en" rows="4">${esc((p.features?.en ?? []).join('\n'))}</textarea>`)}
+      <label class="a-switch" style="border:0;min-height:auto"><span><b>Als «Beliebt» hervorheben</b></span><input type="checkbox" data-k="popular" ${p.popular ? 'checked' : ''} /></label>
+    </div>`;
+  const faqBlock = (f: Row = {}) => `
+    <div class="a-repeat" data-faq>
+      <div class="a-repeat__head"><b>Frage</b><button type="button" class="a-btn a-btn--sm" data-mv="-1" aria-label="Nach oben">↑</button><button type="button" class="a-btn a-btn--sm" data-mv="1" aria-label="Nach unten">↓</button><button type="button" class="a-btn a-btn--sm a-btn--danger" data-rm-block>Entfernen</button></div>
+      ${field('Frage (Deutsch)', `<input data-k="q_de" value="${esc(f.q?.de)}" placeholder="z. B. Was kostet ein Eventfotograf?" />`)}
+      ${field('Antwort (Deutsch)', `<textarea data-k="a_de" rows="3">${esc(f.a?.de)}</textarea>`)}
+      ${field('Frage (Englisch)', `<input data-k="q_en" value="${esc(f.q?.en)}" />`)}
+      ${field('Antwort (Englisch)', `<textarea data-k="a_en" rows="3">${esc(f.a?.en)}</textarea>`)}
+    </div>`;
+  const group = (title: string, hint: string, body: string, open = false) =>
+    `<details class="a-group" ${open ? 'open' : ''}><summary>${esc(title)}<small>${esc(hint)}</small></summary><div class="a-group__body">${body}</div></details>`;
+
+  function editService(id?: string) {
+    const sv: Row = state.services.find((x) => x.id === id) ?? {
+      title: { de: '', en: '' }, kicker: { de: '', en: '' }, slug: { de: '', en: '' }, seoTitle: { de: '', en: '' }, seoDescription: { de: '', en: '' },
+      intro: { de: '', en: '' }, cover: '', gallery: [], highlights: { de: [], en: [] }, packages: [], faq: [], inquiryType: 'other', published: true,
+    };
+    const isShop = sv.id === 'fine-art';
+    let gallery: string[] = [...(sv.gallery ?? [])];
+    const panel = openDrawer(id ? `Leistung: ${sv.title?.de}` : 'Neue Leistung', `
+      ${isShop ? '<div class="a-help">Diese Leistung führt auf der Website direkt in den Print-Shop. Titel, Einleitung und SEO-Texte erscheinen dort; Preise verwaltest du unter «Print-Preise».</div>' : ''}
+      ${group('Grundangaben', 'Titel & Untertitel', `
+        <div class="a-row">${field('Titel (Deutsch)', input('title_de', sv.title?.de, 'required placeholder="z. B. Hochzeitsfotografie"'))}${field('Titel (Englisch)', input('title_en', sv.title?.en))}</div>
+        <div class="a-row">${field('Untertitel (Deutsch)', input('kicker_de', sv.kicker?.de, 'placeholder="Stichworte, mit · getrennt"'))}${field('Untertitel (Englisch)', input('kicker_en', sv.kicker?.en))}</div>
+        ${field('Einleitung (Deutsch)', textarea('intro_de', sv.intro?.de, 'rows="5"'), 'Der wichtigste Text der Seite – erzähl, wie du arbeitest und was Kund:innen bekommen.')}
+        ${field('Einleitung (Englisch)', textarea('intro_en', sv.intro?.en, 'rows="5"'))}`, true)}
+      ${group('Bilder', 'Titelbild & Galerie', `
+        ${coverField('cover', sv.cover)}
+        ${isShop ? '' : `<div class="a-field"><span>Galerie auf der Seite</span><div class="a-thumbs" data-gallery></div><small>Klick auf ＋ zum Hinzufügen, ✕ zum Entfernen.</small></div>`}`)}
+      ${isShop ? '' : group('Highlights', 'Kurze Vorteile mit ✦', `
+        ${field('Highlights (Deutsch) – eins pro Zeile', textarea('hl_de', (sv.highlights?.de ?? []).join('\n'), 'rows="4"'))}
+        ${field('Highlights (Englisch) – eins pro Zeile', textarea('hl_en', (sv.highlights?.en ?? []).join('\n'), 'rows="4"'))}`)}
+      ${isShop ? '' : group('Pakete & Preise', `${(sv.packages ?? []).length} Pakete`, `
+        <div style="display:grid;gap:.75rem" data-pkgs>${(sv.packages ?? []).map(pkgBlock).join('')}</div>
+        <div><button type="button" class="a-btn a-btn--sm" data-add-pkg>＋ Paket hinzufügen</button></div>`)}
+      ${isShop ? '' : group('Häufige Fragen (FAQ)', `${(sv.faq ?? []).length} Fragen · erscheint auch bei Google`, `
+        <div style="display:grid;gap:.75rem" data-faqs>${(sv.faq ?? []).map(faqBlock).join('')}</div>
+        <div><button type="button" class="a-btn a-btn--sm" data-add-faq>＋ Frage hinzufügen</button></div>`)}
+      ${group('Google (SEO)', 'Titel & Beschreibung in den Suchergebnissen', `
+        ${field('Seitentitel (Deutsch)', input('seo_title_de', sv.seoTitle?.de, 'maxlength="70" placeholder="z. B. Hochzeitsfotograf Zürich | Fabio Berta"'), 'Max. ca. 60 Zeichen, mit Suchbegriff + Ort')}
+        ${field('Seitentitel (Englisch)', input('seo_title_en', sv.seoTitle?.en, 'maxlength="70"'))}
+        <label class="a-field"><span>Beschreibung (Deutsch)</span>${textarea('seo_desc_de', sv.seoDescription?.de, 'rows="3" maxlength="220"')}<small class="a-counter" data-count="seo_desc_de"></small></label>
+        <label class="a-field"><span>Beschreibung (Englisch)</span>${textarea('seo_desc_en', sv.seoDescription?.en, 'rows="3" maxlength="220"')}<small class="a-counter" data-count="seo_desc_en"></small></label>
+        ${isShop ? '' : `<div class="a-row">${field('URL-Name (Deutsch)', input('slug_de', sv.slug?.de, 'pattern="[a-z0-9-]+"'), '/leistungen/…')}${field('URL-Name (Englisch)', input('slug_en', sv.slug?.en, 'pattern="[a-z0-9-]+"'), '/en/services/…')}</div>`}`)}
+      ${group('Einstellungen', '', `
+        ${isShop ? '' : field('Vorauswahl im Kontaktformular', `<select name="inquiryType">${options(INQ, sv.inquiryType || 'other')}</select>`, 'Was beim Klick auf «Anfragen» vorausgewählt ist')}
+        <div class="a-card" style="padding:.25rem 1rem">${sw('published', 'Auf der Website sichtbar', 'Ausgeschaltet = Seite und Menüeintrag verschwinden', sv.published !== false)}</div>`)}`,
+      saveFoot(id ? `${isShop ? '' : '<button class="a-btn a-btn--danger" data-delete>Löschen</button>'}<a class="a-btn a-btn--ghost" href="${isShop ? '/shop' : `/leistungen/${esc(sv.slug?.de)}`}" target="_blank" rel="noopener">Ansehen ↗</a>` : ''),
+      async () => {
+        const d = formData(panel);
+        if (!d.title_de) throw new Error('Bitte einen Titel eingeben.');
+        const lines = (v: string) => String(v ?? '').split('\n').map((x) => x.trim()).filter(Boolean);
+        const blocks = (sel: string) => $$(sel, panel).map((b) => {
+          const o: Row = {};
+          $$<HTMLInputElement>('[data-k]', b).forEach((el) => (o[el.dataset.k!] = el.type === 'checkbox' ? el.checked : el.value.trim()));
+          return o;
+        });
+        const packages = isShop ? [] : blocks('[data-pkg]').filter((p) => p.name_de || p.price_de).map((p) => ({
+          name: { de: p.name_de, en: p.name_en || p.name_de },
+          price: { de: p.price_de, en: p.price_en || p.price_de },
+          features: { de: lines(p.features_de), en: lines(p.features_en).length ? lines(p.features_en) : lines(p.features_de) },
+          popular: Boolean(p.popular),
+        }));
+        const faq = isShop ? [] : blocks('[data-faq]').filter((f) => f.q_de && f.a_de).map((f) => ({ q: { de: f.q_de, en: f.q_en || f.q_de }, a: { de: f.a_de, en: f.a_en || f.a_de } }));
+        const slugDe = isShop ? 'fine-art-prints' : slugify(d.slug_de || d.title_de);
+        const slugEn = isShop ? 'fine-art-prints' : slugify(d.slug_en || d.title_en || d.title_de);
+        if (state.services.some((x) => x.id !== id && (x.slug?.de === slugDe || x.slug?.en === slugEn))) throw new Error('Dieser URL-Name ist schon vergeben.');
+        const data: Row = {
+          title: { de: d.title_de, en: d.title_en || d.title_de }, kicker: { de: d.kicker_de, en: d.kicker_en || d.kicker_de },
+          slug: { de: slugDe, en: slugEn },
+          seoTitle: { de: d.seo_title_de || `${d.title_de} Zürich | Fabio Berta`, en: d.seo_title_en || d.seo_title_de || `${d.title_en || d.title_de} Zurich | Fabio Berta` },
+          seoDescription: { de: d.seo_desc_de || d.intro_de.slice(0, 155), en: d.seo_desc_en || (d.intro_en || d.intro_de).slice(0, 155) },
+          intro: { de: d.intro_de, en: d.intro_en || d.intro_de }, cover: d.cover, gallery: isShop ? [] : gallery,
+          highlights: isShop ? { de: [], en: [] } : { de: lines(d.hl_de), en: lines(d.hl_en).length ? lines(d.hl_en) : lines(d.hl_de) },
+          packages, faq, inquiryType: isShop ? 'print' : d.inquiryType, published: d.published,
+          sort: sv.sort ?? state.services.length,
+        };
+        const r = id ? doc(db, 'services', id) : doc(collection(db, 'services'));
+        await setDoc(r, data);
+        id ? Object.assign(sv, data) : state.services.push({ id: r.id, ...data });
+        toast('Leistung gespeichert ✓ – live in max. 5 Minuten'); renderServices();
+      });
+
+    // Galerie
+    const gal = panel.querySelector<HTMLElement>('[data-gallery]');
+    const drawGallery = () => {
+      if (!gal) return;
+      gal.innerHTML = gallery.map((slug, i) => `<div class="a-thumb"><img src="${esc(photoBySlug(slug)?.thumb ?? '')}" alt="" /><button type="button" data-gal-rm="${i}" aria-label="Entfernen">✕</button></div>`).join('')
+        + '<button type="button" class="a-thumb a-thumb--add" data-gal-add aria-label="Bild hinzufügen">＋</button>';
+    };
+    drawGallery();
+    gal?.addEventListener('click', async (e) => {
+      const t = e.target as HTMLElement;
+      const rm = t.closest<HTMLElement>('[data-gal-rm]');
+      if (rm) { gallery.splice(Number(rm.dataset.galRm), 1); dirty = true; return drawGallery(); }
+      if (t.closest('[data-gal-add]')) { const slug = await pickPhoto(); if (slug && !gallery.includes(slug)) { gallery.push(slug); dirty = true; drawGallery(); } }
+    });
+    // Pakete & FAQ
+    panel.addEventListener('click', (e) => {
+      const t = e.target as HTMLElement;
+      if (t.closest('[data-add-pkg]')) { $('[data-pkgs]', panel).insertAdjacentHTML('beforeend', pkgBlock()); dirty = true; $<HTMLInputElement>('[data-pkg]:last-child [data-k="name_de"]', panel).focus(); }
+      if (t.closest('[data-add-faq]')) { $('[data-faqs]', panel).insertAdjacentHTML('beforeend', faqBlock()); dirty = true; $<HTMLInputElement>('[data-faq]:last-child [data-k="q_de"]', panel).focus(); }
+      const block = t.closest<HTMLElement>('[data-pkg], [data-faq]');
+      if (block && t.closest('[data-rm-block]')) { block.remove(); dirty = true; }
+      const mv = t.closest<HTMLElement>('[data-mv]');
+      if (block && mv) {
+        const sib = mv.dataset.mv === '-1' ? block.previousElementSibling : block.nextElementSibling;
+        if (sib) { mv.dataset.mv === '-1' ? sib.before(block) : sib.after(block); dirty = true; }
+      }
+    });
+    panel.querySelectorAll<HTMLElement>('[data-count]').forEach((c) => {
+      const ta = $<HTMLTextAreaElement>(`[name="${c.dataset.count}"]`, panel);
+      const upd = () => { c.textContent = `${ta.value.length} / 160 Zeichen`; c.classList.toggle('is-over', ta.value.length > 160); };
+      ta.addEventListener('input', upd); upd();
+    });
+    bindCoverPickers(panel);
+    if (!id) autoSlug(panel, 'title_de', 'slug_de');
+    panel.querySelector('[data-delete]')?.addEventListener('click', async () => {
+      if (!(await confirmDialog('Diese Leistung löschen? Die Seite verschwindet von der Website.', 'Löschen', true))) return;
+      await deleteDoc(doc(db, 'services', id!)); state.services = state.services.filter((x) => x.id !== id);
+      toast('Leistung gelöscht'); closeDrawer(true); renderServices();
+    });
   }
 
   /* ======================================================================

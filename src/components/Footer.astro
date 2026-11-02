@@ -4,12 +4,13 @@ import Icon from './Icon.astro';
 import { r, type Lang } from '../i18n/routes';
 import { useT } from '../i18n/ui';
 import { site } from '../lib/site';
-import { services } from '../lib/content';
+import { getServices, serviceHref } from '../lib/data';
 interface Props { lang: Lang; cta?: boolean }
 const { lang, cta = true } = Astro.props;
 const t = useT(lang);
 const year = new Date().getFullYear();
 const svcBase = r('services', lang);
+const services = await getServices();
 ---
 <footer class="footer">
   <div class="container">
@@ -29,7 +30,7 @@ const svcBase = r('services', lang);
       <div>
         <h2>{t('nav.services')}</h2>
         <ul>
-          {services.map((s) => <li><a href={s.id === 'fine-art' ? r('shop', lang) : `${svcBase}/${s.slug[lang]}`}>{s.title[lang]}</a></li>)}
+          {services.map((s) => <li><a href={serviceHref(s, lang, svcBase, r('shop', lang))}>{s.title[lang]}</a></li>)}
           <li><a href={r('events', lang)}>{t('nav.events')}</a></li>
         </ul>
       </div>

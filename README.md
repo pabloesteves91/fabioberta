@@ -11,7 +11,7 @@ Ersetzt die bisherige Adobe-Portfolio-Seite.
 - **Animationen:** Intro-Preloader, Hero-Slideshow mit Ken-Burns-Effekt, wortweise eingeblendete Überschriften, Clip-Reveal für Bilder, Parallax, Smooth Scroll (Lenis), horizontale Scroll-Serie, Marquee, magnetische Buttons, eigener Cursor, Seitenübergänge (View Transitions), Lightbox, animierter Galerie-Filter. Alles respektiert `prefers-reduced-motion`.
 - **Seiten (DE + EN):** Start, Portfolio (Filter + Lightbox), Foto-Detail mit Print-Konfigurator, Leistungen (Event & Sport, Portrait & Business) mit Paketen und FAQ, Print-Shop, Events (SNBF 2024), Ausstellungen, Über mich, Journal, Kontakt, Impressum, Datenschutz, AGB
 - **SEO:** siehe [`docs/SEO-STRATEGIE.md`](docs/SEO-STRATEGIE.md)
-- **Admin-Tool unter `/admin`:** Fotos (Drag & Drop, automatische WebP-Optimierung, Sortieren per Ziehen, Sammelaktionen, Bild ersetzen), Events mit Galerie-Link, Ausstellungen, Journal mit Vorschau, Print-Preise, Kontaktanfragen und Bestellungen. Login mit Google oder E-Mail, auch auf dem Handy nutzbar.
+- **Admin-Tool unter `/admin`:** Fotos (Drag & Drop, automatische WebP-Optimierung, Sortieren per Ziehen, Sammelaktionen, Bild ersetzen), Leistungen mit Paketen, Preisen, FAQ und SEO-Texten, Events mit Galerie-Link, Ausstellungen, Journal mit Vorschau, Print-Preise, Kontaktanfragen und Bestellungen. Login mit Google oder E-Mail, auch auf dem Handy nutzbar.
 - **Ohne Konfiguration lauffähig:** Solange Firebase nicht verbunden ist, zeigt die Seite die 73 Platzhalterbilder aus `src/data/photos.json`.
 
 ## Einrichtung
@@ -28,8 +28,7 @@ npm run build
 
 | Was | Datei |
 |---|---|
-| Bilder, Events, Ausstellungen, Journal, Print-Preise | **`/admin`** |
-| Leistungen, Pakete, FAQ | `src/lib/content.ts` |
+| Bilder, Leistungen (Pakete, Preise, FAQ), Events, Ausstellungen, Journal, Print-Preise | **`/admin`** |
 | Standardinhalte (bevor Firebase verbunden ist) | `src/lib/content.ts`, `src/lib/prints.ts`, `src/content/journal/` |
 | Navigations- & Button-Texte | `src/i18n/ui.ts` |
 | Kontaktdaten, Instagram, Adresse | `src/lib/site.ts` |

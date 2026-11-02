@@ -98,12 +98,13 @@ Preise und Formate änderst du in [`src/lib/prints.ts`](src/lib/prints.ts).
 
 ## Das Admin-Tool: `fabioberta.com/admin`
 
-**Erster Start:** Anmelden → auf der Übersicht **«Inhalte jetzt übernehmen»** klicken. Damit landen alle bisherigen 73 Bilder, Events, Ausstellungen, Journal-Beiträge und Preise in Firebase und sind ab dann im Admin bearbeitbar.
+**Erster Start:** Anmelden → auf der Übersicht **«Inhalte jetzt übernehmen»** klicken. Damit landen alle bisherigen 73 Bilder, Leistungen, Events, Ausstellungen, Journal-Beiträge und Preise in Firebase und sind ab dann im Admin bearbeitbar.
 
 | Bereich | Was du dort machst |
 |---|---|
 | **Übersicht** | Neue Anfragen und Bestellungen, Umsatz des Monats, Schnellzugriff |
 | **Fotos** | Hochladen per Drag & Drop (auch direkt aufs Browserfenster), Titel und Bildbeschreibung DE/EN, Serie, Ort; Schalter für «sichtbar», «Startseite» und «Print-Shop»; Reihenfolge per Ziehen; Bild ersetzen; Suche und Filter; **Mehrere auswählen** für Sammelaktionen (verstecken, in den Shop, Serie ändern, löschen) |
+| **Leistungen** | Texte, Titelbild und Galerie, Highlights, **Pakete & Shooting-Preise**, häufige Fragen (erscheinen auch bei Google), SEO-Titel und -Beschreibung; neue Leistungen anlegen (z. B. Hochzeiten), Reihenfolge ändern, ausblenden |
 | **Events** | Neue Events mit Titelbild und **Link zur Teilnehmer-Galerie** |
 | **Ausstellungen** | Mit eigenem Plakat-Upload oder einem Portfolio-Bild |
 | **Journal** | Beiträge mit Formatier-Knöpfen und Vorschau, Entwürfe, Verknüpfung DE ↔ EN |
