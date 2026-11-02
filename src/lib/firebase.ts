@@ -27,11 +27,20 @@ export function getDb(): Firestore | null {
 }
 
 /** Kleiner In-Memory-Cache pro Server-Instanz, damit nicht jede Anfrage Firestore liest. */
-const cache = new Map<string, { at: number; value: unknown }>();
+const cache = new Map<string, { at: number; value?: unknown; error?: unknown }>();
 export async function cached<T>(key: string, ttlMs: number, load: () => Promise<T>): Promise<T> {
   const hit = cache.get(key);
-  if (hit && Date.now() - hit.at < ttlMs) return hit.value as T;
-  const value = await load();
-  cache.set(key, { at: Date.now(), value });
-  return value;
+  // Fehler werden 30 Sekunden gemerkt, damit nicht jede Seite erneut auf eine Zeitüberschreitung wartet
+  if (hit && Date.now() - hit.at < (hit.error ? 30_000 : ttlMs)) {
+    if (hit.error) throw hit.error;
+    return hit.value as T;
+  }
+  try {
+    const value = await load();
+    cache.set(key, { at: Date.now(), value });
+    return value;
+  } catch (error) {
+    cache.set(key, { at: Date.now(), error });
+    throw error;
+  }
 }

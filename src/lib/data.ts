@@ -3,7 +3,8 @@
  * Quelle ist Firestore (im Admin gepflegt); ohne Firebase-Verbindung oder bei leerer Sammlung
  * werden die Standardinhalte aus dem Code verwendet.
  */
-import { getDb, cached } from './firebase';
+import { cached } from './firebase';
+import { listPublished, readDoc } from './store';
 import { defaultEvents, defaultExhibitions, defaultServices, type EventItem, type Exhibition, type Service } from './content';
 import { defaultPosts, type Post } from './posts';
 import { defaultPrintConfig, type PrintConfig } from './prints';
@@ -11,16 +12,11 @@ import type { Lang } from '../i18n/routes';
 
 const TTL = 60_000;
 
-async function loadCollection<T>(name: string, map: (id: string, d: FirebaseFirestore.DocumentData) => T): Promise<T[] | null> {
-  const db = getDb();
-  if (!db) return null;
+async function loadCollection<T>(name: string, map: (id: string, d: Record<string, any>) => T): Promise<T[] | null> {
   try {
-    return await cached(name, TTL, async () => {
-      const snap = await db.collection(name).get();
-      return snap.docs.map((d) => map(d.id, d.data()));
-    });
+    return await cached(name, TTL, async () => (await listPublished(name)).map((r) => map(r.id, r.data)));
   } catch (err) {
-    console.error(`[data] Firestore-Fehler (${name}):`, err);
+    console.error(`[data] Firestore nicht erreichbar (${name}):`, (err as Error).message);
     return null;
   }
 }
@@ -71,17 +67,14 @@ export async function getPost(lang: Lang, slug: string) {
 }
 
 export async function getPrintConfig(): Promise<PrintConfig> {
-  const db = getDb();
-  if (!db) return defaultPrintConfig;
   try {
     return await cached('prints', TTL, async () => {
-      const doc = await db.collection('settings').doc('prints').get();
-      const d = doc.data() as Partial<PrintConfig> | undefined;
+      const d = (await readDoc('settings', 'prints')) as Partial<PrintConfig> | undefined;
       if (!d?.materials?.length) return defaultPrintConfig;
       return { materials: d.materials, shipping: { ...defaultPrintConfig.shipping, ...d.shipping } } as PrintConfig;
     });
   } catch (err) {
-    console.error('[data] Firestore-Fehler (prints):', err);
+    console.error('[data] Firestore nicht erreichbar (prints):', (err as Error).message);
     return defaultPrintConfig;
   }
 }

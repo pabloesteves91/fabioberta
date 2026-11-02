@@ -1,5 +1,6 @@
 import local from '../data/photos.json';
-import { getDb, cached } from './firebase';
+import { cached } from './firebase';
+import { listPublished } from './store';
 import type { Lang } from '../i18n/routes';
 
 export type Category = 'street' | 'landscape' | 'travel' | 'event' | 'portrait';
@@ -28,22 +29,19 @@ const localPhotos = (local as unknown as (Omit<Photo, 'category'> & { category: 
 
 /** Alle veröffentlichten Fotos – aus Firestore, sonst lokale Platzhalter. */
 export async function getPhotos(): Promise<Photo[]> {
-  const db = getDb();
-  if (db) {
-    try {
-      const photos = await cached('photos', 60_000, async () => {
-        const snap = await db.collection('photos').where('published', '==', true).get();
-        return snap.docs.map((d) => toPhoto(d.id, d.data())).sort((a, b) => a.sort - b.sort);
-      });
-      if (photos.length) return photos;
-    } catch (err) {
-      console.error('[photos] Firestore-Fehler, nutze lokale Bilder:', err);
-    }
+  try {
+    const photos = await cached('photos', 60_000, async () => {
+      const rows = await listPublished('photos');
+      return rows.filter((r) => r.data.published === true).map((r) => toPhoto(r.id, r.data)).sort((a, b) => a.sort - b.sort);
+    });
+    if (photos.length) return photos;
+  } catch (err) {
+    console.error('[photos] Firestore nicht erreichbar, nutze lokale Bilder:', (err as Error).message);
   }
   return [...localPhotos].sort((a, b) => a.sort - b.sort);
 }
 
-function toPhoto(id: string, d: FirebaseFirestore.DocumentData): Photo {
+function toPhoto(id: string, d: Record<string, any>): Photo {
   return {
     id,
     slug: d.slug,

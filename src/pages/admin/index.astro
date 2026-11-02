@@ -8,14 +8,11 @@ import local from '../../data/photos.json';
 import { defaultEvents, defaultExhibitions, defaultServices } from '../../lib/content';
 import { defaultPosts } from '../../lib/posts';
 import { defaultPrintConfig } from '../../lib/prints';
+import { publicFirebaseConfig } from '../../lib/firebase-config';
 export const prerender = false;
 
 const config = {
-  apiKey: import.meta.env.PUBLIC_FIREBASE_API_KEY,
-  authDomain: import.meta.env.PUBLIC_FIREBASE_AUTH_DOMAIN,
-  projectId: import.meta.env.PUBLIC_FIREBASE_PROJECT_ID,
-  storageBucket: import.meta.env.PUBLIC_FIREBASE_STORAGE_BUCKET,
-  appId: import.meta.env.PUBLIC_FIREBASE_APP_ID,
+  ...publicFirebaseConfig,
   emulator: import.meta.env.PUBLIC_FIREBASE_EMULATOR === 'true',
 };
 const configured = Boolean(config.apiKey && config.projectId && config.storageBucket);
