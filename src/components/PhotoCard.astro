@@ -14,8 +14,10 @@ interface Props {
   class?: string;
   delay?: number;
   ratio?: boolean;
+  /** Bild-Übergang zur Detailseite – pro Seite nur einmal je Foto erlaubt */
+  morph?: boolean;
 }
-const { photo, lang, sizes = '(min-width: 1100px) 33vw, (min-width: 640px) 50vw, 100vw', eager = false, reveal = true, lightbox = false, index, class: cls, delay = 0, ratio = true } = Astro.props;
+const { photo, lang, sizes = '(min-width: 1100px) 33vw, (min-width: 640px) 50vw, 100vw', eager = false, reveal = true, lightbox = false, index, class: cls, delay = 0, ratio = true, morph = true } = Astro.props;
 const t = useT(lang);
 ---
 <a
@@ -40,7 +42,7 @@ const t = useT(lang);
     loading={eager ? 'eager' : 'lazy'}
     decoding="async"
     fetchpriority={eager ? 'high' : undefined}
-    transition:name={`photo-${photo.slug}`}
+    transition:name={morph ? `photo-${photo.slug}` : undefined}
   />
   <span class="photo__cap">
     <strong>{photo.title[lang]}</strong>

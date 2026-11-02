@@ -165,7 +165,7 @@ const svcHref = (s: Service) => serviceHref(s, lang, r('services', lang), r('sho
         </div>
         {streetSeries.map((p, i) => (
           <figure class="hscroll__card">
-            <PhotoCard photo={p} lang={lang} reveal={false} sizes="60vw" />
+            <PhotoCard photo={p} lang={lang} reveal={false} sizes="60vw" morph={!selected.includes(p)} />
             <figcaption><span>{p.title[lang]}</span><span>{String(i + 1).padStart(2, '0')}</span></figcaption>
           </figure>
         ))}
