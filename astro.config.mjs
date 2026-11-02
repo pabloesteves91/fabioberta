@@ -25,4 +25,6 @@ export default defineConfig({
   },
   build: { inlineStylesheets: 'auto' },
   devToolbar: { enabled: false },
+  // Testen in GitHub Codespaces (*.app.github.dev)
+  server: { allowedHosts: ['.app.github.dev'] },
 });

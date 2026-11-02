@@ -1,0 +1,14 @@
+{
+  "name": "fabioberta.com",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:22",
+  "postCreateCommand": "bash .devcontainer/setup.sh",
+  "postAttachCommand": "npm run dev -- --host 0.0.0.0",
+  "forwardPorts": [4321],
+  "portsAttributes": {
+    "4321": { "label": "Website", "onAutoForward": "openBrowser" }
+  },
+  "customizations": {
+    "vscode": { "extensions": ["astro-build.astro-vscode"] }
+  },
+  "hostRequirements": { "cpus": 2, "memory": "4gb" }
+}

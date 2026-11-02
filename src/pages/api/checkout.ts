@@ -30,7 +30,9 @@ export const POST: APIRoute = async ({ request, url }) => {
   const { material, size } = variant;
   const portrait = photo.height > photo.width;
   const subtotal = size.price * quantity;
-  const origin = url.origin;
+  // Hinter einem Proxy (z. B. GitHub Codespaces) die öffentliche Adresse verwenden
+  const fwdHost = request.headers.get('x-forwarded-host');
+  const origin = fwdHost ? `https://${fwdHost.split(',')[0].trim()}` : url.origin;
   const abs = (p: string) => new URL(p, origin).toString();
   const rate = (label: string, amount: number, min: number, max: number): Stripe.Checkout.SessionCreateParams.ShippingOption => ({
     shipping_rate_data: {

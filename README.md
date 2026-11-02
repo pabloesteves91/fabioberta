@@ -24,6 +24,16 @@ npm run dev     # http://localhost:4321
 npm run build
 ```
 
+## Mit GitHub Codespaces testen (ohne Installation)
+
+1. Auf GitHub im Repository: **Code → Codespaces → Create codespace on main**
+2. Etwa 2 Minuten warten. Die Pakete werden installiert, die Website startet automatisch und öffnet sich in einem neuen Tab (Port 4321).
+   Falls nicht: unten im Tab **Ports** bei «Website» auf das 🌐-Symbol klicken.
+3. Admin: an die Adresse `/admin` anhängen und mit E-Mail und Passwort anmelden.
+
+Für Kontaktformular und Shop: unter GitHub → **Settings → Codespaces → Secrets** die Werte `FIREBASE_CLIENT_EMAIL`, `FIREBASE_PRIVATE_KEY` und `STRIPE_SECRET_KEY` (Testschlüssel `sk_test_…`) hinterlegen, dann den Codespace neu erstellen.
+Codespaces ist für persönliche Konten bis 60 Stunden pro Monat gratis; den Codespace danach unter github.com/codespaces stoppen.
+
 ## Wo ändere ich was?
 
 | Was | Datei |
